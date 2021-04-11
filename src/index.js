@@ -1,6 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../src/css/style.css';
+import '../src/css/home.css';
+import '../src/css/listing.css'
+import '../src/css/detail-page.css'
+import '../src/sass/home.scss'
+import '../src/sass/style.scss'
+import '../src/css/bootstrap.css'
+import '../src/css/bootstrap_customized.css'
+import '../src/css/bootstrap_customized.min.css'
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
