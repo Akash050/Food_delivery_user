@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import popular_cat1 from '../../img/home_cat_placeholder.jpg'
 import imagePath from '../../img/banner_bg_desktop.jpg'
 import quick_del_img from '../../img/how_2.svg'
@@ -157,7 +157,7 @@ const HomeBody = () => {
                         <div className="col-lg-6">
                             <div className="list_home">
                                 <ul>
-                                    <li onClick={() => history.push('/user/RestaurantDetails')}>
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                         <a>
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
@@ -172,7 +172,7 @@ const HomeBody = () => {
                                             </ul>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                         <a >
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_2.jpg" alt="" className="lazy" width="350" height="233" />
@@ -187,7 +187,7 @@ const HomeBody = () => {
                                             </ul>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                         <a >
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_3.jpg" alt="" className="lazy" width="350" height="233" />
@@ -208,8 +208,8 @@ const HomeBody = () => {
                         <div className="col-lg-6">
                             <div className="list_home">
                                 <ul>
-                                    <li>
-                                        <a href="detail-restaurant.html">
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                        <a >
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_4.jpg" alt="" className="lazy" width="350" height="233" />
                                             </figure>
@@ -223,8 +223,8 @@ const HomeBody = () => {
                                             </ul>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="detail-restaurant.html">
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                        <a >
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_5.jpg" alt="" className="lazy" width="350" height="233" />
                                             </figure>
@@ -238,8 +238,8 @@ const HomeBody = () => {
                                             </ul>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="detail-restaurant.html">
+                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                        <a >
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_6.jpg" alt="" className="lazy" width="350" height="233" />
                                             </figure>
@@ -261,12 +261,12 @@ const HomeBody = () => {
                     <div className="banner lazy"
                         style={{ backgroundImage: `url('${imagePath}')` }}
                     >
-                        <div className="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.3)">
+                        <div className="wrapper d-flex align-items-center opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }}>
                             <div>
                                 <small>FooYes Delivery</small>
                                 <h3>We Deliver to your Office</h3>
                                 <p>Enjoy a tasty food in minutes!</p>
-                                <a href="grid-listing-filterscol.html" className="btn_1 gradient">Start Now!</a>
+                                <div className="btn_1 gradient" onClick={() => history.push('/GridListingFilterscol')}>Start Now!</div>
                             </div>
                         </div>
 

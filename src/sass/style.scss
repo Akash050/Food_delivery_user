@@ -2144,7 +2144,7 @@ ul#top_menu {
                     color: #444;
                     text-decoration: none !important;
                     display: inline-block;
-
+                    margin-right: 5px; //added 
                     i {
                         margin-right: 8px;
                     }
@@ -3601,7 +3601,7 @@ $arrow_color: $gray_light !default;
 }
 
 .margin_60_20 {
-    padding-top: 60px;
+    padding-top: 60px !important;
     padding-bottom: 20px;
 }
 

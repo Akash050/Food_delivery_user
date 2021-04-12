@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Background from '../../../img/hero_general.jpg'
+import { useHistory } from 'react-router-dom';
 const RestaurantDetails = () => {
+    let history = useHistory();
     return (
         <main>
-            <div className="hero_in detail_page background-image" data-background="url(img/hero_general.jpg)">
-                <div className="wrapper opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
+            <div className="hero_in detail_page background-image" style={{ backgroundImage: `url(${Background})` }}>
+                <div className="wrapper opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }} >
 
                     <div className="container">
                         <div className="main_info">
@@ -393,7 +396,7 @@ const RestaurantDetails = () => {
                                     </div>
 
                                     <div className="btn_1_mobile">
-                                        <a href="order.html" className="btn_1 gradient full-width mb_5">Order Now</a>
+                                        <div className="btn_1 gradient full-width mb_5" onClick={() => history.push('/Order')}>Order Now</div>
                                         <div className="text-center"><small>No money charged on this steps</small></div>
                                     </div>
                                 </div>
@@ -553,7 +556,7 @@ const RestaurantDetails = () => {
 
                             </div>
 
-                            <div className="text-right"><a href="leave-review.html" className="btn_1 gradient">Leave a Review</a>
+                            <div className="text-right"><div className="btn_1 gradient" onClick={() => history.push('/LeaveReview')}>Leave a Review</div>
                             </div>
                         </section>
 

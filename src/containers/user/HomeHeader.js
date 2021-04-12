@@ -8,7 +8,7 @@ const HomeHeader = () => {
         })
     }, [])
     return (
-        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick"} >
+        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
             <div className="container">
                 <div id="logo">
                     <a href="index.html">

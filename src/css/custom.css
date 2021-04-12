@@ -1,3 +1,13 @@
 /*============================================================================================*/
 /* Your custom styles below */
 /*============================================================================================*/
+.food_quality_rng{
+    position: absolute; 
+    width: 1px; 
+    height: 1px;
+    overflow: hidden; 
+    opacity: 0;
+}
+.register{
+    cursor: pointer;
+}
