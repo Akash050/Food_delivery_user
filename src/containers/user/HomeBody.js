@@ -5,6 +5,7 @@ import quick_del_img from '../../img/how_2.svg'
 import enjoy_food_img from '../../img/how_3.svg'
 import easly_ord_img from '../../img/how_1.svg'
 import { useHistory } from 'react-router-dom';
+import image from '../../img/home_cat_pizza.jpg'
 const HomeBody = () => {
     let history = useHistory();
     return (
@@ -54,93 +55,92 @@ const HomeBody = () => {
                     <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
                 </div>
 
-
-                <div className="owl-carousel owl-theme categories_carousel">
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>98</span>
-                                <img src={popular_cat1} alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Pizza</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>87</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_sushi.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Japanese</h3>
-                                    <small>Avg price $50</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>55</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_hamburgher.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Burghers</h3>
-                                    <small>Avg price $55</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>55</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_vegetarian.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Vegetarian</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>65</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_bakery.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Bakery</h3>
-                                    <small>Avg price $60</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>25</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_chinesse.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Chinese</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>35</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_mexican.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Mexican</h3>
-                                    <small>Avg price $35</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                </div>
+                <div class="owl-carousel owl-theme categories_carousel owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage"
+                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: "1794px", paddingLeft: "50px", paddingRight: "50px" }}
+                        // style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 1794px; padding-left: 50px; padding-right: 50px;"
+                        ><div class="owl-item active"
+                            style={{ width: "222px", marginRight: "20px" }}
+                        >
+                                <div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>98</span>
+                                            <img src={image} data-src="img/home_cat_pizza.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Pizza</h3>
+                                                <small>Avg price $40</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>87</span>
+                                            <img src={image} data-src="img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Japanese</h3>
+                                                <small>Avg price $50</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>55</span>
+                                            <img src={image} data-src="img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Burghers</h3>
+                                                <small>Avg price $55</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>55</span>
+                                            <img src={image} data-src="img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Vegetarian</h3>
+                                                <small>Avg price $40</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>65</span>
+                                            <img src={image} data-src="img/home_cat_bakery.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Bakery</h3>
+                                                <small>Avg price $60</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>25</span>
+                                            <img src={image} data-src="img/home_cat_chinesse.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
+                                            <div class="info">
+                                                <h3>Chinese</h3>
+                                                <small>Avg price $40</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div><div class="owl-item" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
+                                    <a onClick={() => history.push('/GridListingFilterscol')}>
+                                        <figure>
+                                            <span>35</span>
+                                            <img src={image} data-src="img/home_cat_mexican.jpg" alt="" class="owl-lazy" width="350" height="450" />
+                                            <div class="info">
+                                                <h3>Mexican</h3>
+                                                <small>Avg price $35</small>
+                                            </div>
+                                        </figure>
+                                    </a>
+                                </div></div></div></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="arrow_left"></i></button><button type="button" role="presentation" class="owl-next"><i class="arrow_right"></i></button></div><div class="owl-dots disabled"></div></div>
 
             </div>
 

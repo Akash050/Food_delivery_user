@@ -34,7 +34,7 @@ const Login = () => {
                         <div class="float-right"><a id="forgot" href="#0">Forgot Password?</a></div>
                     </div>
                     <div class="btn_1 gradient full-width" onClick={() => history.push('/home')}>Login Now!</div>
-                    <div class="text-center mt-2"><small>Don't have an acccount? <strong><div clasName="register" onClick={() => history.push('/register')}>Sign Up</div></strong></small></div>
+                    <div class="text-center mt-2" style={{ cursor: "pointer" }}><small>Don't have an acccount? <strong><div clasName="register" onClick={() => history.push('/register')} >Sign Up</div></strong></small></div>
                 </form>
                 <div class="copy">© 2020 FooYes</div>
             </aside>

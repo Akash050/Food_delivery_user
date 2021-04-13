@@ -5711,6 +5711,8 @@ a.social_bt {
 a.social_bt:hover {
   -webkit-filter: brightness(110%);
   filter: brightness(110%);
+  text-decoration: none !important;
+  color: none !important;
 }
 
 a.social_bt.facebook {

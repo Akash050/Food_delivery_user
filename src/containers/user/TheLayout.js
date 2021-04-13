@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import routes from '../../../src/routes'
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import HomeHeader from "../user/HomeHeader";
 import HomeFooter from "../user/HomeFooter";
 import Login from "../user/Login/Login";
@@ -13,7 +13,15 @@ const loading = (
 const TheLayout = () => {
     let location = useLocation();
     let pathName = location.pathname
+    let history = useHistory();
     console.log(pathName)
+
+
+    useEffect(() => {
+        if (pathName == '/') {
+            history.push('/login')
+        }
+    })
     return (
         <React.Suspense fallback={loading}>
             {pathName === '/login' ?
