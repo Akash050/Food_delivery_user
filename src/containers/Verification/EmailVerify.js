@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import img from "../../img/404.svg"
-const Page404 = () => {
+import img from "../../img/png/gmail.png"
+const EmailVerify = () => {
     return (
         <main class="bg_gray">
             <div id="error_page">
@@ -8,8 +8,8 @@ const Page404 = () => {
                     <div class="row justify-content-center text-center">
                         <div class="col-xl-7 col-lg-9">
                             <figure><img src={img} alt="" class="img-fluid" width="550" height="234" /></figure>
-                            <p>We're sorry, but the page you were looking for doesn't exist.</p>
-                            <form method="post" action="grid-listing-filterscol.html">
+                            <p>The Email is verified </p>
+                            {/* <form method="post" action="grid-listing-filterscol.html">
                                 <div class="row no-gutters custom-search-input">
                                     <div class="col-lg-10">
                                         <div class="form-group">
@@ -20,8 +20,7 @@ const Page404 = () => {
                                         <button class="btn_1 gradient" type="submit">Search</button>
                                     </div>
                                 </div>
-
-                            </form>
+                            </form> */}
                         </div>
                     </div>
 
@@ -31,4 +30,4 @@ const Page404 = () => {
     );
 }
 
-export default Page404;
+export default EmailVerify;

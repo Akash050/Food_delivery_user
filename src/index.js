@@ -16,6 +16,7 @@ import '../src/css/custom.css'
 import '../src/sass/detail-page.scss'
 import '../src/css/style.css';
 import '../src/css/icons.css'
+import '../src/css/error.css'
 import '../src/css/bootstrap_customized.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';

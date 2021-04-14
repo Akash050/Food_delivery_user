@@ -14,3 +14,9 @@
 a :hover {
     text-decoration: none;
 }
+.errorFill{
+    display: none;
+  }
+  .error {
+    color: red;
+  }

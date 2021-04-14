@@ -5,6 +5,7 @@ import HomeHeader from "../user/HomeHeader";
 import HomeFooter from "../user/HomeFooter";
 import Login from "../user/Login/Login";
 import SignUp from './SignUp/SignUp';
+import EmailVerify from '../Verification/EmailVerify';
 const loading = (
     <div className="pt-3 text-center">
         <div className="sk-spinner sk-spinner-pulse"></div>
@@ -42,6 +43,15 @@ const TheLayout = () => {
                             return <SignUp {...props} />;
                         }}
                     />
+                    // : pathName === '/EmailVerify' ?
+                    //     <Route
+                    //         exact
+                    //         path="/EmailVerify"
+                    //         name="EmailVerify"
+                    //         render={(props) => {
+                    //             return <EmailVerify {...props} />;
+                    //         }}
+                    //     />
                     : <>
                         <HomeHeader />
                         <Switch>

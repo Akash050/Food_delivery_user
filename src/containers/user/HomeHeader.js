@@ -90,7 +90,7 @@ const HomeHeader = () => {
                             </ul>
                         </li>
                         <li className="submenu">
-                            <a href="#0" className="show-submenu">Other Pages</a>
+                            <a href="#0" className="show-submenu">Shopping Cart</a>
                             <ul>
                                 <li><a href="admin_section/index.html" target="_blank">Admin Section</a></li>
                                 <li><a href="404.html">404 Error</a></li>
@@ -106,7 +106,7 @@ const HomeHeader = () => {
                                 <li><a href="shortcodes.html">Shortcodes</a></li>
                             </ul>
                         </li>
-                        <li><a href="#0">Buy this template</a></li>
+                        <li><a href="#0">All Orders</a></li>
                     </ul>
                 </nav>
             </div>
