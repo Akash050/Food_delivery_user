@@ -45,7 +45,7 @@ const routes = [
         component: Order,
     },
     {
-        path: "/EmailVerify",
+        path: "/emailVerify",
         name: "EmailVerify",
         component: EmailVerify,
     },
