@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import insta_icon from '../../img/instagram_icon.svg'
-import facebook_icon from '../../img/facebook_icon.svg'
-import twitter_icon from '../../img/twitter_icon.svg'
-import youtube_icon from '../../img/youtube_icon.svg'
+import insta_icon from '../img/instagram_icon.svg'
+import facebook_icon from '../img/facebook_icon.svg'
+import twitter_icon from '../img/twitter_icon.svg'
+import youtube_icon from '../img/youtube_icon.svg'
 const HomeFooter = () => {
     return (<footer>
         <div class="wave footer"></div>

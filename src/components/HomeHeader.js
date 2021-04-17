@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../../img/logo_sticky.svg'
+import logo from '../img/logo_sticky.svg'
 const HomeHeader = () => {
     const [scroll, setScroll] = useState(false)
     useEffect(() => {

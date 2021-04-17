@@ -3,35 +3,82 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import logo from '../../../img/logo_sticky.svg'
 import { loginUser } from '../../../redux/actions/authAction';
-
+import * as Validator from "validatorjs";
+import Loading from "react-fullscreen-loading";
+import swal from "sweetalert";
 const Login = () => {
     let history = useHistory();
     let dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    const [errorMsgMail, setErrorMsgMail] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
+    const [isLoding, setIsLoading] = useState(false);
     const onSubmit = async () => {
+        setErrorPassword("")
+        setErrorMsgMail("")
         setErrorMsg("")
         const params = {
             email: email,
             password: password,
-
         }
-        if (email && password) {
+        const rules = {
+            email: "required|email",
+            password: 'required',
+        };
+
+        let emailValidation = new Validator(params, rules, {
+            url: {
+                string: "Email is invalid",
+            },
+            required: {
+                string: "Email is required",
+            },
+        });
+        let passwordValidation = new Validator(params, rules, {
+            required: {
+                string: "Password is required",
+            },
+
+        });
+
+        if (emailValidation.fails()) {
+            setIsLoading(false);
+
+            if (emailValidation.errors.first("email")) {
+                setErrorMsgMail(
+                    emailValidation.errors.first("email")
+                );
+            }
+        }
+        if (passwordValidation.fails()) {
+            setIsLoading(false);
+            console.log(passwordValidation);
+            if (passwordValidation.errors.first("password")) {
+                setErrorPassword(
+                    passwordValidation.errors.first("password")
+                );
+            }
+        }
+        if (!emailValidation.fails()) {
+            setIsLoading(true);
             const data = await dispatch(loginUser(params));
             console.log('data', data)
             if (data ? data.success === true : "") {
                 console.log('daaattaa', data)
                 history.push('/home')
             } else {
-                setErrorMsg(data.message);
+                setIsLoading(false);
+                swal(data.message, {
+                    icon: "error",
+                });
             }
         }
-        else {
-            setErrorMsg('Fields are empty');
-        }
+
     };
     return (<div id="register_bg">
+        {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
         <div id="register">
             <aside>
                 <figure>
@@ -47,10 +94,20 @@ const Login = () => {
                         <input className="form-control" type="email" placeholder="Email" onChange={(event) => setEmail(event.target.value)} />
                         <i className="icon_mail_alt"></i>
                     </div>
+                    <label
+                        className={`error ${errorMsgMail ? null : "errorFill"} `}
+                    >
+                        {errorMsgMail ? errorMsgMail : null}
+                    </label>
                     <div className="form-group">
                         <input className="form-control" type="password" id="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                         <i className="icon_lock_alt"></i>
                     </div>
+                    <label
+                        className={`error ${errorPassword ? null : "errorFill"} `}
+                    >
+                        {errorPassword ? errorPassword : null}
+                    </label>
                     <label
                         className={`error ${errorMsg ? null : "errorFill"} `}
                     >
