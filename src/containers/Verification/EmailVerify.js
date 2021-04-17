@@ -7,7 +7,6 @@ const EmailVerify = () => {
                 <div class="container">
                     <div class="row justify-content-center text-center">
                         <div class="col-xl-7 col-lg-9">
-                            <figure><img src={img} alt="" class="img-fluid" width="550" height="234" /></figure>
                             <p>The Email is verified </p>
                             {/* <form method="post" action="grid-listing-filterscol.html">
                                 <div class="row no-gutters custom-search-input">
