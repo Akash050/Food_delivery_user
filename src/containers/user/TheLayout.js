@@ -15,7 +15,6 @@ const TheLayout = () => {
     let location = useLocation();
     let pathName = location.pathname
     let history = useHistory();
-    console.log(pathName)
 
 
     useEffect(() => {

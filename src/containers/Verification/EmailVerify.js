@@ -1,13 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from "react";
 import img from "../../img/png/gmail.png"
-const EmailVerify = () => {
+import { useHistory } from 'react-router-dom';
+import axios from 'axios'
+
+const EmailVerify = (props) => {
+    let history = useHistory();
+    const [isError, setIsError] = useState(true);
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        console.log("hiatory ->", history.location.search.split('=')[1])
+        let payload = {
+            token :  history.location.search.split('=')[1]
+        }
+        axios.post('http://localhost:5000/api/users/verify', payload)
+        .then(res =>{
+            setMessage(res.data.message)
+        })
+        .catch(err =>{
+            setMessage(err.response.data.message)
+        })
+    }, []);
+    
+
     return (
         <main class="bg_gray">
             <div id="error_page">
                 <div class="container">
                     <div class="row justify-content-center text-center">
                         <div class="col-xl-7 col-lg-9">
-                            <p>The Email is verified </p>
+                            <p>{message} </p>
                             {/* <form method="post" action="grid-listing-filterscol.html">
                                 <div class="row no-gutters custom-search-input">
                                     <div class="col-lg-10">
