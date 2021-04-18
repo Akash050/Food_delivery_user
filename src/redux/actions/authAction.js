@@ -3,6 +3,7 @@ import * as authActionType from "../actionsType/authActionType";
 
 export const loginUser = (params) => async (dispatch) => {
   const response = await authApis.loginUser(params);
+  console.log('resp', response)
   if (response) {
     if (response.data.success) {
       localStorage.clear();
@@ -15,7 +16,6 @@ export const loginUser = (params) => async (dispatch) => {
     }
     return response.data;
   }
-  console.log('resp', response)
   return response
 
 };

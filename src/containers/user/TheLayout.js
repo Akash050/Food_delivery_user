@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import routes from '../../../src/routes'
 import { Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom";
-import HomeHeader from "../user/HomeHeader";
-import HomeFooter from "../user/HomeFooter";
+import HomeHeader from "../../components/HomeHeader";
+import HomeFooter from "../../components/HomeFooter";
 import Login from "../user/Login/Login";
 import SignUp from './SignUp/SignUp';
 import EmailVerify from '../Verification/EmailVerify';
