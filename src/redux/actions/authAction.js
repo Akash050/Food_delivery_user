@@ -32,6 +32,18 @@ export const registerUser = (params) => async (dispatch) => {
   return response.data;
 };
 
+export const forgetPassword = (params) => async (dispatch) => {
+  const response = await authApis.forgetPassword(params);
+  if (response.success) {
+    console.log('forget pass', params)
+    dispatch({
+      type: authActionType.FORGET_PASSWORD,
+      payload: response.data,
+    });
+  }
+  return response.data;
+};
+
 // export const deleteAdmin = (params) => async (dispatch) => {
 //   const response = await authApis.deleteadmin(params);
 //   dispatch({

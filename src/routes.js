@@ -7,6 +7,7 @@ const GridListingFilterscol = React.lazy(() => import("./containers/user/Listing
 const LeaveReview = React.lazy(() => import("./containers/user/Review/LeaveReview.js"));
 const Order = React.lazy(() => import("./containers/user/Order/Order.js"))
 const EmailVerify = React.lazy(() => import("./containers/Verification/EmailVerify.js"))
+const ForgetPassword = React.lazy(() => import("./containers/user/ForgetPassword/ForgetPassword.js"))
 const routes = [
     { path: "/", exact: true, name: "Login" },
     {
@@ -18,6 +19,11 @@ const routes = [
         path: "/register",
         name: "register",
         component: SignUp,
+    },
+    {
+        path: "/forgetPassword",
+        name: "forgetPassword",
+        component: ForgetPassword,
     },
     {
         path: "/user/RestaurantDetails/",

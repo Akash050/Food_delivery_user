@@ -1,12 +1,19 @@
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import logo from '../img/logo_sticky.svg'
 const HomeHeader = () => {
     const [scroll, setScroll] = useState(false)
+    let history = useHistory();
     useEffect(() => {
         window.addEventListener("scroll", () => {
             setScroll(window.scrollY > 10)
         })
     }, [])
+    const signOut = () => {
+        localStorage.clear();
+        history.push('/login')
+    }
     return (
         <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
             <div className="container">
@@ -17,7 +24,7 @@ const HomeHeader = () => {
                 </div>
                 <div className="layer"></div>
                 <ul id="top_menu">
-                    <li><a href="#sign-in-dialog" id="sign-in" className="login">Sign In</a></li>
+                    <li><div id="sign-in" className="login" onClick={() => signOut()}>Sign Out</div></li>
                     <li><a href="wishlist.html" className="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
                 </ul>
 
@@ -34,15 +41,15 @@ const HomeHeader = () => {
                     <ul>
                         <li className="submenu">
                             <a href="#0" className="show-submenu">Home</a>
-                           
+
                         </li>
                         <li className="submenu">
                             <a href="#0" className="show-submenu">Listing</a>
-                           
+
                         </li>
                         <li className="submenu">
                             <a href="#0" className="show-submenu">Shopping Cart</a>
-                          
+
                         </li>
                         <li><a href="#0">All Orders</a></li>
                     </ul>

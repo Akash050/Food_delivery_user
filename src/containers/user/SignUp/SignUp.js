@@ -104,6 +104,9 @@ const SignUp = () => {
                 if (data ? data.success === true : "") {
                     console.log('data', data)
                     history.push('/login')
+                    swal('successfully signed up ', {
+                        icon: "success",
+                    });
                 } else {
                     setIsLoading(false);
                     swal(data.message, {

@@ -7,4 +7,5 @@ import { client } from "./index";
 
 export const loginUser = (params) => client.post("api/users/authorize", params);
 export const registerUser = (params) => client.post("api/users", params);
+export const forgetPassword = (params) => client.post("api/users/forgetpass", params);
 // export const getadmins = () => client.post("admin/");

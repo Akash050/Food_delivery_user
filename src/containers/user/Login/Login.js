@@ -120,7 +120,7 @@ const Login = () => {
                                 <span className="checkmark"></span>
                             </label>
                         </div>
-                        <div className="float-right"><a id="forgot" href="#0">Forgot Password?</a></div>
+                        <div className="float-right"><a id="forgot" onClick={() => history.push('/forgetPassword')}>Forgot Password?</a></div>
                     </div>
                     <div className="btn_1 gradient full-width" onClick={() => onSubmit()}>Login Now!</div>
                     <div className="text-center mt-2" style={{ cursor: "pointer" }}><small>Don't have an acccount? <strong><div className="register" onClick={() => history.push('/register')} >Sign Up</div></strong></small></div>

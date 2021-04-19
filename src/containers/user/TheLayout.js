@@ -6,6 +6,7 @@ import HomeFooter from "../../components/HomeFooter";
 import Login from "../user/Login/Login";
 import SignUp from './SignUp/SignUp';
 import EmailVerify from '../Verification/EmailVerify';
+import ForgetPassword from './ForgetPassword/ForgetPassword';
 const loading = (
     <div className="pt-3 text-center">
         <div className="sk-spinner sk-spinner-pulse"></div>
@@ -15,6 +16,7 @@ const TheLayout = () => {
     let location = useLocation();
     let pathName = location.pathname
     let history = useHistory();
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
     console.log(pathName)
 
 
@@ -43,37 +45,46 @@ const TheLayout = () => {
                             return <SignUp {...props} />;
                         }}
                     />
-                    // : pathName === '/EmailVerify' ?
-                    //     <Route
-                    //         exact
-                    //         path="/EmailVerify"
-                    //         name="EmailVerify"
-                    //         render={(props) => {
-                    //             return <EmailVerify {...props} />;
-                    //         }}
-                    //     />
-                    : <>
-                        <HomeHeader />
-                        <Switch>
-                            {routes.map((route, idx) => {
-                                return route.component && (
-                                    <Route
-                                        key={idx}
-                                        path={route.path}
-                                        exact={route.exact}
-                                        name={route.name}
-                                        render={props => {
-                                            return (
-                                                <route.component {...props} />
-                                            )
-                                        }
-                                        } />
-                                )
-                            })}
+                    : pathName === '/forgetPassword' ?
+                        <Route
+                            exact
+                            path="/forgetPassword"
+                            name="forgetPassword"
+                            render={(props) => {
+                                return <ForgetPassword {...props} />;
+                            }}
+                        />
+                        // : pathName === '/EmailVerify' ?
+                        //     <Route
+                        //         exact
+                        //         path="/EmailVerify"
+                        //         name="EmailVerify"
+                        //         render={(props) => {
+                        //             return <EmailVerify {...props} />;
+                        //         }}
+                        //     />
+                        : <>
+                            <HomeHeader />
+                            <Switch>
+                                {isLoggedIn ? routes.map((route, idx) => {
+                                    return route.component && (
+                                        <Route
+                                            key={idx}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            name={route.name}
+                                            render={props => {
+                                                return (
+                                                    <route.component {...props} />
+                                                )
+                                            }
+                                            } />
+                                    )
+                                }) : <Redirect to='/login' />}
 
-                        </Switch>
-                        <HomeFooter />
-                    </>}
+                            </Switch>
+                            <HomeFooter />
+                        </>}
         </React.Suspense>
     );
 }
