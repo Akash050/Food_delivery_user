@@ -54,11 +54,11 @@ const TheLayout = () => {
                                 return <ForgetPassword {...props} />;
                             }}
                         />
-                        : pathName === '/EmailVerify' ?
+                        : pathName === '/verifyemail' ?
                             <Route
                                 exact
-                                path="/EmailVerify"
-                                name="EmailVerify"
+                                path="/verifyemail"
+                                name="verifyemail"
                                 render={(props) => {
                                     return <EmailVerify {...props} />;
                                 }}

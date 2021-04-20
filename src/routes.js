@@ -50,11 +50,11 @@ const routes = [
         name: "Order",
         component: Order,
     },
-    {
-        path: "/verifyemail",
-        name: "EmailVerify",
-        component: EmailVerify,
-    },
+    // {
+    //     path: "/verifyemail",
+    //     name: "EmailVerify",
+    //     component: EmailVerify,
+    // },
 
 ];
 export default routes;
