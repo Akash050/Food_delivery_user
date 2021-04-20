@@ -54,37 +54,37 @@ const TheLayout = () => {
                                 return <ForgetPassword {...props} />;
                             }}
                         />
-                        // : pathName === '/EmailVerify' ?
-                        //     <Route
-                        //         exact
-                        //         path="/EmailVerify"
-                        //         name="EmailVerify"
-                        //         render={(props) => {
-                        //             return <EmailVerify {...props} />;
-                        //         }}
-                        //     />
-                        : <>
-                            <HomeHeader />
-                            <Switch>
-                                {isLoggedIn ? routes.map((route, idx) => {
-                                    return route.component && (
-                                        <Route
-                                            key={idx}
-                                            path={route.path}
-                                            exact={route.exact}
-                                            name={route.name}
-                                            render={props => {
-                                                return (
-                                                    <route.component {...props} />
-                                                )
-                                            }
-                                            } />
-                                    )
-                                }) : <Redirect to='/login' />}
+                        : pathName === '/EmailVerify' ?
+                            <Route
+                                exact
+                                path="/EmailVerify"
+                                name="EmailVerify"
+                                render={(props) => {
+                                    return <EmailVerify {...props} />;
+                                }}
+                            />
+                            : <>
+                                <HomeHeader />
+                                <Switch>
+                                    {isLoggedIn ? routes.map((route, idx) => {
+                                        return route.component && (
+                                            <Route
+                                                key={idx}
+                                                path={route.path}
+                                                exact={route.exact}
+                                                name={route.name}
+                                                render={props => {
+                                                    return (
+                                                        <route.component {...props} />
+                                                    )
+                                                }
+                                                } />
+                                        )
+                                    }) : <Redirect to='/login' />}
 
-                            </Switch>
-                            <HomeFooter />
-                        </>}
+                                </Switch>
+                                <HomeFooter />
+                            </>}
         </React.Suspense>
     );
 }

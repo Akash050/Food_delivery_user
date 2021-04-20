@@ -13,7 +13,7 @@ const EmailVerify = (props) => {
         let payload = {
             token: history.location.search.split('=')[1]
         }
-        axios.post('http://localhost:5000/api/users/verify', payload)
+        axios.post('https://food-del-server.herokuapp.com/api/users/verify', payload)
             .then(res => {
                 setMessage(res.data.message)
             })
@@ -21,7 +21,6 @@ const EmailVerify = (props) => {
                 setMessage(err.response.data.message)
             })
     }, []);
-
 
     return (
         <main class="bg_gray">

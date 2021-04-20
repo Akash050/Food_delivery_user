@@ -85,10 +85,10 @@ const Login = () => {
                     <a href="index.html"><img src={logo} width="140" height="35" alt="" /></a>
                 </figure>
                 <div className="access_social">
-                    <a href="#0" className="social_bt facebook">Login with Facebook</a>
-                    <a href="#0" className="social_bt google">Login with Google</a>
+                    {/* <a href="#0" className="social_bt facebook">Login with Facebook</a>
+                    <a href="#0" className="social_bt google">Login with Google</a> */}
                 </div>
-                <div className="divider"><span>Or</span></div>
+                {/* <div className="divider"><span>Or</span></div> */}
                 <form autoComplete="off">
                     <div className="form-group">
                         <input className="form-control" type="email" placeholder="Email" onChange={(event) => setEmail(event.target.value)} />
