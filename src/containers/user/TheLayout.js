@@ -66,7 +66,7 @@ const TheLayout = () => {
                             : <>
                                 <HomeHeader />
                                 <Switch>
-                                    {isLoggedIn ? routes.map((route, idx) => {
+                                    {routes.map((route, idx) => {
                                         return route.component && (
                                             <Route
                                                 key={idx}
@@ -80,7 +80,7 @@ const TheLayout = () => {
                                                 }
                                                 } />
                                         )
-                                    }) : <Redirect to='/login' />}
+                                    })}
 
                                 </Switch>
                                 <HomeFooter />
