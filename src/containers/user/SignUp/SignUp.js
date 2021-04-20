@@ -104,7 +104,7 @@ const SignUp = () => {
                 if (data ? data.success === true : "") {
                     console.log('data', data)
                     history.push('/login')
-                    swal('successfully signed up ', {
+                    swal('A verification link has sent to your mail ', {
                         icon: "success",
                     });
                 } else {
@@ -148,10 +148,10 @@ const SignUp = () => {
                         <a href="index.html"><img src={logo} width="140" height="35" alt="" /></a>
                     </figure>
                     <div className="access_social">
-                        <a href="#0" className="social_bt facebook">Register with Facebook</a>
-                        <a href="#0" className="social_bt google">Register with Google</a>
+                        {/* <a href="#0" className="social_bt facebook">Register with Facebook</a>
+                        <a href="#0" className="social_bt google">Register with Google</a> */}
                     </div>
-                    <div className="divider"><span>Or</span></div>
+                    {/* <div className="divider"><span>Or</span></div> */}
                     <form autoComplete="off">
                         <div className="form-group">
                             <input className="form-control" type="text" placeholder="Name" onChange={(event) => setName(event.target.value)} />

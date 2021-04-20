@@ -10,12 +10,9 @@ const ForgetPassword = () => {
     let dispatch = useDispatch();
     let history = useHistory();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPwd, setConfirmPwd] = useState("");
     const [isLoding, setIsLoading] = useState(false);
     const [errorMsgMail, setErrorMsgMail] = useState("");
-    const [errorPassword, setErrorPassword] = useState("");
-    const [errorConfirmPwd, setErrorConfirmPwd] = useState("");
+
     const onSubmit = async () => {
         resetErrorFields();
         const params = {
@@ -65,8 +62,7 @@ const ForgetPassword = () => {
 
     const resetErrorFields = () => {
         setErrorMsgMail("")
-        setErrorPassword("")
-        setErrorConfirmPwd("")
+
     }
     return (
         <div id="register_bg">

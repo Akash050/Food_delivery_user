@@ -22,7 +22,6 @@ const EmailVerify = (props) => {
             })
     }, []);
 
-
     return (
         <main class="bg_gray">
             <div id="error_page">
