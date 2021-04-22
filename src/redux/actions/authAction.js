@@ -43,6 +43,17 @@ export const forgetPassword = (params) => async (dispatch) => {
   }
   return response.data;
 };
+export const resetPassword = (params) => async (dispatch) => {
+  const response = await authApis.resetPassword(params);
+  if (response.success) {
+    console.log('forget pass', params)
+    dispatch({
+      type: authActionType.RESET_PASSWORD,
+      payload: response.data,
+    });
+  }
+  return response.data;
+};
 
 // export const deleteAdmin = (params) => async (dispatch) => {
 //   const response = await authApis.deleteadmin(params);
