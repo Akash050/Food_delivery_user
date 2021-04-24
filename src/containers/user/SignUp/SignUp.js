@@ -201,7 +201,7 @@ const SignUp = () => {
 
                         <div id="pass-info" className="clearfix"></div>
                         <a className="btn_1 gradient full-width" onClick={() => onSubmit()}>Register Now!</a>
-                        <div className="text-center mt-2"><small>Already have an acccount? <strong><a href="#0" onClick={() => history.push('/login')}>Sign In</a></strong></small></div>
+                        <div className="text-center mt-2"><small>Already have an acccount? <strong><a style={{ cursor: 'pointer', color: '#0000FF' }} onClick={() => history.push('/login')}>Sign In</a></strong></small></div>
                     </form>
                     <div className="copy">© 2020 FooYes</div>
                 </aside>

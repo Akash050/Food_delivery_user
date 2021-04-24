@@ -123,7 +123,7 @@ const Login = () => {
                         <div className="float-right"><a id="forgot" onClick={() => history.push('/forgetPassword')}>Forgot Password?</a></div>
                     </div>
                     <div className="btn_1 gradient full-width" onClick={() => onSubmit()}>Login Now!</div>
-                    <div className="text-center mt-2" style={{ cursor: "pointer" }}><small>Don't have an acccount? <strong><div className="register" onClick={() => history.push('/register')} >Sign Up</div></strong></small></div>
+                    <div className="text-center mt-2" style={{ cursor: "pointer" }}><small>Don't have an acccount? <strong><a className="register" style={{ cursor: 'pointer', color: '#0000FF' }} onClick={() => history.push('/register')} >Sign Up</a></strong></small></div>
                 </form>
                 <div className="copy">© 2020 FooYes</div>
             </aside>
