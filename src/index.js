@@ -18,6 +18,7 @@ import '../src/css/style.css';
 import '../src/css/icons.css'
 import '../src/css/error.css'
 import '../src/css/bootstrap_customized.css'
+import '../src/revolution-slider/css/settings-source.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

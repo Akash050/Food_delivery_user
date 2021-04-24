@@ -24,7 +24,8 @@ const HomeHeader = () => {
                 </div>
                 <div className="layer"></div>
                 <ul id="top_menu">
-                    <li><div id="sign-in" className="login" onClick={() => signOut()}>Sign Out</div></li>
+                    <li><a href="" id="sign-in" className="login" onClick={() => signOut()}></a></li>
+                    {/* <li><a href="" id="sign-in" className="login" style={{ content: "\f08c" }} onClick={() => signOut()}></a></li> */}
                     <li><a href="wishlist.html" className="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
                 </ul>
 
@@ -40,18 +41,18 @@ const HomeHeader = () => {
                     </div>
                     <ul>
                         <li className="submenu">
-                            <a href="#0" className="show-submenu">Home</a>
+                            <a href="" className="show-submenu">Home</a>
 
                         </li>
                         <li className="submenu">
-                            <a href="#0" className="show-submenu">Listing</a>
+                            <a href="" className="show-submenu">Listing</a>
 
                         </li>
                         <li className="submenu">
-                            <a href="#0" className="show-submenu">Shopping Cart</a>
+                            <a href="" className="show-submenu">Shopping Cart</a>
 
                         </li>
-                        <li><a href="#0">All Orders</a></li>
+                        <li><a href="">All Orders</a></li>
                     </ul>
                 </nav>
             </div>

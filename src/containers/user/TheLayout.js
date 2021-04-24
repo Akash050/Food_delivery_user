@@ -7,6 +7,7 @@ import Login from "../user/Login/Login";
 import SignUp from './SignUp/SignUp';
 import EmailVerify from '../Verification/EmailVerify';
 import ForgetPassword from './ForgetPassword/ForgetPassword';
+import HomeBody from './HomeBody';
 const loading = (
     <div className="pt-3 text-center">
         <div className="sk-spinner sk-spinner-pulse"></div>
@@ -22,7 +23,7 @@ const TheLayout = () => {
 
     useEffect(() => {
         if (pathName == '/') {
-            history.push('/login')
+            history.push('/home')
         }
     })
     return (
@@ -66,7 +67,7 @@ const TheLayout = () => {
                             : <>
                                 <HomeHeader />
                                 <Switch>
-                                    {isLoggedIn ? routes.map((route, idx) => {
+                                    {routes.map((route, idx) => {
                                         return route.component && (
                                             <Route
                                                 key={idx}
@@ -80,7 +81,7 @@ const TheLayout = () => {
                                                 }
                                                 } />
                                         )
-                                    }) : <Redirect to='/login' />}
+                                    })}
 
                                 </Switch>
                                 <HomeFooter />

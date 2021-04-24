@@ -17,6 +17,11 @@ export default (state = {}, action) => {
         ...state,
         user: action.payload,
       };
+    case authActionType.RESET_PASSWORD:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }
