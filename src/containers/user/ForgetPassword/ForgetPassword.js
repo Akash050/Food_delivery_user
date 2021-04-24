@@ -212,7 +212,7 @@ const ForgetPassword = () => {
 
                                 <div id="pass-info" className="clearfix"></div>
                                 <a className="btn_1 gradient full-width" onClick={() => onReset()}>Submit</a>
-                                <div className="text-center mt-2"><small><strong><div href="#0" style={{ cursor: 'pointer', color: 'blue' }} onClick={() => history.push('/login')}>Sign In</div></strong></small></div>
+                                <div className="text-center mt-2"><small><strong><div href="#0" style={{ cursor: 'pointer', color: 'blue' }} onClick={() => history.push('/login')}>Back to Login</div></strong></small></div>
                             </>}
 
 
