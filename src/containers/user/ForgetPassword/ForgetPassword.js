@@ -57,9 +57,9 @@ const ForgetPassword = () => {
                 console.log('data', data)
                 setIsLoading(false);
                 setEmail("")
-                swal(data.message, {
-                    icon: "success",
-                });
+                // swal(data.message, {
+                //     icon: "success",
+                // });
                 setIsForgetPass(false)
 
             } else {
@@ -179,7 +179,7 @@ const ForgetPassword = () => {
                             </label>
 
                             <div id="pass-info" className="clearfix"></div>
-                            <a className="btn_1 gradient full-width" onClick={(e) => onSubmit(e)}>Forget Password</a>
+                            <a className="btn_1 gradient full-width" onClick={(e) => onSubmit(e)}>Submit</a>
                         </> :
                             <>
                                 <div className="form-group">
