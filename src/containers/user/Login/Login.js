@@ -6,6 +6,7 @@ import { loginUser } from '../../../redux/actions/authAction';
 import * as Validator from "validatorjs";
 import Loading from "react-fullscreen-loading";
 import swal from "sweetalert";
+import { GoogleLogin } from 'react-google-login';
 const Login = () => {
     let history = useHistory();
     let dispatch = useDispatch();
@@ -15,6 +16,18 @@ const Login = () => {
     const [errorMsgMail, setErrorMsgMail] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
     const [isLoding, setIsLoading] = useState(false);
+
+    const responseGoogle = (response) => {
+        console.log('hey', response);
+        if (response.error) {
+            // swal(response.error, {
+            //     icon: "error",
+            // });
+        }
+        else {
+            history.push('/home')
+        }
+    }
     const onSubmit = async () => {
         setErrorPassword("")
         setErrorMsgMail("")
@@ -84,10 +97,19 @@ const Login = () => {
                 <figure>
                     <a href="index.html"><img src={logo} width="140" height="35" alt="" /></a>
                 </figure>
-                <div className="access_social">
-                    {/* <a href="#0" className="social_bt facebook">Login with Facebook</a>
-                    <a href="#0" className="social_bt google">Login with Google</a> */}
-                </div>
+                <GoogleLogin
+                    clientId="400865530457-pelm0k6er8vqgldvr7vetekf2rqnii0d.apps.googleusercontent.com"
+                    render={renderProps => (
+                        <div className="access_social" onClick={renderProps.onClick}>
+                            <a className="social_bt google">Login with Google</a>
+                            <button style={{ display: 'none' }}  ></button>
+                        </div>
+                    )}
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                />
+
                 {/* <div className="divider"><span>Or</span></div> */}
                 <form autoComplete="off">
                     <div className="form-group">
