@@ -8,6 +8,7 @@ import SignUp from './SignUp/SignUp';
 import EmailVerify from '../Verification/EmailVerify';
 import ForgetPassword from './ForgetPassword/ForgetPassword';
 import HomeBody from './HomeBody';
+import EmailVerifyHeader from '../Verification/EmailVerifyHeader';
 const loading = (
     <div className="pt-3 text-center">
         <div className="sk-spinner sk-spinner-pulse"></div>
@@ -61,7 +62,12 @@ const TheLayout = () => {
                                 path="/verifyemail"
                                 name="verifyemail"
                                 render={(props) => {
-                                    return <EmailVerify {...props} />;
+                                    return <>
+                                        <EmailVerifyHeader {...props} />
+                                        <EmailVerify {...props} />
+                                        <HomeFooter {...props} />
+                                    </>
+
                                 }}
                             />
                             : <>

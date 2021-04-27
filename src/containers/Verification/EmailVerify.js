@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import img from "../../img/png/gmail.png"
 import { useHistory } from 'react-router-dom';
 import axios from 'axios'
-
+import swal from "sweetalert";
 const EmailVerify = (props) => {
     let history = useHistory();
     const [isError, setIsError] = useState(true);
@@ -16,10 +16,23 @@ const EmailVerify = (props) => {
         console.log('payload', payload)
         axios.post('https://food-del-server.herokuapp.com/api/users/verify', payload)
             .then(res => {
-                setMessage(res.data.message)
+                // setMessage(res.data.message)
+                if (res.data.success == true) {
+                    swal(res.data.message, {
+                        icon: "success",
+                    });
+                }
+                else {
+                    swal(res.data.message, {
+                        icon: "error",
+                    });
+                }
             })
             .catch(err => {
-                setMessage(err.response.data.message)
+                // setMessage(err.response.data.message)
+                swal(err.response.data.message, {
+                    icon: "error",
+                });
             })
     }, []);
 
