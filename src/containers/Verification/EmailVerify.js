@@ -7,7 +7,7 @@ const EmailVerify = (props) => {
     let history = useHistory();
     const [isError, setIsError] = useState(true);
     const [message, setMessage] = useState('');
-
+    const [classN, setClassN] = useState('');
     useEffect(() => {
         console.log("hiatory ->", history.location.search.split('=')[1])
         let payload = {
@@ -16,23 +16,17 @@ const EmailVerify = (props) => {
         console.log('payload', payload)
         axios.post('https://food-del-server.herokuapp.com/api/users/verify', payload)
             .then(res => {
-                // setMessage(res.data.message)
+                setMessage(res.data.message)
                 if (res.data.success == true) {
-                    swal(res.data.message, {
-                        icon: "success",
-                    });
+                    setClassN('alert alert-success')
                 }
                 else {
-                    swal(res.data.message, {
-                        icon: "error",
-                    });
+                    setClassN('alert alert-danger')
                 }
             })
             .catch(err => {
-                // setMessage(err.response.data.message)
-                swal(err.response.data.message, {
-                    icon: "error",
-                });
+                setMessage(err.response.data.message)
+
             })
     }, []);
 
@@ -42,7 +36,12 @@ const EmailVerify = (props) => {
                 <div class="container">
                     <div class="row justify-content-center text-center">
                         <div class="col-xl-7 col-lg-9">
-                            <p>{message} </p>
+                            <p></p>
+                            <div class={classN} role="alert">
+                                <h4 class="alert-heading"></h4>
+                                <p>{message}</p>
+                                <p class="mb-0"></p>
+                            </div>
                             {/* <form method="post" action="grid-listing-filterscol.html">
                                 <div class="row no-gutters custom-search-input">
                                     <div class="col-lg-10">
