@@ -14,6 +14,7 @@ const HomeHeader = () => {
         localStorage.clear();
         history.push('/login')
     }
+    console.log("local ->", localStorage)
     return (
         <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
             <div className="container">
@@ -24,9 +25,9 @@ const HomeHeader = () => {
                 </div>
                 <div className="layer"></div>
                 <ul id="top_menu">
-                    <li><a href="" id="sign-in" className="login" onClick={() => signOut()}></a></li>
+                    {/* <i className="icon_menu"></i><span>Menu</span> */}
+                    {/* <li><a href="" id="sign-in" className="login" onClick={() => signOut()}></a></li> */}
                     {/* <li><a href="" id="sign-in" className="login" style={{ content: "\f08c" }} onClick={() => signOut()}></a></li> */}
-                    <li><a href="wishlist.html" className="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
                 </ul>
 
                 <a href="#0" className="open_close">
@@ -53,6 +54,9 @@ const HomeHeader = () => {
 
                         </li>
                         <li><a href="">All Orders</a></li>
+                        {localStorage.isLoggedIn?  <li onClick={() => signOut()}><a href="">Logout</a></li>:
+                          <li onClick={() => signOut()}><a href="">Login</a></li>}
+                      
                     </ul>
                 </nav>
             </div>
