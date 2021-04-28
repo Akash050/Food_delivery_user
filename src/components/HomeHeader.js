@@ -14,7 +14,7 @@ const HomeHeader = () => {
         localStorage.clear();
         history.push('/login')
     }
-    console.log("local ->", localStorage)
+
     return (
         <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
             <div className="container">
@@ -38,7 +38,7 @@ const HomeHeader = () => {
                         <a href="#0" className="open_close">
                             <i className="icon_close"></i><span>Menu</span>
                         </a>
-                        <a href="index.html"><img src="img/logo.svg" width="162" height="35" alt="" /></a>
+                        <a href=""><img src="img/logo.svg" width="162" height="35" alt="" /></a>
                     </div>
                     <ul>
                         <li className="submenu">
