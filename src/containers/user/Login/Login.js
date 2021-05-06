@@ -25,6 +25,7 @@ const Login = () => {
             // });
         }
         else {
+            localStorage.setItem("isLoggedIn", true);
             history.push('/home')
         }
     }
@@ -83,7 +84,7 @@ const Login = () => {
                 history.push('/home')
             } else {
                 setIsLoading(false);
-                swal(data.message, {
+                swal(data ? data.message : "", {
                     icon: "error",
                 });
             }

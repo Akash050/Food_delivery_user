@@ -2,17 +2,39 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../img/logo_sticky.svg'
+import { useGoogleLogout } from 'react-google-login'
+
 const HomeHeader = () => {
     const [scroll, setScroll] = useState(false)
+    const GOOGLE_CLIENT_ID = "400865530457-pelm0k6er8vqgldvr7vetekf2rqnii0d.apps.googleusercontent.co"
+    const onLogoutSuccess = () => {
+        console.log('logout');
+        document.cookie.split(";").forEach(function (c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+        localStorage.clear();
+        history.push('/login')
+    };
+    const onFailure = () => {
+        console.log('logout fail');
+    };
+    const { signOut } = useGoogleLogout({
+        clientId: GOOGLE_CLIENT_ID,
+        onLogoutSuccess: onLogoutSuccess,
+        onFailure: onFailure,
+    });
     let history = useHistory();
     useEffect(() => {
         window.addEventListener("scroll", () => {
             setScroll(window.scrollY > 10)
         })
     }, [])
-    const signOut = () => {
+    const logOut = () => {
         localStorage.clear();
         history.push('/login')
+    }
+
+
+    const responseGoogle = (response) => {
+        console.log(response);
     }
     console.log("local ->", localStorage)
     return (
@@ -54,9 +76,12 @@ const HomeHeader = () => {
 
                         </li>
                         <li><a href="">All Orders</a></li>
-                        {localStorage.isLoggedIn?  <li onClick={() => signOut()}><a href="">Logout</a></li>:
-                          <li onClick={() => signOut()}><a href="">Login</a></li>}
-                      
+                        {localStorage.isLoggedIn ? <li onClick={() => signOut()}>
+                            LogOut
+                        </li> :
+                            <li onClick={() => logOut()}><a href="">Login</a></li>}
+
+
                     </ul>
                 </nav>
             </div>
