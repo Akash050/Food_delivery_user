@@ -8,6 +8,15 @@ import { useHistory } from 'react-router-dom';
 import image from '../../img/home_cat_pizza.jpg'
 const HomeBody = () => {
     let history = useHistory();
+    useEffect(() => {
+        async function getMenuItems() {
+            setIsLoading(true)
+            await dispatch(MenuItemByVendor());
+            setIsLoading(false)
+        }
+        getMenuItems()
+    }, [isEdit, isDeleted]);
+
     return (
         <main>
             <div className="hero_single version_1">
