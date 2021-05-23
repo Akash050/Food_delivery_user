@@ -1,7 +1,36 @@
-import React, { Component } from 'react';
-const GridListingFilterscol = () => {
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
+import Loading from "react-fullscreen-loading";
+import { allProductSubCategory, productSubCatByCategoryId } from "../../../redux/actions/prodSubCategoryAction";
+const GridListingFilterscol = (props) => {
+    let history = useHistory();
+    const dispatch = useDispatch();
+    const [id, setId] = useState(props.location.state.id);
+    console.log(props.location.state.id)
+    const [isLoding, setIsLoading] = useState(false);
+    const [subCategoryList, setSubCategoryList] = useState("");
+    const { allProdSubCategory } = useSelector((state) => ({
+        allProdSubCategory: state.productSubCategory,
+    }));
+    useEffect(() => {
+        async function getProductSubCategory() {
+            setIsLoading(true)
+            let params = {
+                categoryId: id
+            }
+            await dispatch(productSubCatByCategoryId(params));
+            setIsLoading(false)
+        }
+        getProductSubCategory()
+    }, []);
+    useEffect(async () => {
+        setSubCategoryList(allProdSubCategory)
+
+    }, [allProdSubCategory]);
     return (
         <main>
+            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
             <div class="page_header element_to_stick">
                 <div class="container">
                     <div class="row">
@@ -253,29 +282,39 @@ const GridListingFilterscol = () => {
 
                         <div class="row">
                             <div class="col-12"><h2 class="title_small">Top Rated</h2></div>
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <span class="ribbon off">15% off</span>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_1.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Pizza</small>
-                                            <div class="item_title">
-                                                <h3>Da Alfredo</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+
+
+                            {
+                                allProdSubCategory.map((val) => {
+                                    return (
+                                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                            <div class="strip">
+                                                <figure>
+                                                    <span class="ribbon off">15% off</span>
+                                                    <img src="img/lazy-placeholder.png" data-src="img/location_1.jpg" class="img-fluid lazy" alt="" />
+                                                    <a href="detail-restaurant.html" class="strip_info">
+                                                        {/* <small>Pizza</small> */}
+                                                        <div class="item_title">
+                                                            <h3>{val.sub_category}</h3>
+                                                            <small>{val.description}</small>
+                                                        </div>
+                                                    </a>
+                                                </figure>
+                                                <ul>
+                                                    <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
+                                                    <li>
+                                                        <div class="score"><strong>8.9</strong></div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+
+
+                            {/* <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="strip">
                                     <figure>
                                         <img src="img/lazy-placeholder.png" data-src="img/location_2.jpg" class="img-fluid lazy" alt="" />
@@ -505,18 +544,18 @@ const GridListingFilterscol = () => {
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
 
                         <div class="pagination_fg">
-                            <a href="#">&laquo;</a>
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">&raquo;</a>
+                            <a >&laquo;</a>
+                            <a class="active">1</a>
+                            <a >2</a>
+                            <a >3</a>
+                            <a >4</a>
+                            <a >5</a>
+                            <a >&raquo;</a>
                         </div>
                     </div>
 

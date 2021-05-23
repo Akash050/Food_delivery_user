@@ -27,6 +27,8 @@ const HomeHeader = () => {
             setScroll(window.scrollY > 10)
         })
     }, [])
+
+
     const logOut = () => {
         localStorage.clear();
         history.push('/login')
