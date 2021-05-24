@@ -1,15 +1,80 @@
-import React from 'react';
-import popular_cat1 from '../../img/home_cat_placeholder.jpg'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import imagePath from '../../img/banner_bg_desktop.jpg'
 import quick_del_img from '../../img/how_2.svg'
 import enjoy_food_img from '../../img/how_3.svg'
 import easly_ord_img from '../../img/how_1.svg'
 import { useHistory } from 'react-router-dom';
 import image from '../../img/home_cat_pizza.jpg'
+import { allProductCategory } from '../../redux/actions/prodCategoryAction';
+import { useRef } from "react";
+import Loading from "react-fullscreen-loading";
+import { allUser } from "../../redux/actions/vendorAction";
 const HomeBody = () => {
+    let ref = useRef();
     let history = useHistory();
+    const dispatch = useDispatch();
+    const [isLoding, setIsLoading] = useState(false);
+    const [categoryList, setCategoryList] = useState("");
+    const [vendorList, setVendorList] = useState("");
+    const [copiedData, setCopiedData] = useState([]);
+    const [halfArr, setHalfArr] = useState([]);
+    const [secHalf, setSecHalf] = useState([]);
+    const [half, setHalf] = useState(0);
+    const [vendorListLeft, setVendorListLeft] = useState("");
+    const [vendorListRight, setVendorListRight] = useState("");
+    const { allProdCategory } = useSelector((state) => ({
+        allProdCategory: state.productCategory,
+    }));
+    const { allVendors } = useSelector((state) => ({
+        allVendors: state.allVendors
+    }));
+    useEffect(() => {
+        async function getProductCategory() {
+            setIsLoading(true)
+            await dispatch(allProductCategory());
+            setIsLoading(false)
+        }
+        getProductCategory()
+    }, []);
+    useEffect(() => {
+        async function getUser() {
+            setIsLoading(true)
+            await dispatch(allUser());
+            setCopiedData([...vendorList]);
+            setHalf(allVendors.length >>> 1);
+            setHalfArr([...copiedData.slice(0, half)]);
+            setSecHalf([...copiedData.slice(half, copiedData.length)]);
+            setIsLoading(false)
+        }
+        getUser()
+    }, [copiedData, half]);
+
+    useEffect(() => {
+        setCategoryList(allProdCategory)
+        setVendorList(allVendors)
+    }, [allProdCategory, allVendors]);
+
+    function slide(direction) {
+        var container = document.getElementById('containerd');
+        let scrollCompleted = 0;
+        var slideVar = setInterval(function () {
+            if (direction == 'left') {
+                container.scrollLeft -= 10;
+            } else {
+                container.scrollLeft += 10;
+            }
+            scrollCompleted += 10;
+            console.log(scrollCompleted)
+            if (scrollCompleted >= 100) {
+                console.log('h')
+                window.clearInterval(slideVar);
+            }
+        }, 50);
+    }
     return (
         <main>
+            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
             <div className="hero_single version_1">
                 <div className="opacity-mask">
                     <div className="container">
@@ -56,95 +121,47 @@ const HomeBody = () => {
                 </div>
 
                 <div class="owl-carousel owl-theme categories_carousel owl-loaded owl-drag">
-                    <div class="owl-stage-outer">
+                    <div class="owl-stage-outer" id="containerd">
                         <div class="owl-stage"
-                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: "1794px", paddingLeft: "50px", paddingRight: "50px" }}
+                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: "1800px", paddingLeft: "50px", paddingRight: "50px", display: 'flex', alignItems: 'center' }}
                         // style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 1794px; padding-left: 50px; padding-right: 50px;"
-                        ><div class="owl-item active"
-                            style={{ width: "222px", marginRight: "20px" }}
                         >
-                                <div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>98</span>
-                                            <img src={image} data-src="img/home_cat_pizza.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Pizza</h3>
-                                                <small>Avg price $40</small>
+                            {
+                                allProdCategory.map((val) => {
+                                    return (
+                                        <div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}>
+                                            <div class="item_version_2">
+                                                <a onClick={() => history.push({
+                                                    pathname: `/subcategory/${val._id}`,
+                                                    state: { id: val._id },
+                                                })}>
+                                                    <figure>
+                                                        {/* <span>98</span> */}
+                                                        <img src={val.image ? val.image : image} alt="" class="owl-lazy" style={{ opacity: "1", minHeight: '300px' }} />
+                                                        <div class="info">
+                                                            <h3>{val.category}</h3>
+                                                            <small>Avg price $40</small>
+                                                        </div>
+                                                    </figure>
+                                                </a>
                                             </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>87</span>
-                                            <img src={image} data-src="img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Japanese</h3>
-                                                <small>Avg price $50</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>55</span>
-                                            <img src={image} data-src="img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Burghers</h3>
-                                                <small>Avg price $55</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>55</span>
-                                            <img src={image} data-src="img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Vegetarian</h3>
-                                                <small>Avg price $40</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>65</span>
-                                            <img src={image} data-src="img/home_cat_bakery.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Bakery</h3>
-                                                <small>Avg price $60</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>25</span>
-                                            <img src={image} data-src="img/home_cat_chinesse.jpg" alt="" class="owl-lazy" width="350" height="450" style={{ opacity: "1" }} />
-                                            <div class="info">
-                                                <h3>Chinese</h3>
-                                                <small>Avg price $40</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div><div class="owl-item" style={{ width: "222px", marginRight: "20px" }}><div class="item_version_2">
-                                    <a onClick={() => history.push('/GridListingFilterscol')}>
-                                        <figure>
-                                            <span>35</span>
-                                            <img src={image} data-src="img/home_cat_mexican.jpg" alt="" class="owl-lazy" width="350" height="450" />
-                                            <div class="info">
-                                                <h3>Mexican</h3>
-                                                <small>Avg price $35</small>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div></div></div></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="arrow_left"></i></button><button type="button" role="presentation" class="owl-next"><i class="arrow_right"></i></button></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    );
+                                })
+                            }
+
+                        </div></div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev" onClick={() => slide('left')}>
+                            <i class="arrow_left"></i>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next" onClick={() => slide('right')}>
+                            <i class="arrow_right"></i>
+                        </button>
+                    </div>
+                    <div class="owl-dots disabled"></div></div>
 
             </div>
-
-
             <div className="bg_gray">
                 <div className="container margin_60_40">
                     <div className="main_title">
@@ -155,9 +172,30 @@ const HomeBody = () => {
                     </div>
                     <div className="row add_bottom_25">
                         <div className="col-lg-6">
-                            <div className="list_home">
+                            <div className="list_home" >
                                 <ul>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                    {
+                                        secHalf.map((val) => {
+                                            return (
+                                                <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                                    <a>
+                                                        <figure>
+                                                            <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
+                                                        </figure>
+                                                        <div className="score"><strong>9.5</strong></div>
+                                                        <em>Italian</em>
+                                                        <h3>{val.first_name}</h3>
+                                                        <small>8 Patriot Square E2 9NF</small>
+                                                        <ul>
+                                                            <li><span className="ribbon off">-30%</span></li>
+                                                            <li>Average price $35</li>
+                                                        </ul>
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                    }
+                                    {/* <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                         <a>
                                             <figure>
                                                 <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
@@ -201,58 +239,34 @@ const HomeBody = () => {
                                                 <li>Average price $20</li>
                                             </ul>
                                         </a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
                         <div className="col-lg-6">
                             <div className="list_home">
                                 <ul>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_4.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.5</strong></div>
-                                            <em>Vegetarian</em>
-                                            <h3>Mr. Pepper</h3>
-                                            <small>27 Old Gloucester St, 4563</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-30%</span></li>
-                                                <li>Average price $20</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_5.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.0</strong></div>
-                                            <em>Chinese</em>
-                                            <h3>Dragon Tower</h3>
-                                            <small>22 Hertsmere Rd E14 4ED</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-50%</span></li>
-                                                <li>Average price $35</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_6.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.5</strong></div>
-                                            <em>Pizza - Italian</em>
-                                            <h3>Bella Napoli</h3>
-                                            <small>135 Newtownards Road BT4</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-45%</span></li>
-                                                <li>Average price $25</li>
-                                            </ul>
-                                        </a>
-                                    </li>
+                                    {
+                                        halfArr.map((val) => {
+                                            return (
+                                                <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                                    <a>
+                                                        <figure>
+                                                            <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
+                                                        </figure>
+                                                        <div className="score"><strong>9.5</strong></div>
+                                                        <em>Italian</em>
+                                                        <h3>{val.first_name}</h3>
+                                                        <small>8 Patriot Square E2 9NF</small>
+                                                        <ul>
+                                                            <li><span className="ribbon off">-30%</span></li>
+                                                            <li>Average price $35</li>
+                                                        </ul>
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -266,7 +280,7 @@ const HomeBody = () => {
                                 <small>FooYes Delivery</small>
                                 <h3>We Deliver to your Office</h3>
                                 <p>Enjoy a tasty food in minutes!</p>
-                                <div className="btn_1 gradient" onClick={() => history.push('/GridListingFilterscol')}>Start Now!</div>
+                                <div className="btn_1 gradient" onClick={() => history.push('/subcategory')}>Start Now!</div>
                             </div>
                         </div>
 

@@ -36,7 +36,7 @@ const routes = [
         component: Home,
     },
     {
-        path: "/GridListingFilterscol",
+        path: "/subcategory/:id",
         name: "GridListingFilterscol",
         component: GridListingFilterscol,
     },

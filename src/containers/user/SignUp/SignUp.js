@@ -103,7 +103,7 @@ const SignUp = () => {
                 const data = await dispatch(registerUser(params));
                 if (data ? data.success === true : "") {
                     console.log('data', data)
-                    history.push('/login')
+                    // history.push('/login')
                     swal('A verification link has sent to your mail ', {
                         icon: "success",
                     });
@@ -138,6 +138,7 @@ const SignUp = () => {
         setErrorPassword("")
         setErrorMsgLastName("")
         setErrorConfirmPwd("")
+
     }
     return (
         <div id="register_bg">
@@ -171,6 +172,7 @@ const SignUp = () => {
                         >
                             {errorMsgLastName ? errorMsgLastName : null}
                         </label>
+
                         <div className="form-group">
                             <input className="form-control" type="email" placeholder="Email" onChange={(event) => setEmail(event.target.value)} />
                             <i className="icon_mail_alt"></i>
