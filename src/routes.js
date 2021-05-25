@@ -9,7 +9,7 @@ const Order = React.lazy(() => import("./containers/user/Order/Order.js"))
 const EmailVerify = React.lazy(() => import("./containers/Verification/EmailVerify.js"))
 const ForgetPassword = React.lazy(() => import("./containers/user/ForgetPassword/ForgetPassword.js"))
 const routes = [
-    { path: "/", exact: true, name: "Login" },
+    // { path: "/", exact: true, name: "Login" },
     {
         path: "/login",
         name: "Login",
