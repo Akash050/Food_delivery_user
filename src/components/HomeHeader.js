@@ -29,7 +29,8 @@ const HomeHeader = () => {
     }, [])
 
 
-    const logOut = () => {
+    const logOut = (e) => {
+        e.preventDefault()
         localStorage.clear();
         history.push('/login')
     }
@@ -69,17 +70,21 @@ const HomeHeader = () => {
                             <a href="" className="show-submenu">Home</a>
 
                         </li>
-                        <li className="submenu">
+                        {/* <li className="submenu">
                             <a href="" className="show-submenu">Listing</a>
 
-                        </li>
-                        <li className="submenu">
-                            <a href="" className="show-submenu">Shopping Cart</a>
+                        </li> */}
+                        {localStorage.isLoggedIn ?
+                            <li className="submenu">
+                                <a href="" className="show-submenu"> Cart</a>
 
-                        </li>
-                        <li><a href="">All Orders</a></li>
-                        {localStorage.isLoggedIn ? <li onClick={() => signOut()}>
-                            LogOut
+                            </li>
+                            : null}
+
+                        {/* <li><a href="">All Orders</a></li> */}
+                        {localStorage.isLoggedIn ? <li >
+                            <a onClick={(e) => logOut(e)} href="" className="show-submenu">Logout</a>
+
                         </li> :
                             <li onClick={() => logOut()}><a href="">Login</a></li>}
 

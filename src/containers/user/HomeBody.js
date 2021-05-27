@@ -140,7 +140,7 @@ const HomeBody = () => {
                                                         <img src={val.image ? val.image : image} alt="" class="owl-lazy" style={{ opacity: "1", minHeight: '300px' }} />
                                                         <div class="info">
                                                             <h3>{val.category}</h3>
-                                                            <small>Avg price $40</small>
+                                                            <small>{val.description}</small>
                                                         </div>
                                                     </figure>
                                                 </a>
