@@ -126,7 +126,7 @@ const Order = () => {
 
                     </div>
 
-                    <div class="col-xl-4 col-lg-4" id="sidebar_fixed">
+                    <div class="col-xl-4 col-xl-4" id="sidebar_fixed">
                         <div class="box_order">
                             <div class="head">
                                 <h3>Order Summary</h3>

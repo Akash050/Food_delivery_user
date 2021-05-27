@@ -48,7 +48,7 @@ const HomeBody = () => {
             setIsLoading(false)
         }
         getUser()
-    }, [copiedData, half]);
+    }, [half]);
 
     useEffect(() => {
         setCategoryList(allProdCategory)
