@@ -1,5 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 const Order = () => {
+    const [items, setItems] = useState([])
+    const { cartItems } = useSelector((state) => ({
+        cartItems: state.cart
+    }));
+    const [totalCount, setTotalCount] = useState([])
+    useEffect(() => {
+        let counter = {}
+        cartItems.forEach(function (obj) {
+            var key = JSON.stringify(obj)
+            counter[key] = (counter[key] || 0) + 1
+        })
+        console.log(counter)
+        setTotalCount(counter)
+    }, []);
+    console.log(totalCount, 'tor')
+    console.log(cartItems)
     return (
         <main class="bg_gray">
             <div class="container margin_60_20">
@@ -141,11 +158,20 @@ const Order = () => {
                                 </ul>
                                 <hr></hr>
                                 <ul class="clearfix">
-                                    <li><a href="#0">1x Enchiladas</a><span>$11</span></li>
+                                    {
+                                        Object.keys(totalCount).map((val) => {
+                                            let obj = JSON.parse(val)
+                                            let temp = Number(totalCount[val]) * Number(obj.price)
+                                            return (<li><a href="#0">{totalCount[val]} {obj.item}</a><span>${temp}</span></li>);
+
+                                        })
+                                    }
+
+                                    {/* <li><a href="#0">1x Enchiladas</a><span>$11</span></li>
                                     <li><a href="#0">2x Burrito</a><span>$14</span></li>
                                     <li><a href="#0">1x Chicken</a><span>$18</span></li>
                                     <li><a href="#0">2x Corona Beer</a><span>$9</span></li>
-                                    <li><a href="#0">2x Cheese Cake</a><span>$11</span></li>
+                                    <li><a href="#0">2x Cheese Cake</a><span>$11</span></li> */}
                                 </ul>
 
                                 <ul class="clearfix">

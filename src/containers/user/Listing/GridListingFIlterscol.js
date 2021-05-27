@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Loading from "react-fullscreen-loading";
 import { allProductSubCategory, productSubCatByCategoryId } from "../../../redux/actions/prodSubCategoryAction";
+import { ADD_CART } from "../../../redux/actionsType/cartActionType"
 const GridListingFilterscol = (props) => {
     let history = useHistory();
     const dispatch = useDispatch();
     const [id, setId] = useState(props.location.state.id);
     console.log(props.location.state.id)
     const [isLoding, setIsLoading] = useState(false);
+    const [count, setCount] = useState(1);
+    const [cart, setCart] = useState([]);
     const [subCategoryList, setSubCategoryList] = useState("");
     const { allProdSubCategory } = useSelector((state) => ({
         allProdSubCategory: state.productSubCategory,
@@ -28,6 +31,16 @@ const GridListingFilterscol = (props) => {
         setSubCategoryList(allProdSubCategory)
 
     }, [allProdSubCategory]);
+    const addToCart = async (val) => {
+        await setCart([...cart, val]);
+    }
+    useEffect(async () => {
+        dispatch({
+            type: ADD_CART,
+            payload: cart,
+        });
+    }, [cart]);
+
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
@@ -57,7 +70,7 @@ const GridListingFilterscol = (props) => {
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="title_small">Top Categories</h2>
+                                {/* <h2 class="title_small">Top Categories</h2> */}
                                 <div class="owl-carousel owl-theme categories_carousel_in listing">
                                     <div class="item">
                                         <figure>
@@ -132,9 +145,12 @@ const GridListingFilterscol = (props) => {
                                                     <img src={val.image} class="img-fluid lazy" alt="" />
                                                     <a class="strip_info">
                                                         {/* <small>Pizza</small> */}
-                                                        <div class="item_title">
-                                                            <h3>{val.item}</h3>
-                                                            <small>{val.description}</small>
+                                                        <div class="item_title" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                            <div>
+                                                                <h3>{val.item}</h3>
+                                                                <small>{val.description}</small>
+                                                            </div>
+                                                            <div style={{ color: 'white', fontWeight: 'bold' }} onClick={() => addToCart(val)}><i class="icon_plus"></i></div>
                                                         </div>
                                                     </a>
 
@@ -169,7 +185,7 @@ const GridListingFilterscol = (props) => {
             </div>
 
 
-        </main>);
+        </main >);
 }
 
 export default GridListingFilterscol;

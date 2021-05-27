@@ -39,6 +39,10 @@ const HomeHeader = () => {
         console.log(response);
     }
     console.log("local ->", localStorage)
+    const handleClick = (e) => {
+        e.preventDefault();
+        history.push('/order')
+    }
     return (
         <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
             <div className="container">
@@ -73,9 +77,8 @@ const HomeHeader = () => {
                             <a href="" className="show-submenu">Listing</a>
 
                         </li>
-                        <li className="submenu">
+                        <li className="submenu" onClick={(e) => handleClick(e)}>
                             <a href="" className="show-submenu">Shopping Cart</a>
-
                         </li>
                         <li><a href="">All Orders</a></li>
                         {localStorage.isLoggedIn ? <li onClick={() => signOut()}>
