@@ -27,7 +27,7 @@ const HomeBody = () => {
         allProdCategory: state.productCategory,
     }));
     const { allVendors } = useSelector((state) => ({
-        allVendors: state.allVendors
+        allVendors: state.allVendors.users
     }));
     useEffect(() => {
         async function getProductCategory() {
@@ -37,18 +37,27 @@ const HomeBody = () => {
         }
         getProductCategory()
     }, []);
+
     useEffect(() => {
         async function getUser() {
             setIsLoading(true)
             await dispatch(allUser());
+            console.log(vendorList)
+            setVendorList(allVendors)
             setCopiedData([...vendorList]);
-            setHalf(allVendors.length >>> 1);
-            setHalfArr([...copiedData.slice(0, half)]);
-            setSecHalf([...copiedData.slice(half, copiedData.length)]);
+            // let half = allVendors.length >>> 1;
+            // setHalfArr([...copiedData.slice(0, half)]);
+            // setSecHalf([...copiedData.slice(half, copiedData.length)]);
+            // console.log('half', halfArr)
+            // console.log('secHalf', secHalf)
             setIsLoading(false)
         }
         getUser()
-    }, [half]);
+    }, []);
+
+    const splitArr = () => {
+
+    }
 
     useEffect(() => {
         setCategoryList(allProdCategory)
@@ -71,6 +80,13 @@ const HomeBody = () => {
                 window.clearInterval(slideVar);
             }
         }, 50);
+    }
+    const onRestaurantSelect = (val) => {
+        history.push({
+            pathname: `/user/RestaurantDetails`,
+            state: { data: val },
+        })
+
     }
     return (
         <main>
@@ -170,14 +186,15 @@ const HomeBody = () => {
                         <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
                         <a href="#0">View All &rarr;</a>
                     </div>
+
                     <div className="row add_bottom_25">
-                        <div className="col-lg-6">
+                        <div className="col-lg-6" style={{ display: 'flex' }}>
                             <div className="list_home" >
                                 <ul>
                                     {
-                                        secHalf.map((val) => {
+                                        allVendors && allVendors.map((val) => {
                                             return (
-                                                <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                                <li style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
                                                     <a>
                                                         <figure>
                                                             <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
@@ -195,59 +212,14 @@ const HomeBody = () => {
                                             );
                                         })
                                     }
-                                    {/* <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a>
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.5</strong></div>
-                                            <em>Italian</em>
-                                            <h3>La Monnalisa</h3>
-                                            <small>8 Patriot Square E2 9NF</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-30%</span></li>
-                                                <li>Average price $35</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_2.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.0</strong></div>
-                                            <em>Mexican</em>
-                                            <h3>Alliance</h3>
-                                            <small>27 Old Gloucester St, 4563</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-40%</span></li>
-                                                <li>Average price $30</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_3.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.0</strong></div>
-                                            <em>Sushi - Japanese</em>
-                                            <h3>Sushi Gold</h3>
-                                            <small>Old Shire Ln EN9 3RX</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-25%</span></li>
-                                                <li>Average price $20</li>
-                                            </ul>
-                                        </a>
-                                    </li> */}
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-lg-6">
+                        {/* <div className="col-lg-6">
                             <div className="list_home">
                                 <ul>
                                     {
-                                        halfArr.map((val) => {
+                                        allVendors && halfArr.map((val) => {
                                             return (
                                                 <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                                     <a>
@@ -269,7 +241,7 @@ const HomeBody = () => {
                                     }
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="banner lazy"

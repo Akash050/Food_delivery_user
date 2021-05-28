@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Loading from "react-fullscreen-loading";
 import { allProductSubCategory, productSubCatByCategoryId } from "../../../redux/actions/prodSubCategoryAction";
+import { ADD_CART } from "../../../redux/actionsType/cartActionType"
 const GridListingFilterscol = (props) => {
     let history = useHistory();
     const dispatch = useDispatch();
     const [id, setId] = useState(props.location.state.id);
     console.log(props.location.state.id)
     const [isLoding, setIsLoading] = useState(false);
+    const [count, setCount] = useState(1);
+    const [cart, setCart] = useState([]);
     const [subCategoryList, setSubCategoryList] = useState("");
     const { allProdSubCategory } = useSelector((state) => ({
         allProdSubCategory: state.productSubCategory,
@@ -28,6 +31,16 @@ const GridListingFilterscol = (props) => {
         setSubCategoryList(allProdSubCategory)
 
     }, [allProdSubCategory]);
+    const addToCart = async (val) => {
+        await setCart([...cart, val]);
+    }
+    useEffect(async () => {
+        dispatch({
+            type: ADD_CART,
+            payload: cart,
+        });
+    }, [cart]);
+
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
@@ -52,172 +65,12 @@ const GridListingFilterscol = (props) => {
 
             <div class="container margin_30_20">
                 <div class="row">
-                    <aside class="col-lg-3" id="sidebar_fixed" >
-                        <div class="type_delivery">
-                            <ul class="clearfix">
-                                <li>
-                                    <label class="container_radio">Delivery
-						            <input type="radio" name="type_d" checked="checked" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="container_radio">Take away
-						            <input type="radio" name="type_d" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </li>
-                            </ul>
 
-                        </div>
-
-
-                        <a href="#0" class="open_filters btn_filters"><i class="icon_adjust-vert"></i><span>Filters</span></a>
-
-                        <div class="filter_col">
-                            <div class="inner_bt clearfix">Filters<a href="#" class="open_filters"><i class="icon_close"></i></a></div>
-                            <div class="filter_type">
-                                <h4><a href="#filter_1" data-toggle="collapse" class="opened">Sort</a></h4>
-                                <div class="collapse show" id="filter_1">
-                                    <ul>
-                                        <li>
-                                            <label class="container_radio">Top Rated
-								            <input type="radio" name="filter_sort" checked="" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_radio">Reccomended
-								            <input type="radio" name="filter_sort" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_radio">Price: low to high
-								            <input type="radio" name="filter_sort" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_radio">Up to 15% off
-								            <input type="radio" name="filter_sort" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_radio">All Offers
-								            <input type="radio" name="filter_sort" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_radio">Distance
-								            <input type="radio" name="filter_sort" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="filter_type">
-                                <h4><a href="#filter_2" data-toggle="collapse" class="closed">Categories</a></h4>
-                                <div class="collapse" id="filter_2">
-                                    <ul>
-                                        <li>
-                                            <label class="container_check">Pizza - Italian <small>12</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Japanese - Sushi <small>24</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Burghers <small>23</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Vegetarian <small>11</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Bakery <small>18</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Chinese <small>12</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Mexican <small>15</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="filter_type">
-                                <h4><a href="#filter_3" data-toggle="collapse" class="closed">Distance</a></h4>
-                                <div class="collapse" id="filter_3">
-                                    <div class="distance">Radius around selected destination <span></span> km</div>
-                                    <div class="add_bottom_25"><input type="range" min="10" max="50" step="5" value="20" data-orientation="horizontal" /></div>
-                                </div>
-                            </div>
-
-                            <div class="filter_type last">
-                                <h4><a href="#filter_4" data-toggle="collapse" class="closed">Rating</a></h4>
-                                <div class="collapse" id="filter_4">
-                                    <ul>
-                                        <li>
-                                            <label class="container_check">Superb 9+ <small>06</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Very Good 8+ <small>12</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Good 7+ <small>17</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="container_check">Pleasant 6+ <small>43</small>
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <p><a href="#0" class="btn_1 outline full-width">Filter</a></p>
-                        </div>
-                    </aside>
 
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="title_small">Top Categories</h2>
+                                {/* <h2 class="title_small">Top Categories</h2> */}
                                 <div class="owl-carousel owl-theme categories_carousel_in listing">
                                     <div class="item">
                                         <figure>
@@ -282,9 +135,6 @@ const GridListingFilterscol = (props) => {
 
                         <div class="row">
                             <div class="col-12"><h2 class="title_small">Top Rated</h2></div>
-
-
-
                             {
                                 allProdSubCategory.map((val) => {
                                     return (
@@ -292,15 +142,20 @@ const GridListingFilterscol = (props) => {
                                             <div class="strip">
                                                 <figure>
                                                     <span class="ribbon off">15% off</span>
-                                                    <img src="img/lazy-placeholder.png" data-src="img/location_1.jpg" class="img-fluid lazy" alt="" />
-                                                    <a href="detail-restaurant.html" class="strip_info">
+                                                    <img src={val.image} class="img-fluid lazy" alt="" />
+                                                    <a class="strip_info">
                                                         {/* <small>Pizza</small> */}
-                                                        <div class="item_title">
-                                                            <h3>{val.sub_category}</h3>
-                                                            <small>{val.description}</small>
+                                                        <div class="item_title" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                            <div>
+                                                                <h3>{val.item}</h3>
+                                                                <small>{val.description}</small>
+                                                            </div>
+                                                            <div style={{ color: 'white', fontWeight: 'bold' }} onClick={() => addToCart(val)}><i class="icon_plus"></i></div>
                                                         </div>
                                                     </a>
+
                                                 </figure>
+
                                                 <ul>
                                                     <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
                                                     <li>
@@ -312,239 +167,6 @@ const GridListingFilterscol = (props) => {
                                     );
                                 })
                             }
-
-
-                            {/* <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_2.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Burghers</small>
-                                            <div class="item_title">
-                                                <h3>Best Burghers</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take no">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>9.5</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <span class="ribbon off">15% off</span>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_3.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Vegetarian</small>
-                                            <div class="item_title">
-                                                <h3>Vego Life</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv no">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>7.5</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_4.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Japanese</small>
-                                            <div class="item_title">
-                                                <h3>Sushi Temple</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take no">Takeaway</span> <span class="deliv no">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>9.5</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_5.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Pizza</small>
-                                            <div class="item_title">
-                                                <h3>Auto Pizza</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv no">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>7.0</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_6.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Burghers</small>
-                                            <div class="item_title">
-                                                <h3>Alliance</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take no">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_7.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Chinese</small>
-                                            <div class="item_title">
-                                                <h3>Alliance</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take no">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_8.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Sushi</small>
-                                            <div class="item_title">
-                                                <h3>Dragon Tower</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv no">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_9.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Mexican</small>
-                                            <div class="item_title">
-                                                <h3>El Paso Tacos</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_10.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Bakery</small>
-                                            <div class="item_title">
-                                                <h3>Monnalisa</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_11.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Mexican</small>
-                                            <div class="item_title">
-                                                <h3>Guachamole</h3>
-                                                <small>135 Newtownards Road</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take yes">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                <div class="strip">
-                                    <figure>
-                                        <img src="img/lazy-placeholder.png" data-src="img/location_12.jpg" class="img-fluid lazy" alt="" />
-                                        <a href="detail-restaurant.html" class="strip_info">
-                                            <small>Chinese</small>
-                                            <div class="item_title">
-                                                <h3>Pechino Express</h3>
-                                                <small>27 Old Gloucester St</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <ul>
-                                        <li><span class="take no">Takeaway</span> <span class="deliv yes">Delivery</span></li>
-                                        <li>
-                                            <div class="score"><strong>8.9</strong></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> */}
 
                         </div>
 
@@ -563,7 +185,7 @@ const GridListingFilterscol = (props) => {
             </div>
 
 
-        </main>);
+        </main >);
 }
 
 export default GridListingFilterscol;
