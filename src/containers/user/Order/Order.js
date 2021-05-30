@@ -69,7 +69,7 @@ const Order = () => {
                             </div>
                         </div>
 
-                        <div class="box_order_form">
+                        {/* <div class="box_order_form">
                             <div class="head">
                                 <div class="title">
                                     <h3>Payment Method</h3>
@@ -139,50 +139,79 @@ const Order = () => {
                                     <i class="icon_wallet"></i>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
                     <div class="col-xl-4 col-xl-4" id="sidebar_fixed">
-                        <div class="box_order">
-                            <div class="head">
-                                <h3>Order Summary</h3>
-                                <div>Pizzeria da Alfredo</div>
-                            </div>
-
-                            <div class="main">
-                                <ul>
-                                    <li>Date<span>Today 23/11/2019</span></li>
-                                    <li>Hour<span>08.30pm</span></li>
-                                    <li>Type<span>Delivery</span></li>
-                                </ul>
-                                <hr></hr>
-                                <ul class="clearfix">
-                                    {
-                                        Object.keys(totalCount).map((val) => {
-                                            let obj = JSON.parse(val)
-                                            let temp = Number(totalCount[val]) * Number(obj.price)
-                                            return (<li><a href="#0">{totalCount[val]} {obj.item}</a><span>${temp}</span></li>);
-
-                                        })
-                                    }
-
-                                    {/* <li><a href="#0">1x Enchiladas</a><span>$11</span></li>
-                                    <li><a href="#0">2x Burrito</a><span>$14</span></li>
-                                    <li><a href="#0">1x Chicken</a><span>$18</span></li>
-                                    <li><a href="#0">2x Corona Beer</a><span>$9</span></li>
-                                    <li><a href="#0">2x Cheese Cake</a><span>$11</span></li> */}
-                                </ul>
-
-                                <ul class="clearfix">
-                                    <li>Subtotal<span>$56</span></li>
-                                    <li>Delivery fee<span>$10</span></li>
-                                    <li class="total">Total<span>$66</span></li>
-                                </ul>
-                                <a href="confirm.html" class="btn_1 gradient full-width mb_5">Order Now</a>
-                                <div class="text-center"><small>Or Call Us at <strong>0432 48432854</strong></small></div>
-                            </div>
-                        </div>
+                        <div className="box_order mobile_fixed">
+                                    <div className="head">
+                                        <h3>Order Summary</h3>
+                                        <div>Mariana's Kitchen</div>
+                                        <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
+                                    </div>
+                                    
+                                    <div className="main-cart-box">
+                                        <div className="addcart--menu">
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div className="main-item-total">
+                                            <div className="total--item-cart"><span className="tt-name-left">Total Price</span><span className="tt-amt-right">$56</span></div>
+                                            <div className="total--item-cart"><span className="tt-name-left">Discount</span><span className="tt-amt-right">$10</span></div>
+                                            <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">$66</span></div>
+                                        </div>
+                                        <div className="btn_1_mobile mt-4">
+                                            <a href="order.html" className="btn_1 text-white gradient full-width mb_5">Order Now</a>
+                                        </div>
+                                    </div>
+                                </div>
 
                     </div>
 

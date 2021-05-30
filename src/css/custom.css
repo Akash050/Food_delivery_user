@@ -20,3 +20,155 @@ a :hover {
   .error {
     color: red;
   }
+
+ul#top_menu li a.login.login-icon{
+  top: -3px;
+  margin-left: 15px;
+}
+ul#top_menu li a.login.login-icon::before {
+    font-size: 17px;
+}
+.cart-icon-view {
+    position: relative;
+}
+.cart-icon-view .cart-icon {
+    font-size: 20px;
+}
+.cart-bagets {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -16px;
+    right: -15px;
+    display: inline-block;
+    background-color: #f44336;
+    border-radius: 50%;
+    color: #ffff;
+    text-align: center;
+    line-height: 20px;
+}
+.addcart-item {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #4caf50;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-size: 28px;
+    padding-right: 1px;
+}
+.dropdowncart .dropdown-menu {
+    right: 0px;
+    left: auto;
+    padding: 0px;
+    min-width: 22rem;
+    border: 0;
+    background-color: transparent;
+}
+.dropdowncart:hover .dropdown-menu{
+  display: block;
+}
+.dropdowncart .dropdown-menu .box_order{
+  margin-top: 18px;
+}
+.main-cart-box {
+    padding: 20px 10px;
+}
+.cartItem--list-view {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 25px;
+}
+.iconadd-cart-product {
+    flex: 0 0 70px;
+    max-width: 70px;
+}
+.commn--tt-p {
+    display: inline-block;
+}
+.btn-comn-add {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background-color: #4caf50;
+    border-radius: 50%;
+    line-height: 19px;
+    color: #fff;
+} 
+/*.btn-comn-add.add-btn-tt {
+    background-color: #f44336;
+}*/
+.scn--add.commn--tt-p {
+    width: 20px;
+    text-align: center;
+    margin: 0px 5px;
+}
+.productTitel--cart {
+    flex: 0 0 175px;
+    max-width: 175px;
+}
+.productTitel--cart p {
+    font-size: 14px;
+    margin-bottom: 0px;
+    padding: 0px 10px;
+    line-height: 20px;
+}
+.price--cart--tag {
+    flex: 0 0 50px;
+    max-width: 50px;
+    text-align: right;
+}
+span.remove--item-cart {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f44336;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 43px;
+    margin-left: 10px;
+    color: #f44336;
+}
+.main-item-total .total--item-cart {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+.main-item-total .total--item-cart.total--amount{
+  font-size: 18px;
+  font-weight: 600;
+    text-transform: uppercase;
+}
+..main-item-total .total--item-cart span{
+    color: #444;
+    display: inline-block;
+}
+.fit-image{
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

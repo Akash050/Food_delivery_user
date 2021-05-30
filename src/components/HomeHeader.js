@@ -44,7 +44,7 @@ const HomeHeader = () => {
         history.push('/order')
     }
     return (
-        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
+        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header_in clearfix"} >
             <div className="container">
                 <div id="logo">
                     <a href="index.html">
@@ -68,7 +68,7 @@ const HomeHeader = () => {
                         </a>
                         <a href=""><img src="img/logo.svg" width="162" height="35" alt="" /></a>
                     </div>
-                    <ul>
+                    <ul id="top_menu">
                         <li className="submenu">
                             <a href="" className="show-submenu">Home</a>
 
@@ -81,11 +81,86 @@ const HomeHeader = () => {
                             <a href="" className="show-submenu">Shopping Cart</a>
                         </li>
                         <li><a href="">All Orders</a></li>
-                        {localStorage.isLoggedIn ? <li onClick={() => signOut()}>
-                            LogOut
-                        </li> :
-                            <li onClick={() => logOut()}><a href="">Login</a></li>}
-
+                        
+                        <li className="dropdowncart">
+                            <div className="cart-icon-view">
+                                <span className="cart-icon"><i className="icon_cart"></i></span>
+                                <span className="cart-bagets">02</span>
+                            </div>
+                            <div className="cartbox--view dropdown-menu" id="myDropdown">
+                                <div className="box_order mobile_fixed">
+                                    <div className="head">
+                                        <h3>Mariana's Kitchen</h3>
+                                        <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
+                                    </div>
+                                    
+                                    <div className="main-cart-box">
+                                        <div className="addcart--menu">
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>
+                                            <div className="cartItem--list-view">
+                                                <div className="iconadd-cart-product">
+                                                    <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                    <span className="scn--add commn--tt-p">2</span>
+                                                    <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                </div>
+                                                <div className="productTitel--cart">
+                                                    <p>Egyptian Fatteh with Meat - Tasbera</p>
+                                                </div>
+                                                <div className="price--cart--tag">
+                                                    <span className="price--txt">$20</span>
+                                                </div>
+                                                <div className="croscart--page">
+                                                    <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div className="main-item-total">
+                                            <div className="total--item-cart"><span className="tt-name-left">Total Price</span><span className="tt-amt-right">$56</span></div>
+                                            <div className="total--item-cart"><span className="tt-name-left">Discount</span><span className="tt-amt-right">$10</span></div>
+                                            <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">$66</span></div>
+                                        </div>
+                                        <div className="btn_1_mobile mt-4">
+                                            <a href="order.html" className="btn_1 text-white gradient full-width mb_5">Continue to Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>                            
+                        </li>
+                        <li><a href="" className="login login-icon">Loin</a></li>
+                        
+                        
+                            
 
                     </ul>
                 </nav>

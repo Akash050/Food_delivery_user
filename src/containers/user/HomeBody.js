@@ -153,7 +153,7 @@ const HomeBody = () => {
                                                 })}>
                                                     <figure>
                                                         {/* <span>98</span> */}
-                                                        <img src={val.image ? val.image : image} alt="" class="owl-lazy" style={{ opacity: "1", minHeight: '300px' }} />
+                                                        <img src={val.image ? val.image : image} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
                                                         <div class="info">
                                                             <h3>{val.category}</h3>
                                                             <small>Avg price $40</small>
@@ -188,16 +188,16 @@ const HomeBody = () => {
                     </div>
 
                     <div className="row add_bottom_25">
-                        <div className="col-lg-6" style={{ display: 'flex' }}>
+                        <div className="col-12">
                             <div className="list_home" >
-                                <ul>
+                                <ul className="row mx-0">
                                     {
                                         allVendors && allVendors.map((val) => {
                                             return (
-                                                <li style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
+                                                <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
                                                     <a>
                                                         <figure>
-                                                            <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
+                                                            <img src={image} data-src={image} alt="" className="lazy" width="350" height="233" />
                                                         </figure>
                                                         <div className="score"><strong>9.5</strong></div>
                                                         <em>Italian</em>
