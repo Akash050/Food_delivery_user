@@ -98,7 +98,7 @@ const Login = () => {
                 <figure>
                     <a href="index.html"><img src={logo} width="140" height="35" alt="" /></a>
                 </figure>
-                <GoogleLogin
+                {/* <GoogleLogin
                     clientId="400865530457-pelm0k6er8vqgldvr7vetekf2rqnii0d.apps.googleusercontent.com"
                     render={renderProps => (
                         <div className="access_social" onClick={renderProps.onClick}>
@@ -109,7 +109,7 @@ const Login = () => {
                     buttonText="Login"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
-                />
+                /> */}
 
                 {/* <div className="divider"><span>Or</span></div> */}
                 <form autoComplete="off">

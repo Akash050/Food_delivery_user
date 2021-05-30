@@ -9,6 +9,7 @@ export const loginUser = (params) => async (dispatch) => {
       localStorage.clear();
       localStorage.setItem("token", response.data.data.accessToken);
       localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("id", response.data.data.id);
       dispatch({
         type: authActionType.LOGIN_USER,
         payload: response.data,

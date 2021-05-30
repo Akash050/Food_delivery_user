@@ -30,6 +30,7 @@ ul#top_menu li a.login.login-icon::before {
 }
 .cart-icon-view {
     position: relative;
+    cursor: pointer;
 }
 .cart-icon-view .cart-icon {
     font-size: 20px;
@@ -66,9 +67,12 @@ ul#top_menu li a.login.login-icon::before {
     border: 0;
     background-color: transparent;
 }
-.dropdowncart:hover .dropdown-menu{
-  display: block;
+.showCart{
+    display: block !important;
 }
+/* .dropdowncart:hover .dropdown-menu{
+  display: block;
+} */
 .dropdowncart .dropdown-menu .box_order{
   margin-top: 18px;
 }
