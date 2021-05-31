@@ -1,14 +1,45 @@
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import logo from '../img/logo_sticky.svg'
 import { useGoogleLogout } from 'react-google-login'
+import { cartByUser } from "../redux/actions/cartAction";
 
 const HomeHeader = () => {
+    const dispatch = useDispatch();
+
     const [scroll, setScroll] = useState(false)
+    const [showCart, setShowCart] = useState(false)
+    const [itemCount, setItemCount] = useState(0)
+    const [cartDetails, setCartDetails] = useState({
+
+    })
+    const { cart } = useSelector((state) => ({
+        cart: state.cart,
+    }));
+
+    useEffect(async () => {
+        let payload = {
+            customerId: localStorage.id
+        }
+        let data = await dispatch(cartByUser(payload));
+        if (data.success) {
+            if (data.data) {
+                setItemCount(data.data.items.length)
+                setCartDetails(data.data)
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener("scroll", () => {
+            setScroll(window.scrollY > 10)
+        })
+    }, [])
+
     const GOOGLE_CLIENT_ID = "400865530457-pelm0k6er8vqgldvr7vetekf2rqnii0d.apps.googleusercontent.co"
     const onLogoutSuccess = () => {
-        console.log('logout');
         document.cookie.split(";").forEach(function (c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
         localStorage.clear();
         history.push('/login')
@@ -22,26 +53,35 @@ const HomeHeader = () => {
         onFailure: onFailure,
     });
     let history = useHistory();
-    useEffect(() => {
-        window.addEventListener("scroll", () => {
-            setScroll(window.scrollY > 10)
-        })
-    }, [])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> hussain
     const logOut = (e) => {
         e.preventDefault()
         localStorage.clear();
         history.push('/login')
     }
 
+    const onCartClick = () => {
+        setShowCart(!showCart)
+    }
 
     const responseGoogle = (response) => {
         console.log(response);
     }
-    console.log("local ->", localStorage)
+    const handleClick = (e) => {
+        e.preventDefault();
+        history.push('/order')
+    }
+    let checkout = (e) => {
+        e.preventDefault()
+        history.push('/cart')
+    }
+
     return (
-        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header black_nav clearfix element_to_stick sticky"} >
+        <header className={scroll ? "header black_nav clearfix element_to_stick sticky" : "header_in clearfix"} >
             <div className="container">
                 <div id="logo">
                     <a href="index.html">
@@ -65,7 +105,7 @@ const HomeHeader = () => {
                         </a>
                         <a href=""><img src="img/logo.svg" width="162" height="35" alt="" /></a>
                     </div>
-                    <ul>
+                    <ul id="top_menu">
                         <li className="submenu">
                             <a href="" className="show-submenu">Home</a>
 
@@ -73,22 +113,69 @@ const HomeHeader = () => {
                         {/* <li className="submenu">
                             <a href="" className="show-submenu">Listing</a>
 
-                        </li> */}
-                        {localStorage.isLoggedIn ?
-                            <li className="submenu">
-                                <a href="" className="show-submenu"> Cart</a>
+                        
+                        <li className="submenu" onClick={(e) => handleClick(e)}>
+                            <a href="" className="show-submenu">Shopping Cart</a>
+                        </li>
+                        <li><a href="">All Orders</a></li>
 
-                            </li>
-                            : null}
+                        <li onClick={onCartClick} className="dropdowncart">
+                            <div className="cart-icon-view">
+                                <span className="cart-icon"><i className="icon_cart"></i></span>
+                                <span className="cart-bagets">{itemCount}</span>
+                            </div>
+                            {
+                                cartDetails.items != undefined ?
+                                    <div className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
+                                        <div className="box_order mobile_fixed">
+                                            <div className="head">
+                                                <h3>{cartDetails.vendor.first_name}'s Kitchen</h3>
+                                                <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
+                                            </div>
 
-                        {/* <li><a href="">All Orders</a></li> */}
-                        {localStorage.isLoggedIn ? <li >
-                            <a onClick={(e) => logOut(e)} href="" className="show-submenu">Logout</a>
+                                            <div className="main-cart-box">
+                                                {
+                                                    cartDetails.items.map(item => {
+                                                        return (
+                                                            <div className="addcart--menu">
+                                                                <div className="cartItem--list-view">
+                                                                    <div className="iconadd-cart-product">
+                                                                        <span className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                                        <span className="scn--add commn--tt-p">{item.quantity}</span>
+                                                                        <span className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                                    </div>
+                                                                    <div className="productTitel--cart">
+                                                                        <p>{item.itemName}</p>
+                                                                    </div>
+                                                                    <div className="price--cart--tag">
+                                                                        <span className="price--txt">${item.unitPrice}</span>
+                                                                    </div>
+                                                                    <div className="croscart--page">
+                                                                        <span className="remove--item-cart"><i className="icon_close"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                                <hr></hr>
+                                                <div className="main-item-total">
+                                                    <div className="total--item-cart"><span className="tt-name-left">Total Price</span><span className="tt-amt-right">${cartDetails.totalPrice}</span></div>
+                                                    <div className="total--item-cart"><span className="tt-name-left">Discount</span><span className="tt-amt-right">${cartDetails.discountValue}</span></div>
+                                                    <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">${cartDetails.grandTotal}</span></div>
+                                                </div>
+                                                <div className="btn_1_mobile mt-4">
+                                                    <a onClick={(e) => checkout(e)} href="" className="btn_1 text-white gradient full-width mb_5">Continue to Checkout</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    :
+                                    null
+                            }
 
-                        </li> :
-                            <li onClick={() => logOut()}><a href="">Login</a></li>}
-
-
+                        </li>
+                        <li onClick={(e) => logOut(e)}><a href="" className="login login-icon">Login</a></li>
                     </ul>
                 </nav>
             </div>

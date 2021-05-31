@@ -46,7 +46,7 @@ const routes = [
         component: LeaveReview,
     },
     {
-        path: "/order",
+        path: "/cart",
         name: "Order",
         component: Order,
     },

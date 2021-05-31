@@ -1,7 +1,9 @@
 import React from 'react';
 import Background from '../../../img/hero_general.jpg'
 import { useHistory } from 'react-router-dom';
-const RestaurantDetails = () => {
+const RestaurantDetails = (props) => {
+    let data = props.location.state.data
+    console.log(data)
     let history = useHistory();
     return (
         <main>
