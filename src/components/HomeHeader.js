@@ -54,10 +54,6 @@ const HomeHeader = () => {
     });
     let history = useHistory();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> hussain
     const logOut = (e) => {
         e.preventDefault()
         localStorage.clear();
@@ -110,10 +106,10 @@ const HomeHeader = () => {
                             <a href="" className="show-submenu">Home</a>
 
                         </li>
-                        {/* <li className="submenu">
+                        <li className="submenu">
                             <a href="" className="show-submenu">Listing</a>
 
-                        
+                        </li>
                         <li className="submenu" onClick={(e) => handleClick(e)}>
                             <a href="" className="show-submenu">Shopping Cart</a>
                         </li>
