@@ -3,16 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Loading from "react-fullscreen-loading";
 import { allProductSubCategory, productSubCatByCategoryId } from "../../../redux/actions/prodSubCategoryAction";
-import { ADD_CART } from "../../../redux/actionsType/cartActionType"
+import { cartByUser, updateCart, removeCart } from "../../../redux/actions/cartAction";
+
 const GridListingFilterscol = (props) => {
     let history = useHistory();
     const dispatch = useDispatch();
     const [id, setId] = useState(props.location.state.id);
-    console.log(props.location.state.id)
     const [isLoding, setIsLoading] = useState(false);
     const [count, setCount] = useState(1);
-    const [cart, setCart] = useState([]);
     const [subCategoryList, setSubCategoryList] = useState("");
+    const [itemCount, setItemCount] = useState(0)
+    const [cartDetails, setCartDetails] = useState({
+
+    })
+    const { cart } = useSelector((state) => ({
+        cart: state.cart,
+    }));
     const { allProdSubCategory } = useSelector((state) => ({
         allProdSubCategory: state.productSubCategory,
     }));
@@ -31,16 +37,34 @@ const GridListingFilterscol = (props) => {
         setSubCategoryList(allProdSubCategory)
 
     }, [allProdSubCategory]);
-    const addToCart = async (val) => {
-        await setCart([...cart, val]);
-    }
-    useEffect(async () => {
-        dispatch({
-            type: ADD_CART,
-            payload: cart,
-        });
-    }, [cart]);
+  
+   
+  
+    useEffect(() => {
+        getCart()
+    }, [])
 
+    let getCart = async () => {
+        setIsLoading(true)
+        let payload = {
+            customerId: localStorage.id
+        }
+        let data = await dispatch(cartByUser(payload));
+        if (data.success) {
+            setIsLoading(false)
+            if (data.data) {
+                const sum = data.data.items.map(element => element.quantity).reduce((a, b) => a + b, 0);
+                setItemCount(sum)
+                setCartDetails(data.data)
+            } else {
+                console.log("data else", data)
+                setCartDetails({})
+                setItemCount(0)
+            }
+        } else {
+            setIsLoading(false)
+        }
+    }
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
@@ -310,7 +334,7 @@ const GridListingFilterscol = (props) => {
                                                                 <h3>{val.item}</h3>
                                                                 <small>{val.description}</small>
                                                             </div>
-                                                            <div style={{ color: 'white', fontWeight: 'bold' }} onClick={() => addToCart(val)}><span className="addcart-item"><i className="icon_plus"></i></span></div>
+                                                            <div style={{ color: 'white', fontWeight: 'bold' }}><span className="addcart-item"><i className="icon_plus"></i></span></div>
                                                         </div>
                                                     </a>
 

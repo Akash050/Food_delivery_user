@@ -14,3 +14,20 @@ export const cartByUser = (params) => async (dispatch) => {
     return response.data;
 };
 
+export const updateCart = (params) => async (dispatch) => {
+    const response = await cartApi.updateCart(params);
+    return response.data;
+};
+
+export const removeCart = (params) => async (id) => {
+    const response = await cartApi.removeCart(params);
+    return response.data;
+};
+
+export const handleCart = (value) =>  (dispatch) => {
+    console.log("acnt val ", value)
+    dispatch({
+        type: cartActionType.HANDLE_CART,
+        payload: value,
+    });
+};

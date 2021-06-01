@@ -6,7 +6,14 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 cart: action.payload,
-              };
+                isOpen: false
+            };
+        case cartActionType.HANDLE_CART:
+            console.log("actio", action)
+            return {
+                ...state,
+                isOpen: true
+            };
         default:
             return state;
     }

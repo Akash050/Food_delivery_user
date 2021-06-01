@@ -154,6 +154,14 @@ span.remove--item-cart {
     object-fit: cover;
 }
 
+.empty-cart{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.empty-cart-text{
+ margin-top: 10px;
+}
 
 
 
