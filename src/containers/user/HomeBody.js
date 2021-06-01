@@ -82,6 +82,7 @@ const HomeBody = () => {
         }, 50);
     }
     const onRestaurantSelect = (val) => {
+        console.log(val._id)
         history.push({
             pathname: `/user/RestaurantDetails`,
             state: { data: val },

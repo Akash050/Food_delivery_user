@@ -1,12 +1,118 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Background from '../../../img/hero_general.jpg'
 import { useHistory } from 'react-router-dom';
+import { MenuItemByVendor } from '../../../redux/actions/menuItemAction';
+import Loading from "react-fullscreen-loading";
+import { useDispatch, useSelector } from 'react-redux';
+import { cartByUser, removeCart, updateCart } from '../../../redux/actions/cartAction';
 const RestaurantDetails = (props) => {
     let data = props.location.state.data
+    const [vendorId, setVendorId] = useState(data._id);
+    const [isLoding, setIsLoading] = useState(false);
+    const [showCart, setShowCart] = useState(false)
+    const [itemCount, setItemCount] = useState(0)
+    const [cartDetails, setCartDetails] = useState({
+    })
+    let dispatch = useDispatch();
     console.log(data)
     let history = useHistory();
+    const { menuItems } = useSelector((state) => ({
+        menuItems: state.menuItems
+    }));
+    const { cart } = useSelector((state) => ({
+        cart: state.cart,
+    }));
+
+    let getCart = async (flag) => {
+        setIsLoading(true)
+        let payload = {
+            customerId: localStorage.id
+        }
+        let data = await dispatch(cartByUser(payload, false));
+        if (data.success) {
+            setIsLoading(false)
+        } else {
+            setIsLoading(false)
+        }
+    }
+    useEffect(() => {
+        async function getMenuItems() {
+            setIsLoading(true)
+            let param = {
+                vendorId: vendorId
+            }
+            await dispatch(MenuItemByVendor(param));
+            setIsLoading(false)
+        }
+        getCart(false)
+        getMenuItems()
+    }, []);
+    useEffect(() => {
+        setIsLoading(true)
+        if (cart.cart == undefined) {
+            return
+        }
+        console.log('cart.cart', cart.cart)
+        if (cart.cart) {
+            const sum = cart.cart.items.map(element => element.quantity).reduce((a, b) => a + b, 0);
+            setItemCount(sum)
+            console.log('cart.cart', cart.cart)
+            setCartDetails(cart.cart)
+            setShowCart(true)
+            setIsLoading(false)
+        } else {
+            setCartDetails({})
+            setItemCount(0)
+        }
+        setIsLoading(false)
+    }, [cart])
+    let onRemoveItem = async (item) => {
+        console.log('in remove')
+        let tempCart = cartDetails
+        const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
+        const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
+        if (findItem.quantity > 1) {
+            tempCart.items[findItemIndex].quantity = findItem.quantity - 1
+            setCartDetails(tempCart)
+            setIsLoading(true)
+            let data = await dispatch(updateCart(tempCart));
+            getCart(true)
+        } else {
+            if (tempCart.items.length > 1) {
+                const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
+                const filterArray = tempCart.items.filter((element, index) => index != findItemIndex);
+                tempCart.items = filterArray
+                setIsLoading(true)
+                let data = await dispatch(updateCart(tempCart));
+                getCart(true)
+            } else {
+                setIsLoading(true)
+                let data = await dispatch(removeCart(tempCart._id));
+                getCart(true)
+            }
+        }
+    }
+
+    let onAddItem = async (item) => {
+        let tempCart = cartDetails
+        const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
+        const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
+        if (findItem.quantity < 4) {
+            tempCart.items[findItemIndex].quantity = findItem.quantity + 1
+            setCartDetails(tempCart)
+            setIsLoading(true)
+            let data = await dispatch(updateCart(tempCart));
+            getCart(true)
+        }
+    }
+    let checkout = (e) => {
+        e.preventDefault()
+        history.push('/cart')
+    }
+    console.log('cart', cart.cart)
     return (
         <main>
+            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
             <div className="hero_in detail_page background-image" style={{ backgroundImage: `url(${Background})` }}>
                 <div className="wrapper opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }} >
 
@@ -17,8 +123,8 @@ const RestaurantDetails = (props) => {
                                     <div className="head">
                                         <div className="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div>
                                     </div>
-                                    <h1>Pizzeria da Alfredo</h1>
-								ITALIAN - 27 Old Gloucester St, 4530 - <a
+                                    <h1>{data.first_name}</h1>
+                                    {data.street} {data.area} {data.city} <a
                                         href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361"
                                         target="blank">Get directions</a>
                                 </div>
@@ -62,49 +168,28 @@ const RestaurantDetails = (props) => {
                     <div className="row">
                         <div className="col-lg-8 list_menu">
                             <section id="section-1">
-                                <h4>Starters</h4>
+                                <h4>Menu Items</h4>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-1.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>1. Mexican Enchiladas</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-2.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>2. Fajitas</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-3.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>3. Royal Fajitas</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-4.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>4. Chicken Enchilada Wrap</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                </div>
+                                    {
+                                        menuItems.map((val) => {
+                                            return (
+                                                <div className="col-md-6">
+                                                    <a className="menu_item modal_dialog" href="#modal-dialog">
+                                                        <figure><img src={val.image}
+                                                            data-src={val.image} alt="Item" className="lazy" /></figure>
+                                                        <h3>{val.item}</h3>
+                                                        <p>{val.description}.</p>
+                                                        <strong>${val.price}</strong>
+                                                    </a>
+                                                </div>
+                                            )
+                                        })
+                                    }
 
+                                </div>
                             </section>
 
-                            <section id="section-2">
+                            {/* <section id="section-2">
                                 <h4>Main Courses</h4>
                                 <div className="row">
                                     <div className="col-md-6">
@@ -285,133 +370,99 @@ const RestaurantDetails = (props) => {
                                     </div>
                                 </div>
 
-                            </section>
+                            </section> */}
 
                         </div>
 
-                        <div className="col-lg-4" id="sidebar_fixed">
-                            <div className="box_order mobile_fixed">
-                                <div className="head">
-                                    <h3>Order Summary</h3>
-                                    <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
-                                </div>
 
-                                <div className="main">
-                                    <ul className="clearfix">
-                                        <li><a href="#0">1x Enchiladas</a><span>$11</span></li>
-                                        <li><a href="#0">2x Burrito</a><span>$14</span></li>
-                                        <li><a href="#0">1x Chicken</a><span>$18</span></li>
-                                        <li><a href="#0">2x Corona Beer</a><span>$9</span></li>
-                                        <li><a href="#0">2x Cheese Cake</a><span>$11</span></li>
-                                    </ul>
-                                    <ul className="clearfix">
-                                        <li>Subtotal<span>$56</span></li>
-                                        <li>Delivery fee<span>$10</span></li>
-                                        <li className="total">Total<span>$66</span></li>
-                                    </ul>
-                                    <div className="row opt_order">
-                                        <div className="col-6">
-                                            <label className="container_radio">Delivery
-											<input type="radio" value="option1" name="opt_order" checked />
-                                                <span className="checkmark"></span>
-                                            </label>
+                        {
+                            cartDetails.items != undefined ?
+                                <div className="col-lg-4" id="sidebar_fixed">
+                                    <div className="box_order mobile_fixed">
+                                        <div className="head">
+                                            <h3>Order Summary</h3>
                                         </div>
-                                        <div className="col-6">
-                                            <label className="container_radio">Take away
-											<input type="radio" value="option1" name="opt_order" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="dropdown day">
-                                        <a href="#" data-toggle="dropdown">Day <span id="selected_day"></span></a>
-                                        <div className="dropdown-menu">
-                                            <div className="dropdown-menu-content">
-                                                <h4>Which day delivered?</h4>
-                                                <div className="radio_select chose_day">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="day_1" name="day" value="Today" />
-                                                            <label for="day_1">Today<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="day_2" name="day" value="Tomorrow" />
-                                                            <label for="day_2">Tomorrow<em>-40%</em></label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
 
+                                        <div className="main">
+                                            <ul className="clearfix">
+                                                {cartDetails.items.map(item => {
+                                                    return (<>
+                                                        <a className="close_panel_mobile" ><i className="icon_close"></i></a>
+
+                                                        <li><a onClick={() => onRemoveItem(item)}><>{item.quantity}x {item.itemName} </>&nbsp;</a>
+                                                            <p onClick={() => onAddItem(item)}></p>
+                                                            <span>${item.unitPrice}</span></li>
+
+                                                    </>
+                                                    )
+                                                })
+                                                }
+                                            </ul>
+                                            <ul className="clearfix">
+                                                <li>Total Price<span>${cartDetails.totalPrice}</span></li>
+                                                <li>Discount<span>${cartDetails.discountValue}</span></li>
+                                                <li className="total">Grand Total<span>${cartDetails.grandTotal}</span></li>
+                                            </ul>
+                                            <div className="btn_1_mobile">
+                                                <div className="btn_1 gradient full-width mb_5" onClick={(e) => checkout(e)}>Order Now</div>
+                                                <div className="text-center"><small>No money charged on this steps</small></div>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="dropdown time">
-                                        <a href="#" data-toggle="dropdown">Time <span id="selected_time"></span></a>
-                                        <div className="dropdown-menu">
-                                            <div className="dropdown-menu-content">
-                                                <h4>Lunch</h4>
-                                                <div className="radio_select add_bottom_15">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="time_1" name="time" value="12.00am" />
-                                                            <label for="time_1">12.00<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_2" name="time" value="08.30pm" />
-                                                            <label for="time_2">12.30<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_3" name="time" value="09.00pm" />
-                                                            <label for="time_3">1.00<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_4" name="time" value="09.30pm" />
-                                                            <label for="time_4">1.30<em>-40%</em></label>
-                                                        </li>
-                                                    </ul>
+                                            {/* <div className="row opt_order">
+                                                <div className="col-6">
+                                                    <label className="container_radio">Delivery
+                                                    <input type="radio" value="option1" name="opt_order" checked />
+                                                        <span className="checkmark"></span>
+                                                    </label>
                                                 </div>
-
-                                                <h4>Dinner</h4>
-                                                <div className="radio_select">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="time_5" name="time" value="08.00pm" />
-                                                            <label for="time_1">20.00<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_6" name="time" value="08.30pm" />
-                                                            <label for="time_2">20.30<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_7" name="time" value="09.00pm" />
-                                                            <label for="time_3">21.00<em>-40%</em></label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="time_8" name="time" value="09.30pm" />
-                                                            <label for="time_4">21.30<em>-40%</em></label>
-                                                        </li>
-                                                    </ul>
+                                                <div className="col-6">
+                                                    <label className="container_radio">Take away
+                                                    <input type="radio" value="option1" name="opt_order" />
+                                                        <span className="checkmark"></span>
+                                                    </label>
                                                 </div>
-
-                                            </div>
+                                            </div> */}
                                         </div>
-                                    </div>
-
-                                    <div className="btn_1_mobile">
-                                        <div className="btn_1 gradient full-width mb_5" onClick={() => history.push('/Order')}>Order Now</div>
-                                        <div className="text-center"><small>No money charged on this steps</small></div>
                                     </div>
                                 </div>
-                            </div>
+                                : <div className="col-lg-4" id="sidebar_fixed">
+                                    <div className="box_order mobile_fixed">
+                                        <div className="head">
+                                            <h3>Your Cart</h3>
+                                            <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
+                                        </div>
+                                        {/* <div className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown"> */}
 
-                            <div className="btn_reserve_fixed"><a href="#0" className="btn_1 gradient full-width">View Basket</a>
-                            </div>
-                        </div>
+                                        <div className="main">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width={80} height={80} fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                            </svg>
+                                            <p className="empty-cart-text"><strong>You have no items in your cart</strong> </p>
+                                        </div>
+                                        {/* <hr></hr>
+                                        <a
+                                          
+                                            href="" className="btn_1 text-white gradient full-width mb_5">Close</a> */}
+                                        {/* <div className="main-item-total">
+                                                    <div className="total--item-cart"><span className="tt-name-left">Total Price</span><span className="tt-amt-right">${cartDetails.totalPrice}</span></div>
+                                                    <div className="total--item-cart"><span className="tt-name-left">Discount</span><span className="tt-amt-right">${cartDetails.discountValue}</span></div>
+                                                    <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">${cartDetails.grandTotal}</span></div>
+                                                </div> */}
+                                        <div className="btn_1_mobile mt-4">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                        }
                     </div>
 
+                    <div className="btn_reserve_fixed"><a href="#0" className="btn_1 gradient full-width">View Basket</a>
+                    </div>
                 </div>
-
             </div>
+
 
 
             <div className="container margin_30_20">

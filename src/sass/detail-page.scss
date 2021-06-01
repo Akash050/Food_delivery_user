@@ -229,8 +229,28 @@
                     }
                 }
 
+                p {
+                    padding-left: 25px;
+                    color: $body-text-color;
+                    display: inline-block;
+                    position: relative;
+                    cursor: pointer;
+                    &:before {
+                        font-family: "ElegantIcons";
+                        content: "\50";
+                        @include fontSize(16px);
+                        position: absolute;
+                        left: 0;
+                        top: 2px;
+                        line-height: 1;
+                    }
+                    &:hover {
+                        color: #e74747;
+                    }
+                }
                 span {
                     float: right;
+
                 }
             }
         }
