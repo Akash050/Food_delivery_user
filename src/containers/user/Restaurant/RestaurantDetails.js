@@ -72,6 +72,7 @@ const RestaurantDetails = (props) => {
         const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
         const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
         if (findItem.quantity > 1) {
+            console.log('in 1st if')
             tempCart.items[findItemIndex].quantity = findItem.quantity - 1
             setCartDetails(tempCart)
             setIsLoading(true)
@@ -79,6 +80,7 @@ const RestaurantDetails = (props) => {
             getCart(true)
         } else {
             if (tempCart.items.length > 1) {
+                console.log('in if')
                 const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
                 const filterArray = tempCart.items.filter((element, index) => index != findItemIndex);
                 tempCart.items = filterArray
@@ -86,6 +88,7 @@ const RestaurantDetails = (props) => {
                 let data = await dispatch(updateCart(tempCart));
                 getCart(true)
             } else {
+                console.log('in else')
                 setIsLoading(true)
                 let data = await dispatch(removeCart(tempCart._id));
                 getCart(true)
@@ -109,7 +112,28 @@ const RestaurantDetails = (props) => {
         e.preventDefault()
         history.push('/cart')
     }
-    console.log('cart', cart.cart)
+
+    let onCross = async (item) => {
+        let tempCart = cartDetails
+        const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
+        const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
+        if (tempCart.items.length > 1) {
+            console.log('in if')
+            const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
+            const filterArray = tempCart.items.filter((element, index) => index != findItemIndex);
+            tempCart.items = filterArray
+            setIsLoading(true)
+            let data = await dispatch(updateCart(tempCart));
+            getCart(true)
+        } else {
+            console.log('in else')
+            setIsLoading(true)
+            let data = await dispatch(removeCart(tempCart._id));
+            getCart(true)
+        }
+        setIsLoading(false)
+    }
+
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
@@ -391,7 +415,8 @@ const RestaurantDetails = (props) => {
 
                                                         <li><a onClick={() => onRemoveItem(item)}><>{item.quantity}x {item.itemName} </>&nbsp;</a>
                                                             <p onClick={() => onAddItem(item)}></p>
-                                                            <span>${item.unitPrice}</span></li>
+                                                            <span>${item.unitPrice}<span className="remove--item-cart" onClick={() => onCross(item)}><i className="icon_close"></i></span></span></li>
+
 
                                                     </>
                                                     )
