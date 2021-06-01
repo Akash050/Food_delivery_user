@@ -22,15 +22,15 @@ const HomeHeader = () => {
     }));
 
     useEffect(() => {
-        getCart()
+        getCart(false)
     }, [])
 
-    let getCart = async () => {
+    let getCart = async (flag) => {
         setIsLoading(true)
         let payload = {
             customerId: localStorage.id
         }
-        let data = await dispatch(cartByUser(payload));
+        let data = await dispatch(cartByUser(payload, flag));
         if (data.success) {
             setIsLoading(false)
         } else {
@@ -83,6 +83,7 @@ const HomeHeader = () => {
 
     const onCartClick = () => {
         setShowCart(!showCart)
+     //   dispatch(handleCart(!showCart));
     }
 
     const responseGoogle = (response) => {
@@ -105,7 +106,7 @@ const HomeHeader = () => {
             setCartDetails(tempCart)
             setIsLoading(true)
             let data = await dispatch(updateCart(tempCart));
-            getCart()
+            getCart(true)
         } else {
             if (tempCart.items.length > 1) {
                 const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
@@ -113,11 +114,11 @@ const HomeHeader = () => {
                 tempCart.items = filterArray
                 setIsLoading(true)
                 let data = await dispatch(updateCart(tempCart));
-                getCart()
+                getCart(true)
             } else {
                 setIsLoading(true)
                 let data = await dispatch(removeCart(tempCart._id));
-                getCart()
+                getCart(true)
             }
         }
     }
@@ -131,7 +132,7 @@ const HomeHeader = () => {
             setCartDetails(tempCart)
             setIsLoading(true)
             let data = await dispatch(updateCart(tempCart));
-            getCart()
+            getCart(true)
         }
     }
 
@@ -141,7 +142,6 @@ const HomeHeader = () => {
         await dispatch(handleCart(true));
         getCart()
     }
-    console.log("jhdsfbhjfca", cart)
     return (
         <>
             {isLoading ? <Loading loading loaderColor="#3498db" /> : null}

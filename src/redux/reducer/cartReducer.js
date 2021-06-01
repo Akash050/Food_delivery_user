@@ -6,10 +6,9 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 cart: action.payload,
-                isOpen: false
+                isOpen:  action.flag
             };
         case cartActionType.HANDLE_CART:
-            console.log("actio", action)
             return {
                 ...state,
                 isOpen: true
