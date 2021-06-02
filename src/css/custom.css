@@ -135,6 +135,9 @@ span.remove--item-cart {
     margin-left: 10px;
     color: #f44336;
 }
+.remove--item-cart:hover{
+    cursor: pointer;
+}
 .main-item-total .total--item-cart {
     margin-bottom: 10px;
     display: flex;
@@ -146,7 +149,7 @@ span.remove--item-cart {
   font-weight: 600;
     text-transform: uppercase;
 }
-..main-item-total .total--item-cart span{
+.main-item-total .total--item-cart span{
     color: #444;
     display: inline-block;
 }
