@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import emptyImg from '../../../img/empty-img.png'
 const Order = () => {
     const [items, setItems] = useState([])
     const { cartItems } = useSelector((state) => ({
@@ -18,7 +19,8 @@ const Order = () => {
     console.log(totalCount, 'tor')
     console.log(cartItems)
     return (
-        <main class="bg_gray">
+        <>
+        <main class="bg_gray mt-0 d-none">
             <div class="container margin_60_20">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-8">
@@ -219,7 +221,30 @@ const Order = () => {
 
             </div>
 
-        </main >
+        </main>
+        <main class="bg_gray mt-0">
+            <div class="container margin_60_20">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="cart-empty-page text-center">
+                                    <div className="">
+                                        <img src={emptyImg} alt="" />
+                                    </div>
+                                    <h3 className="title-emptycart">Missing Cart items?</h3>
+                                    <p className="inf-empty-cart">Login to see the items you added previously</p>
+                                    <div className="btnempty--page">
+                                        <a href="#" className="btn_1 gradient empty-cart-btn">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        </>
     );
 }
 
