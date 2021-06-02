@@ -1,7 +1,7 @@
 import axios from "axios";
 export const client = axios.create({
-  baseURL:  'http://localhost:5000/'
-  //baseURL: "https://food-del-server.herokuapp.com/",
+ // baseURL:  'http://localhost:5000/'
+  baseURL: "https://food-del-server.herokuapp.com/",
 });
 
 client.interceptors.response.use(
