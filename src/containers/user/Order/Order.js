@@ -5,7 +5,6 @@ import { cartByUser } from "../../../redux/actions/cartAction";
 import Loading from "react-fullscreen-loading";
 import emptyImg from '../../../img/empty-img.png'
 
-import Loading from "react-fullscreen-loading";
 const Order = () => {
     const dispatch = useDispatch();
     const [itemCount, setItemCount] = useState(0)
