@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Checkmark } from 'react-checkmark'
 import { useDispatch, useSelector } from "react-redux";
 import { cartByUser } from "../../../redux/actions/cartAction";
+import Loading from "react-fullscreen-loading";
 
 const Order = () => {
     const dispatch = useDispatch();
     const [itemCount, setItemCount] = useState(0)
+    const [isLoding, setIsLoading] = useState(false);
     const [cartDetails, setCartDetails] = useState({
 
     })
@@ -42,6 +44,8 @@ const Order = () => {
     // console.log(cartItems)
     console.log("cartDetails", cartDetails)
     return (
+        <>
+         {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
         <main class="bg_gray">
             <div class="container margin_60_20">
                 {/* <div class="row justify-content-center">
@@ -178,6 +182,7 @@ const Order = () => {
             </div>
 
         </main >
+        </>
     );
 }
 
