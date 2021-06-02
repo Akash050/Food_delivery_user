@@ -191,7 +191,7 @@ const GridListingFilterscol = (props) => {
                 <div class="row">
 
                     <aside className="col-lg-3" id="sidebar_fixed">
-                        <div className="type_delivery">
+                        {/* <div className="type_delivery">
                             <ul className="clearfix">
                                 <li>
                                     <label className="container_radio">Delivery
@@ -206,9 +206,9 @@ const GridListingFilterscol = (props) => {
                                     </label>
                                 </li>
                             </ul>
-                        </div>
-
-                        <a href="#0" className="open_filters btn_filters"><i className="icon_adjust-vert"></i><span>Filters</span></a>
+                        </div> */}
+{/* 
+                        <a href="#0" className="open_filters btn_filters"><i className="icon_adjust-vert"></i><span>Filters</span></a> */}
 
                         <div className="filter_col">
                             <div className="inner_bt clearfix">Filters<a href="#" className="open_filters"><i className="icon_close"></i></a></div>
@@ -257,7 +257,7 @@ const GridListingFilterscol = (props) => {
                             </div>
 
                             <div className="filter_type">
-                                <h4><a href="#filter_2" data-toggle="collapse" className="closed">Categories</a></h4>
+                                <h4><a  data-toggle="collapse" className="closed">Categories</a></h4>
                                 <div className="collapse" id="filter_2">
                                     <ul>
                                         <li>
@@ -307,7 +307,7 @@ const GridListingFilterscol = (props) => {
                             </div>
 
                             <div className="filter_type">
-                                <h4><a href="#filter_3" data-toggle="collapse" className="closed">Distance</a></h4>
+                                <h4><a  data-toggle="collapse" className="closed">Distance</a></h4>
                                 <div className="collapse" id="filter_3">
                                     <div className="distance">Radius around selected destination <span></span> km</div>
                                     <div className="add_bottom_25"><input type="range" min="10" max="50" step="5" value="20" data-orientation="horizontal" /></div>
@@ -317,7 +317,7 @@ const GridListingFilterscol = (props) => {
 
 
                             <div className="filter_type last">
-                                <h4><a href="#filter_4" data-toggle="collapse" className="closed">Rating</a></h4>
+                                <h4><a  data-toggle="collapse" className="closed">Rating</a></h4>
                                 <div className="collapse" id="filter_4">
                                     <ul>
                                         <li>
@@ -348,7 +348,7 @@ const GridListingFilterscol = (props) => {
                                 </div>
                             </div>
 
-                            <p><a href="#0" className="btn_1 outline full-width">Filter</a></p>
+                            <p><a className="btn_1 outline full-width">Filter</a></p>
                         </div>
                     </aside>
                     <div className="col-lg-9">
@@ -438,7 +438,7 @@ const GridListingFilterscol = (props) => {
                                                 </figure>
 
                                                 <ul>
-                                                    <li><span className="take yes">Takeaway</span> <span className="deliv yes">Delivery</span></li>
+                                                    <li><span className="deliv yes">Delivery</span></li>
                                                     <li>
                                                         <div className="score"><strong>8.9</strong></div>
                                                     </li>

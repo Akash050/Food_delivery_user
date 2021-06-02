@@ -37,6 +37,7 @@ const RestaurantDetails = (props) => {
         }
     }
     useEffect(() => {
+        setIsLoading(true)
         async function getMenuItems() {
             setIsLoading(true)
             let param = {
@@ -53,7 +54,6 @@ const RestaurantDetails = (props) => {
         if (cart.cart == undefined) {
             return
         }
-        console.log('cart.cart', cart.cart)
         if (cart.cart) {
             const sum = cart.cart.items.map(element => element.quantity).reduce((a, b) => a + b, 0);
             setItemCount(sum)
