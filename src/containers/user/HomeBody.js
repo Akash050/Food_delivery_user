@@ -82,6 +82,7 @@ const HomeBody = () => {
         }, 50);
     }
     const onRestaurantSelect = (val) => {
+        console.log(val._id)
         history.push({
             pathname: `/user/RestaurantDetails`,
             state: { data: val },
@@ -156,7 +157,7 @@ const HomeBody = () => {
                                                         <img src={val.image ? val.image : image} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
                                                         <div class="info">
                                                             <h3>{val.category}</h3>
-                                                            <small>Avg price $40</small>
+                                                            <small>{val.description}</small>
                                                         </div>
                                                     </figure>
                                                 </a>
@@ -184,7 +185,7 @@ const HomeBody = () => {
                         <span><em></em></span>
                         <h2>Top Rated Restaurants</h2>
                         <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
-                        <a href="#0">View All &rarr;</a>
+                        {/* <a href="#0">View All &rarr;</a> */}
                     </div>
 
                     <div className="row add_bottom_25">
@@ -193,6 +194,7 @@ const HomeBody = () => {
                                 <ul className="row mx-0">
                                     {
                                         allVendors && allVendors.map((val) => {
+                                            console.log("allVendors", allVendors)
                                             return (
                                                 <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
                                                     <a>
@@ -200,12 +202,13 @@ const HomeBody = () => {
                                                             <img src={image} data-src={image} alt="" className="lazy" width="350" height="233" />
                                                         </figure>
                                                         <div className="score"><strong>9.5</strong></div>
-                                                        <em>Italian</em>
+                                                        
                                                         <h3>{val.first_name}</h3>
-                                                        <small>8 Patriot Square E2 9NF</small>
+                                                        <small>{val.city}</small> <br></br>
+                                                        <small>{val.area}</small>
                                                         <ul>
-                                                            <li><span className="ribbon off">-30%</span></li>
-                                                            <li>Average price $35</li>
+                                                            {/* <li><span className="ribbon off">-30%</span></li>
+                                                            <li>Average price $35</li> */}
                                                         </ul>
                                                     </a>
                                                 </li>
@@ -244,7 +247,7 @@ const HomeBody = () => {
                         </div> */}
                     </div>
 
-                    <div className="banner lazy"
+                    {/* <div className="banner lazy"
                         style={{ backgroundImage: `url('${imagePath}')` }}
                     >
                         <div className="wrapper d-flex align-items-center opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }}>
@@ -256,7 +259,7 @@ const HomeBody = () => {
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
@@ -297,7 +300,7 @@ const HomeBody = () => {
                                 </div>
                                 <p className="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur deserunt.</p>
                                 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                <p><a href="#0" className="btn_1 medium gradient pulse_bt mt-2">Register</a></p>
+                                {/* <p><a href="#0" className="btn_1 medium gradient pulse_bt mt-2">Register</a></p> */}
                             </div>
                         </div>
                     </div>
