@@ -166,9 +166,13 @@ span.remove--item-cart {
  margin-top: 10px;
 }
 
+.swal-button--danger:not([disabled]):hover {
+    background-color: #f44336 !important;
+}
 
-
-
+.summary-price{
+    display: flex;
+}
 
 
 

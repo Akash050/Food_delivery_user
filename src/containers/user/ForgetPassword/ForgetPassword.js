@@ -169,7 +169,7 @@ const ForgetPassword = () => {
                     </figure>
                     <form autoComplete="off" style={{ marginTop: '200px' }}>
                         {isForgetPass ? <><div className="form-group">
-                            <input className="form-control" type="email" value={email} placeholder="Email" onChange={(event) => setEmail(event.target.value)} autocomplete="off" />
+                            <input className="form-control" type="email" value={email} placeholder="Enter Email" onChange={(event) => setEmail(event.target.value)} autocomplete="off" />
                             <i className="icon_mail_alt"></i>
                         </div>
                             <label

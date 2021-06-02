@@ -185,7 +185,7 @@ const HomeBody = () => {
                         <span><em></em></span>
                         <h2>Top Rated Restaurants</h2>
                         <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
-                        <a href="#0">View All &rarr;</a>
+                        {/* <a href="#0">View All &rarr;</a> */}
                     </div>
 
                     <div className="row add_bottom_25">

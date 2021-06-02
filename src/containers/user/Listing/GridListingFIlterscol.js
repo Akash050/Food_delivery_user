@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Loading from "react-fullscreen-loading";
+import swal from "sweetalert";
 import { allProductSubCategory, productSubCatByCategoryId } from "../../../redux/actions/prodSubCategoryAction";
 import { cartByUser, updateCart, removeCart, handleCart, addCart } from "../../../redux/actions/cartAction";
 
@@ -66,39 +67,83 @@ const GridListingFilterscol = (props) => {
         // }
     }
     let onAddItem = async (value) => {
-        // console.log("value ", value)
+        if( localStorage.isLoggedIn == undefined){
+             props.history.push('/login')
+             return
+        }
         let payload = {
             customerId: localStorage.id
         }
         let data = await dispatch(cartByUser(payload, false));
         if (data.data) {
-            setIsLoading(true)
             let cartData = data.data
-            // console.log("itemss ", cartData.items)
-            // console.log("value ", value)
-            const findItemIndex = cartData.items.findIndex(ele => ele.itemId == value._id);
-            if (findItemIndex > -1) {
-                cartData.items[findItemIndex].quantity = cartData.items[findItemIndex].quantity + 1
-                let data = await dispatch(updateCart(cartData, true));
-                let userpayload = {
-                    customerId: localStorage.id
+            if (cartData.vendor._id == value.vendorId) {
+                setIsLoading(true)
+                let cartData = data.data
+                const findItemIndex = cartData.items.findIndex(ele => ele.itemId == value._id);
+                if (findItemIndex > -1) {
+                    cartData.items[findItemIndex].quantity = cartData.items[findItemIndex].quantity + 1
+                    let data = await dispatch(updateCart(cartData, true));
+                    let userpayload = {
+                        customerId: localStorage.id
+                    }
+                    let userdata = await dispatch(cartByUser(userpayload, false));
+                    setIsLoading(false)
+                } else {
+                    let temp = {
+                        itemId: value._id,
+                        quantity: 1
+                    }
+                    cartData.items.push(temp)
+                    let data = await dispatch(updateCart(cartData, true));
+                    let userpayload = {
+                        customerId: localStorage.id
+                    }
+                    let userdata = await dispatch(cartByUser(userpayload, false));
+                    setIsLoading(false)
                 }
-                let userdata = await dispatch(cartByUser(userpayload, true));
-                setIsLoading(false)
             } else {
-                let temp = {
-                    itemId: value._id,
-                    quantity: 1
-                }
-                cartData.items.push(temp)
-                let data = await dispatch(updateCart(cartData, true));
-                let userpayload = {
-                    customerId: localStorage.id
-                }
-                let userdata = await dispatch(cartByUser(userpayload, true));
-                setIsLoading(false)
-            }
+                swal({
+                    title: "Replace Cart Item?",
+                    text: `Your cart contain dishes from  ${cartData.vendor.first_name}. Do you want to discard and add dishes from That?`,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then(async (willDelete) => {
+                        if (willDelete) {
+                            let data = await dispatch(removeCart(cartData._id))
+                            if (data.success) {
+                                setIsLoading(true)
+                                let payload = {
+                                    customerId: localStorage.id,
+                                    vendorId: value.vendorId,
+                                    items: [
+                                        {
+                                            itemId: value._id,
+                                            quantity: 1,
+                                        }
+                                    ]
+                                }
+                                let data = await dispatch(addCart(payload, false));
+                                let userpayload = {
+                                    customerId: localStorage.id
+                                }
+                                let userdata = await dispatch(cartByUser(userpayload, true));
+                                setIsLoading(false)
+                            } else {
+                                swal({
+                                    title: "Error",
+                                    text: data.message,
+                                    icon: "error",
+                                    button: 'ok'
+                                });
+                            }
+                        } else {
 
+                        }
+                    });
+            }
         } else {
             setIsLoading(true)
             let payload = {
@@ -119,7 +164,7 @@ const GridListingFilterscol = (props) => {
             setIsLoading(false)
         }
     }
-
+    // console.log("allProdSubCategory", allProdSubCategory)
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
@@ -127,8 +172,8 @@ const GridListingFilterscol = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
-                            <h1>145 restaurants in Convent Street 2983</h1>
-                            <a href="#0">Change address</a>
+                            {/* <h1>145 restaurants in Convent Street 2983</h1>
+                            <a href="#0">Change address</a> */}
                         </div>
                         <div className="col-xl-4 col-lg-5 col-md-5">
                             <div className="search_bar_list">
@@ -364,26 +409,23 @@ const GridListingFilterscol = (props) => {
                             </div>
                         </div>
 
-
+                        {/* 
                         <div className="promo">
                             <h3>Free Delivery for your first 14 days!</h3>
                             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                             <i className="icon-food_icon_delivery"></i>
-                        </div>
+                        </div> */}
 
 
                         <div className="row">
-                            <div className="col-12"><h2 className="title_small">Top Rated</h2></div>
+                            {/* <div className="col-12"><h2 className="title_small">Menu Items</h2></div> */}
                             {
                                 allProdSubCategory.map((val) => {
                                     return (
                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                             <div className="strip">
                                                 <figure>
-                                                    <span className="ribbon off">15% off</span>
-                                                    <img src={val.image} className="img-fluid lazy" alt="" />
                                                     <a className="strip_info">
-                                                        {/* <small>Pizza</small> */}
                                                         <div className="item_title" style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                             <div>
                                                                 <h3>{val.item}</h3>

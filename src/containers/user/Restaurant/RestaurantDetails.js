@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Background from '../../../img/hero_general.jpg'
 import { useHistory } from 'react-router-dom';
 import { MenuItemByVendor } from '../../../redux/actions/menuItemAction';
+import swal from "sweetalert";
 import Loading from "react-fullscreen-loading";
 import { useDispatch, useSelector } from 'react-redux';
-import { cartByUser, removeCart, updateCart } from '../../../redux/actions/cartAction';
+import { cartByUser, removeCart, updateCart, addCart } from '../../../redux/actions/cartAction';
 const RestaurantDetails = (props) => {
     let data = props.location.state.data
     const [vendorId, setVendorId] = useState(data._id);
@@ -113,12 +114,11 @@ const RestaurantDetails = (props) => {
         history.push('/cart')
     }
 
-    let onCross = async (item) => {
+    let onDeleteItem = async (item) => {
         let tempCart = cartDetails
-        const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
-        const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
         if (tempCart.items.length > 1) {
-            console.log('in if')
+            console.log("if tempCart", tempCart)
+            console.log("if item", item)
             const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
             const filterArray = tempCart.items.filter((element, index) => index != findItemIndex);
             tempCart.items = filterArray
@@ -126,12 +126,109 @@ const RestaurantDetails = (props) => {
             let data = await dispatch(updateCart(tempCart));
             getCart(true)
         } else {
-            console.log('in else')
             setIsLoading(true)
             let data = await dispatch(removeCart(tempCart._id));
             getCart(true)
         }
-        setIsLoading(false)
+    }
+
+    let onAddCartItem = async (value) => {
+        if (localStorage.isLoggedIn == undefined) {
+            props.history.push('/login')
+            return
+        }
+        let payload = {
+            customerId: localStorage.id
+        }
+        let data = await dispatch(cartByUser(payload, false));
+        if (data.data) {
+            let cartData = data.data
+            if (cartData.vendor._id == value.vendorId) {
+                setIsLoading(true)
+                let cartData = data.data
+                const findItemIndex = cartData.items.findIndex(ele => ele.itemId == value._id);
+                if (findItemIndex > -1) {
+                    cartData.items[findItemIndex].quantity = cartData.items[findItemIndex].quantity + 1
+                    let data = await dispatch(updateCart(cartData, true));
+                    let userpayload = {
+                        customerId: localStorage.id
+                    }
+                    let userdata = await dispatch(cartByUser(userpayload, false));
+                    setIsLoading(false)
+                } else {
+                    let temp = {
+                        itemId: value._id,
+                        quantity: 1
+                    }
+                    cartData.items.push(temp)
+                    let data = await dispatch(updateCart(cartData, true));
+                    let userpayload = {
+                        customerId: localStorage.id
+                    }
+                    let userdata = await dispatch(cartByUser(userpayload, false));
+                    setIsLoading(false)
+                }
+            } else {
+                swal({
+                    title: "Replace Cart Item?",
+                    text: `Your cart contain dishes from  ${cartData.vendor.first_name}. Do you want to discard and add dishes from That?`,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then(async (willDelete) => {
+                        if (willDelete) {
+                            let data = await dispatch(removeCart(cartData._id))
+                            if (data.success) {
+                                setIsLoading(true)
+                                let payload = {
+                                    customerId: localStorage.id,
+                                    vendorId: value.vendorId,
+                                    items: [
+                                        {
+                                            itemId: value._id,
+                                            quantity: 1,
+                                        }
+                                    ]
+                                }
+                                let data = await dispatch(addCart(payload, false));
+                                let userpayload = {
+                                    customerId: localStorage.id
+                                }
+                                let userdata = await dispatch(cartByUser(userpayload, false));
+                                setIsLoading(false)
+                            } else {
+                                swal({
+                                    title: "Error",
+                                    text: data.message,
+                                    icon: "error",
+                                    button: 'ok'
+                                });
+                            }
+                        } else {
+
+                        }
+                    });
+            }
+        } else {
+            setIsLoading(true)
+            let payload = {
+                customerId: localStorage.id,
+                vendorId: value.vendorId,
+                items: [
+                    {
+                        itemId: value._id,
+                        quantity: 1,
+                    }
+                ]
+            }
+            let data = await dispatch(addCart(payload, false));
+            let userpayload = {
+                customerId: localStorage.id
+            }
+            let userdata = await dispatch(cartByUser(userpayload, false));
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -198,12 +295,21 @@ const RestaurantDetails = (props) => {
                                         menuItems.map((val) => {
                                             return (
                                                 <div className="col-md-6">
-                                                    <a className="menu_item modal_dialog" href="#modal-dialog">
-                                                        <figure><img src={val.image}
-                                                            data-src={val.image} alt="Item" className="lazy" /></figure>
+
+                                                    <a className="menu_item modal_dialog" >
+
+                                                        <figure>
+
+                                                            <img src={val.image}
+                                                                data-src={val.image} alt="Item" className="lazy" />
+
+                                                        </figure>
+                                                        <figure>
+                                                            <div onClick={() => onAddCartItem(val)} style={{ color: 'white', fontWeight: 'bold' }}><span className="addcart-item"><i className="icon_plus"></i></span></div>
+                                                        </figure>
                                                         <h3>{val.item}</h3>
-                                                        <p>{val.description}.</p>
-                                                        <strong>${val.price}</strong>
+                                                        <p>{val.description}</p>
+                                                        <h3>${val.price}</h3>
                                                     </a>
                                                 </div>
                                             )
@@ -212,190 +318,6 @@ const RestaurantDetails = (props) => {
 
                                 </div>
                             </section>
-
-                            {/* <section id="section-2">
-                                <h4>Main Courses</h4>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-5.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>5. Cheese Quesadilla</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-6.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>6. Chorizo & Cheese</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-7.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>7. Beef Taco</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-8.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>8. Minced Beef Double Layer</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-9.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>9. Piri Piri Chicken</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-10.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>10. Burrito Al Pastor</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </section>
-
-                            <section id="section-3">
-                                <h4>Desserts</h4>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-5.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>5. Cheese Quesadilla</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-6.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>6. Chorizo & Cheese</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-7.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>7. Beef Taco</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-8.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>8. Minced Beef Double Layer</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-9.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>9. Piri Piri Chicken</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-10.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>10. Burrito Al Pastor</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </section>
-
-                            <section id="section-4">
-                                <h4>Drinks</h4>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-5.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>11. Coca Cola</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$2.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-6.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>12. Corona Beer</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$9.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-7.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>13. Red Wine</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$19.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-8.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>14. White Wine</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$19.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-9.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>15. Mineral Water</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$1.40</strong>
-                                        </a>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <a className="menu_item modal_dialog" href="#modal-dialog">
-                                            <figure><img src="img/menu-thumb-placeholder.jpg"
-                                                data-src="img/menu-thumb-10.jpg" alt="thumb" className="lazy" /></figure>
-                                            <h3>16. Red Bull</h3>
-                                            <p>Fuisset mentitum deleniti sit ea.</p>
-                                            <strong>$3.40</strong>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </section> */}
-
                         </div>
 
 
@@ -410,26 +332,47 @@ const RestaurantDetails = (props) => {
                                         <div className="main">
                                             <ul className="clearfix">
                                                 {cartDetails.items.map(item => {
-                                                    return (<>
-                                                        <a className="close_panel_mobile" ><i className="icon_close"></i></a>
+                                                    return (
+                                                        // <>
+                                                        //     <a className="close_panel_mobile" ><i className="icon_close"></i></a>
 
-                                                        <li><a onClick={() => onRemoveItem(item)}><>{item.quantity}x {item.itemName} </>&nbsp;</a>
-                                                            <p onClick={() => onAddItem(item)}></p>
-                                                            <span>${item.unitPrice}<span className="remove--item-cart" onClick={() => onCross(item)}><i className="icon_close"></i></span></span></li>
+                                                        //     <li><a onClick={() => onRemoveItem(item)}><>{item.quantity}x {item.itemName} </>&nbsp;</a>
+                                                        //         <p onClick={() => onAddItem(item)}></p>
+                                                        //         <span>${item.unitPrice}<span className="remove--item-cart" onClick={() => onCross(item)}><i className="icon_close"></i></span></span></li>
 
 
-                                                    </>
+                                                        // </>
+                                                        <div className="addcart--menu">
+                                                            <div className="cartItem--list-view">
+                                                                <div className="iconadd-cart-product">
+                                                                    <span onClick={() => onRemoveItem(item)} className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
+                                                                    <span className="scn--add commn--tt-p">{item.quantity}</span>
+                                                                    <span onClick={() => onAddItem(item)} c className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                                </div>
+                                                                <div className="productTitel--cart">
+                                                                    <p>{item.itemName}</p>
+                                                                </div>
+                                                                <div className="price--cart--tag summary-price">
+                                                                    <span className="price--txt">${item.unitPrice}</span>
+                                                                    <span onClick={() => onDeleteItem(item)} className="remove--item-cart"><i className="icon_close"></i></span>
+                                                                </div>
+                                                                {/* <div className="croscart--page">
+                                                            <span onClick={() => onDeleteItem(item)} className="remove--item-cart"><i className="icon_close"></i></span>
+                                                        </div> */}
+                                                            </div>
+                                                        </div>
                                                     )
                                                 })
                                                 }
                                             </ul>
+                                            <hr></hr>
                                             <ul className="clearfix">
                                                 <li>Total Price<span>${cartDetails.totalPrice}</span></li>
                                                 <li>Discount<span>${cartDetails.discountValue}</span></li>
                                                 <li className="total">Grand Total<span>${cartDetails.grandTotal}</span></li>
                                             </ul>
                                             <div className="btn_1_mobile">
-                                                <div className="btn_1 gradient full-width mb_5" onClick={(e) => checkout(e)}>Order Now</div>
+                                                <div className="btn_1 gradient full-width mb_5" onClick={(e) => checkout(e)}>Continue to checkout</div>
                                                 <div className="text-center"><small>No money charged on this steps</small></div>
                                             </div>
                                             {/* <div className="row opt_order">
@@ -452,22 +395,22 @@ const RestaurantDetails = (props) => {
                                 : <div className="col-lg-4" id="sidebar_fixed">
                                     <div className="box_order mobile_fixed">
                                         <div className="head">
-                                            <h3>Your Cart</h3>
+
+                                            <h3>Order Summary</h3>
                                             <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
                                         </div>
                                         {/* <div className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown"> */}
 
-                                        <div className="main">
+                                        <div className="main empty-cart">
                                             <svg xmlns="http://www.w3.org/2000/svg" width={80} height={80} fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
                                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                                 <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                             </svg>
                                             <p className="empty-cart-text"><strong>You have no items in your cart</strong> </p>
                                         </div>
-                                        {/* <hr></hr>
                                         <a
-                                          
-                                            href="" className="btn_1 text-white gradient full-width mb_5">Close</a> */}
+
+                                            className="btn_1 text-white gradient full-width mb_5">Add items to cart</a>
                                         {/* <div className="main-item-total">
                                                     <div className="total--item-cart"><span className="tt-name-left">Total Price</span><span className="tt-amt-right">${cartDetails.totalPrice}</span></div>
                                                     <div className="total--item-cart"><span className="tt-name-left">Discount</span><span className="tt-amt-right">${cartDetails.discountValue}</span></div>
