@@ -3,13 +3,14 @@ import { Checkmark } from 'react-checkmark'
 import { useDispatch, useSelector } from "react-redux";
 import { cartByUser } from "../../../redux/actions/cartAction";
 import Loading from "react-fullscreen-loading";
+import emptyImg from '../../../img/empty-img.png'
 
+import Loading from "react-fullscreen-loading";
 const Order = () => {
     const dispatch = useDispatch();
     const [itemCount, setItemCount] = useState(0)
     const [isLoding, setIsLoading] = useState(false);
     const [cartDetails, setCartDetails] = useState({
-
     })
     const { cart } = useSelector((state) => ({
         cart: state.cart,
@@ -45,27 +46,30 @@ const Order = () => {
     console.log("cartDetails", cartDetails)
     return (
         <>
+<<<<<<< HEAD
          {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
         <main class="bg_gray">
+=======
+         {isLoding ? <Loading loading loaderColor="#3498DB" /> : null}
+        <main class="bg_gray d-none">
+>>>>>>> 2a692e35283723f5758d61bd5478781f7b164f81
             <div class="container margin_60_20">
                 {/* <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="box_order_form">
                             <div class="head text-center">
                                 <h3>Pizzeria da Alfredo</h3>
-		                    27 Old Gloucester St, 4530 - <a href="" target="blank">Get directions</a>
+                            27 Old Gloucester St, 4530 - <a href="" target="blank">Get directions</a>
                             </div>
                             <div class="main">
                                 <div id="confirm">
                                     <div class="icon icon--order-success svg add_bottom_15">
-
                                         <svg xmlns="http://www.w3.org/2000/svg" width={72} height={72}>
                                             <g fill="none" stroke="#8EC343" strokeWidth={2}>
                                                 <circle cx={36} cy={36} r={35} style={{ strokeDasharray: '240px, 240px', strokeDashoffset: 480 }} />
                                                 <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style={{ strokeDasharray: '50px, 50px', strokeDashoffset: 0 }} />
                                             </g>
                                         </svg>
-
                                     </div>
                                     <h3>Order Confirmed!</h3>
                                     <p>Sit an meis aliquam, cetero inermis.</p>
@@ -84,7 +88,6 @@ const Order = () => {
                                         <h3>Personal Details</h3>
                                     </div>
                                 </div>
-
                                 <div class="main">
                                     <div class="form-group">
                                         <label>First and Last Name</label>
@@ -125,7 +128,6 @@ const Order = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-xl-4 col-xl-4" id="sidebar_fixed">
                             <div className="box_order mobile_fixed">
                                 <div className="head">
@@ -133,7 +135,6 @@ const Order = () => {
                                     <div>{cartDetails.vendor.first_name}'s Kitchen</div>
                                     <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
                                 </div>
-
                                 <div className="main-cart-box">
                                     {
                                         cartDetails.items.map(item => {
@@ -170,20 +171,39 @@ const Order = () => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                     :
                     'No Items'
             }
-
-
             </div>
-
         </main >
+<<<<<<< HEAD
+=======
+        <main class="bg_gray mt-0">
+            <div class="container margin_60_20">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="cart-empty-page text-center">
+                                    <div className="">
+                                        <img src={emptyImg} alt="" />
+                                    </div>
+                                    <h3 className="title-emptycart">Missing Cart items?</h3>
+                                    <p className="inf-empty-cart">Login to see the items you added previously</p>
+                                    <div className="btnempty--page">
+                                        <a href="#" className="btn_1 gradient empty-cart-btn">Add Items</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+>>>>>>> 2a692e35283723f5758d61bd5478781f7b164f81
         </>
     );
 }
-
 export default Order;
