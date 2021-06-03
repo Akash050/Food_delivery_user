@@ -3,7 +3,7 @@ import { Checkmark } from 'react-checkmark'
 import { useDispatch, useSelector } from "react-redux";
 import { cartByUser } from "../../../redux/actions/cartAction";
 import Loading from "react-fullscreen-loading";
-// import emptyImg from '../../../img/empty-img.png'
+import emptyImg from '../../../img/empty-img.png'
 
 const Order = () => {
     const dispatch = useDispatch();
