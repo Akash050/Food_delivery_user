@@ -15,7 +15,7 @@ const RestaurantDetails = (props) => {
     const [cartDetails, setCartDetails] = useState({
     })
     let dispatch = useDispatch();
-    console.log(data)
+
     let history = useHistory();
     const { menuItems } = useSelector((state) => ({
         menuItems: state.menuItems
@@ -67,8 +67,8 @@ const RestaurantDetails = (props) => {
         }
         setIsLoading(false)
     }, [cart])
+
     let onRemoveItem = async (item) => {
-        console.log('in remove')
         let tempCart = cartDetails
         const findItem = tempCart.items.find(ele => ele.itemId == item.itemId);
         const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
@@ -347,7 +347,7 @@ const RestaurantDetails = (props) => {
                                                                 <div className="iconadd-cart-product">
                                                                     <span onClick={() => onRemoveItem(item)} className="fst-add commn--tt-p"><button className="btn btn-comn-add less-btn-tt"><i className="icon_minus-06"></i></button></span>
                                                                     <span className="scn--add commn--tt-p">{item.quantity}</span>
-                                                                    <span onClick={() => onAddItem(item)} c className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
+                                                                    <span onClick={() => onAddItem(item)}  className="thirt-add commn--tt-p"><button className="btn btn-comn-add add-btn-tt"><i className="icon_plus"></i></button></span>
                                                                 </div>
                                                                 <div className="productTitel--cart">
                                                                     <p>{item.itemName}</p>
