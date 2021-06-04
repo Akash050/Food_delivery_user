@@ -31,7 +31,7 @@ const RestaurantDetails = (props) => {
         }
         let data = await dispatch(cartByUser(payload, false));
         if (data.success) {
-            setIsLoading(false)
+           setIsLoading(false)
         } else {
             setIsLoading(false)
         }
@@ -39,7 +39,6 @@ const RestaurantDetails = (props) => {
     useEffect(() => {
         setIsLoading(true)
         async function getMenuItems() {
-            setIsLoading(true)
             let param = {
                 vendorId: vendorId
             }
@@ -50,22 +49,20 @@ const RestaurantDetails = (props) => {
         getMenuItems()
     }, []);
     useEffect(() => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if (cart.cart == undefined) {
             return
         }
         if (cart.cart) {
             const sum = cart.cart.items.map(element => element.quantity).reduce((a, b) => a + b, 0);
             setItemCount(sum)
-            console.log('cart.cart', cart.cart)
             setCartDetails(cart.cart)
             setShowCart(true)
-            setIsLoading(false)
+          //  setIsLoading(false)
         } else {
             setCartDetails({})
             setItemCount(0)
         }
-        setIsLoading(false)
     }, [cart])
 
     let onRemoveItem = async (item) => {
@@ -233,7 +230,7 @@ const RestaurantDetails = (props) => {
 
     return (
         <main>
-            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div className="hero_in detail_page background-image" style={{ backgroundImage: `url(${Background})` }}>
                 <div className="wrapper opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }} >
 

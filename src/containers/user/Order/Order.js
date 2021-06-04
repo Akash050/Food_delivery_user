@@ -125,7 +125,7 @@ const Order = () => {
     console.log("phone_number", cartDetails)
     return (
         <>
-         {isLoding ? <Loading loading loaderColor="#3498DB" /> : null}
+         {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
         <main class="bg_gray">
             <div class="container margin_60_20">
                 {

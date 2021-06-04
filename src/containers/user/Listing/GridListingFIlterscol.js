@@ -167,7 +167,7 @@ const GridListingFilterscol = (props) => {
     // console.log("allProdSubCategory", allProdSubCategory)
     return (
         <main>
-            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div className="page_header element_to_stick">
                 <div className="container">
                     <div className="row">
