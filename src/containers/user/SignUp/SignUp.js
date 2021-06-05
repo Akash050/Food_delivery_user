@@ -142,7 +142,7 @@ const SignUp = () => {
     }
     return (
         <div id="register_bg">
-            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div id="register">
                 <aside>
                     <figure>

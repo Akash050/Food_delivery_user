@@ -91,7 +91,7 @@ const HomeBody = () => {
     }
     return (
         <main>
-            {isLoding ? <Loading loading loaderColor="#3498db" /> : null}
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div className="hero_single version_1">
                 <div className="opacity-mask">
                     <div className="container">
@@ -194,12 +194,15 @@ const HomeBody = () => {
                                 <ul className="row mx-0">
                                     {
                                         allVendors && allVendors.map((val) => {
-                                            console.log("allVendors", allVendors)
+                                            console.log("allVendors", val.image)
                                             return (
                                                 <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
                                                     <a>
+                                                        {/* {val.image?
+                                                        
+                                                        : null } */}
                                                         <figure>
-                                                            <img src={image} data-src={image} alt="" className="lazy" width="350" height="233" />
+                                                            <img src={val.image?val.image:image} data-src={val.image?val.image:image} alt="" className="lazy" width="350" height="233" />
                                                         </figure>
                                                         <div className="score"><strong>9.5</strong></div>
                                                         

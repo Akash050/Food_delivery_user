@@ -197,7 +197,12 @@ span.remove--item-cart {
 .summary-price{
     display: flex;
 }
-
+.validation-error{
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
 
 
 
