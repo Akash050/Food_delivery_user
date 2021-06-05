@@ -6,6 +6,9 @@ const SignUp = React.lazy(() => import("./containers/user/SignUp/SignUp.js"));
 const GridListingFilterscol = React.lazy(() => import("./containers/user/Listing/GridListingFIlterscol.js"));
 const LeaveReview = React.lazy(() => import("./containers/user/Review/LeaveReview.js"));
 const Order = React.lazy(() => import("./containers/user/Order/Order.js"))
+const Orders = React.lazy(() => import("./containers/user/Order/Orders"))
+const Profile = React.lazy(() => import("./containers/user/Profile/Profile"))
+ //import Profile from './containers/user/Profile/Profile'
 const EmailVerify = React.lazy(() => import("./containers/Verification/EmailVerify.js"))
 const ForgetPassword = React.lazy(() => import("./containers/user/ForgetPassword/ForgetPassword.js"))
 const routes = [
@@ -49,6 +52,16 @@ const routes = [
         path: "/cart",
         name: "Order",
         component: Order,
+    },
+    {
+        path: "/orders",
+        name: "Orders",
+        component: Orders,
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        component: Profile,
     },
     {
         path: "/verifyemail",
