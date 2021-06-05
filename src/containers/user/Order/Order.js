@@ -205,7 +205,7 @@ const Order = () => {
     return (
         <>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
-            <main className="bg_gray"><div className="container margin_60_20">{
+            <main className="bg_gray mt-0 py-5"><div className="container">{
                 orderConfirmation ?
 
                     <div className="row justify-content-center">
@@ -354,7 +354,7 @@ const Order = () => {
                                                                 }
                                                             </div>
                                                         </div>
-                                                        <div className="col-md-3">
+                                                        <div className="col-12 col-md-6">
                                                             <div className="form-group">
                                                                 <label>Zip Code *</label>
                                                                 <input className="form-control" onChange={(e) => handleOnChange(e, 'zipcode')} required />
@@ -418,7 +418,7 @@ const Order = () => {
                                     </div>
                                 </form>
                                 :
-                                <div className="container margin_60_20">
+                                <div className="wrapper-emtycart--content">
                                     <div className="row justify-content-center">
                                         <div className="col-12">
                                             <div className="card">

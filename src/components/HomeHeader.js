@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Loading from "react-fullscreen-loading";
 import logo from '../img/logo_sticky.svg'
+import userHolder from '../img/user-place.jpg'
 import { useGoogleLogout } from 'react-google-login'
 import { cartByUser, updateCart, removeCart, handleCart } from "../redux/actions/cartAction";
 
@@ -191,7 +192,7 @@ const HomeHeader = () => {
                             </a>
                             <a href=""><img src="img/logo.svg" width="162" height="35" alt="" /></a>
                         </div>
-                        <ul id="top_menu">
+                        <ul id="top_menu" className="d-flex flex-wrap align-items-center">
                             {/* <li className="submenu">
                                 <a href="" className="show-submenu">Home</a>
 
@@ -244,7 +245,7 @@ const HomeHeader = () => {
                                                                 <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">${cartDetails.grandTotal}</span></div>
                                                             </div>
                                                             <div className="btn_1_mobile mt-4">
-                                                                <a onClick={(e) => checkout(e)} href="" className="btn_1 text-white gradient full-width mb_5">Continue to Checkout</a>
+                                                                <a onClick={(e) => checkout(e)} href="javascript:void(0);" className="btn_1 text-white gradient full-width mb_5">Continue to Checkout</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -283,7 +284,19 @@ const HomeHeader = () => {
                             }
                             {
                                 localStorage.isLoggedIn ?
-                                    <li onClick={(e) => logOut(e)}><a href="" className="login login-icon">Login</a></li>
+                                    /*<li onClick={(e) => logOut(e)}><a href="" className="login login-icon">Login</a></li> */
+                                    <li className="submenu profileMenu-drop">
+                                        <a href="javascript:void(0)" className="show-submenu">
+                                            <span className="profile-Img-User"><img className="Wig-profile_img" src={userHolder} /></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="javascript:void(0)"><i class="far fa-user mr-2"></i>Profile</a></li>
+                                            <li><a href="javascript:void(0)"><i class="fas fa-shopping-cart mr-2"></i>Cart</a></li>
+                                            <li><a href="javascript:void(0)"><i class="far fa-file-alt mr-2"></i>Order</a></li>
+                                            <li><a onClick={(e) => logOut(e)} href="javascript:void(0)"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
+                                        </ul>
+                                    </li> 
+  
                                     :
                                     <li className="submenu">
                                         <a onClick = {(e) => onLogin(e)} className="show-submenu">Login</a>

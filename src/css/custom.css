@@ -21,6 +21,9 @@ a :hover {
     color: red;
   }
 
+.main-menu ul ul li{
+    width: 100%;
+}
 ul#top_menu li a.login.login-icon{
   top: -3px;
   margin-left: 15px;
@@ -100,6 +103,32 @@ ul#top_menu li a.login.login-icon::before {
     border-radius: 50%;
     line-height: 19px;
     color: #fff;
+}
+ul#top_menu .profileMenu-drop{
+    margin-left: 15px;
+}
+.main-menu ul .profileMenu-drop ul{
+    left: auto;
+    right: 0;
+}
+.main-menu ul .profileMenu-drop ul::before{
+    left: auto;
+    right: 17px;
+}
+header.black_nav a:hover {
+    color: #fff !important;
+}
+.profile-Img-User {
+    width: 35px;
+    height: 35px;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profile-Img-User .Wig-profile_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 } 
 /*.btn-comn-add.add-btn-tt {
     background-color: #f44336;
@@ -160,27 +189,83 @@ span.remove--item-cart {
     font-size: 20px;
     font-weight: 700;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*----------------profile page-------------------*/
+.box_general {
+    background-color: #fff;
+    padding: 15px 30px 0 30px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    color: #777;
+    font-size: 14px;
+    font-size: 0.875rem;
+    -webkit-box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 10%);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 10%);
+}
+.box_general.padding_bottom {
+    padding-bottom: 20px;
+}
+.header_box.version_2 {
+    border-bottom: 1px solid #ededed;
+    margin: 0 -30px;
+    padding: 0 30px 10px 30px;
+    margin-bottom: 15px;
+}
+.header_box h2 {
+    font-size: 21px;
+    font-size: 1.3125rem;
+    display: inline-block;
+    margin-top: 5px;
+}
+.header_box.version_2 i {
+    margin-right: 10px;
+    color: #ddd;
+}
+.dz-default-dz-message {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+.imageedit--profile-pic {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    border: 1px solid #f44336;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f44336;
+    color: #fff;
+    cursor: pointer;
+}
+.imageedit--profile-pic .fileImage--profile-upload {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+    text-indent: -130px;
+    opacity: 0;
+}
+.preview--image--upload {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    border-radius: 50%;
+}
+.preview--image--upload .Image--mainprofile-profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/*--------------------empty cart---------------------*/
 .empty-cart{
     display: flex;
     flex-direction: column;
@@ -203,6 +288,84 @@ span.remove--item-cart {
     font-size: 80%;
     color: #dc3545;
 }
+/*------------------------order detail--------------------------*/
+.mainHeader--order {
+    padding: 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #ddd;
+}
+.order-flex--product {
+    flex: 1;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.orderImg-box-view {
+    flex: 0 0 60px;
+    max-width: 60px;
+    margin-right: 15px;
+}
+.order_img--tt {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.order--rigt--flex {
+    flex: 1px;
+    max-width: 100%;
+}
+.head--product--name {
+    font-size: 18px;
+    margin-bottom: 0px;
+    font-weight: 700;
+}
+.shrt--disc {
+    color: #5c5c5c;
+    font-size: 15px;
+    margin-bottom: 0px;
+}
+.status--bar-flex {
+    flex: 0 0 70px;
+    max-width: 70px;
+    text-align: right;
+}
+.product--status-view {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4caf50;
+}
+.cancel-order-color{
+    color: #f44336;
+}
+.main.orderItem--inform-grid {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.txt-order--inf {
+    margin-bottom: 15px;
+}
+.order_Txt_head-card {
+    font-size: 16px;
+    color: #727272;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+.infoTxt--view-card {
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+.order-view-item-btn {
+    margin: 30px 0px 20px;
+}
+.btnview--orderdtl {
+    padding: 8px 18px !important;
+}
+
 
 
 
