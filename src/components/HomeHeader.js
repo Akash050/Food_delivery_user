@@ -95,6 +95,7 @@ const HomeHeader = () => {
         history.push('/order')
     }
     let checkout = (e) => {
+        setShowCart(false)
         e.preventDefault()
         history.push('/cart')
     }
@@ -127,8 +128,6 @@ const HomeHeader = () => {
     let onDeleteItem = async (item) => {
         let tempCart = cartDetails
         if (tempCart.items.length > 1) {
-            console.log("if tempCart", tempCart)
-            console.log("if item", item)
             const findItemIndex = tempCart.items.findIndex(ele => ele.itemId == item.itemId);
             const filterArray = tempCart.items.filter((element, index) => index != findItemIndex);
             tempCart.items = filterArray
@@ -172,6 +171,7 @@ const HomeHeader = () => {
                 <div className="container">
                     <div id="logo">
                         <a onClick = {() =>history.push('/home')}>
+                            {/* <h3>A.K VERMA</h3> */}
                             <img src={logo} width="162" height="35" alt="" />
                         </a>
                     </div>
@@ -290,9 +290,9 @@ const HomeHeader = () => {
                                             <span className="profile-Img-User"><img className="Wig-profile_img" src={userHolder} /></span>
                                         </a>
                                         <ul>
-                                            <li><a href="javascript:void(0)"><i class="far fa-user mr-2"></i>Profile</a></li>
-                                            <li><a href="javascript:void(0)"><i class="fas fa-shopping-cart mr-2"></i>Cart</a></li>
-                                            <li><a href="javascript:void(0)"><i class="far fa-file-alt mr-2"></i>Order</a></li>
+                                            <li onClick = {() =>history.push('/profile')}><a href="javascript:void(0)"><i class="far fa-user mr-2"></i>Profile</a></li>
+                                            <li onClick = {() =>history.push('/cart')}><a href="javascript:void(0)"><i class="fas fa-shopping-cart mr-2"></i>Cart</a></li>
+                                            <li><a onClick = {() =>history.push('/orders')} href="javascript:void(0)"><i class="far fa-file-alt mr-2"></i>Orders</a></li>
                                             <li><a onClick={(e) => logOut(e)} href="javascript:void(0)"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
                                         </ul>
                                     </li> 

@@ -164,7 +164,7 @@ const GridListingFilterscol = (props) => {
             setIsLoading(false)
         }
     }
-    // console.log("allProdSubCategory", allProdSubCategory)
+    console.log("allProdSubCategory", allProdSubCategory)
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
@@ -425,6 +425,7 @@ const GridListingFilterscol = (props) => {
                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                             <div className="strip">
                                                 <figure>
+                                                <img src={val.image ? val.image : null} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
                                                     <a className="strip_info">
                                                         <div className="item_title" style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                             <div>

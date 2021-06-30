@@ -8,6 +8,7 @@ const LeaveReview = React.lazy(() => import("./containers/user/Review/LeaveRevie
 const Order = React.lazy(() => import("./containers/user/Order/Order.js"))
 const Orders = React.lazy(() => import("./containers/user/Order/Orders"))
 const Profile = React.lazy(() => import("./containers/user/Profile/Profile"))
+const Contact = React.lazy(() => import("./containers/Contact/contact"));
  //import Profile from './containers/user/Profile/Profile'
 const EmailVerify = React.lazy(() => import("./containers/Verification/EmailVerify.js"))
 const ForgetPassword = React.lazy(() => import("./containers/user/ForgetPassword/ForgetPassword.js"))
@@ -37,6 +38,11 @@ const routes = [
         path: "/home",
         name: "Home",
         component: Home,
+    },
+    {
+        path: "/contact",
+        name: "Contact",
+        component: Contact,
     },
     {
         path: "/subcategory/:id",
