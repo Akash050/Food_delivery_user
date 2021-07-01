@@ -199,14 +199,14 @@ const HomeHeader = () => {
                             </li> */}
                             {
                                 localStorage.isLoggedIn ?
-                                    <li className="dropdowncart">
-                                        <div className="cart-icon-view">
+                                    <li className="dropdowncart submenu">
+                                        <div className="cart-icon-view show-submenu">
                                             <span onClick={onCartClick} className="cart-icon"><i className="icon_cart"></i></span>
                                             <span className="cart-bagets">{itemCount}</span>
                                         </div>
                                         {
                                             cartDetails.items != undefined ?
-                                                <div className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
+                                                <ul className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
                                                     <div className="box_order mobile_fixed">
                                                         <div className="head">
                                                             <h3>{cartDetails.vendor.first_name}'s Kitchen</h3>
@@ -249,9 +249,9 @@ const HomeHeader = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </ul>
                                                 :
-                                                <div className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
+                                                <ul className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
                                                     <div className="box_order mobile_fixed">
                                                         <div className="head">
                                                             <h3>Your Cart</h3>
@@ -277,7 +277,7 @@ const HomeHeader = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </ul>
                                         }
                                     </li>
                                     : null

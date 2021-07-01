@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import img from "../../img/png/gmail.png"
+import contactBanner from "../../img/contact-banner.jpg"
 import { useHistory } from 'react-router-dom';
 import axios from 'axios'
 import swal from "sweetalert";
@@ -9,7 +10,7 @@ const Contact = (props) => {
     return (
 
         <main>
-            <div className="hero_single inner_pages background-image" data-background="url(img/home_section_2.jpg)">
+            <div className="hero_single inner_pages background-image" style={{ backgroundImage: `url(${contactBanner})` }}>
                 <div className="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
                     <div className="container">
                         <div className="row justify-content-center">
@@ -81,7 +82,7 @@ const Contact = (props) => {
                         </form>
                     </div>
                     <div className="col-lg-8 col-md-6 add_bottom_25">
-                        <iframe className="map_contact" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39714.47749917409!2d-0.13662037019554393!3d51.52871971170425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondra%2C+Regno+Unito!5e0!3m2!1sit!2ses!4v1557824540343!5m2!1sit!2ses" allowFullScreen />
+                        <iframe className="map_contact mapContact--loc" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39714.47749917409!2d-0.13662037019554393!3d51.52871971170425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondra%2C+Regno+Unito!5e0!3m2!1sit!2ses!4v1557824540343!5m2!1sit!2ses" allowFullScreen />
                     </div>
                 </div>
             </div>

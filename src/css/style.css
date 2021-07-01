@@ -5969,3 +5969,22 @@ a.box_topic.submit h3,
   border: 0;
   margin-bottom: 5px;
 }
+.mapContact--loc {
+  width: 100%;
+  height: 310px;
+  border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.cartbox--view {
+  margin-top: 18px !important;
+}
+.main-menu ul li.dropdowncart ul:before {
+  left: auto;
+  right: 5px;
+  border-width: 7px;
+  margin-left: -7px;
+}
