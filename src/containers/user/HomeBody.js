@@ -42,7 +42,6 @@ const HomeBody = () => {
         async function getUser() {
             setIsLoading(true)
             await dispatch(allUser());
-            console.log(vendorList)
             setVendorList(allVendors)
             setCopiedData([...vendorList]);
             // let half = allVendors.length >>> 1;
@@ -74,15 +73,12 @@ const HomeBody = () => {
                 container.scrollLeft += 10;
             }
             scrollCompleted += 10;
-            console.log(scrollCompleted)
             if (scrollCompleted >= 100) {
-                console.log('h')
                 window.clearInterval(slideVar);
             }
         }, 50);
     }
     const onRestaurantSelect = (val) => {
-        console.log(val._id)
         history.push({
             pathname: `/user/RestaurantDetails`,
             state: { data: val },
@@ -134,7 +130,7 @@ const HomeBody = () => {
                 <div className="main_title center">
                     <span><em></em></span>
                     <h2>Popular Categories</h2>
-                    <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+                    <p>Eat what makes you happy</p>
                 </div>
 
                 <div class="owl-carousel owl-theme categories_carousel owl-loaded owl-drag">
@@ -148,7 +144,8 @@ const HomeBody = () => {
                                     return (
                                         <div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}>
                                             <div class="item_version_2">
-                                                <a onClick={() => history.push({
+                                                <a href="javascript:void(0)" 
+                                                 onClick={() => history.push({
                                                     pathname: `/subcategory/${val._id}`,
                                                     state: { id: val._id },
                                                 })}>
@@ -184,7 +181,7 @@ const HomeBody = () => {
                     <div className="main_title">
                         <span><em></em></span>
                         <h2>Top Rated Restaurants</h2>
-                        <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+                        <p>Eat what makes you happy.</p>
                         {/* <a href="#0">View All &rarr;</a> */}
                     </div>
 
@@ -194,10 +191,9 @@ const HomeBody = () => {
                                 <ul className="row mx-0">
                                     {
                                         allVendors && allVendors.map((val) => {
-                                            console.log("allVendors", val.image)
                                             return (
                                                 <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
-                                                    <a>
+                                                    <a href="javascript:void(0)" >
                                                         {/* {val.image?
                                                         
                                                         : null } */}

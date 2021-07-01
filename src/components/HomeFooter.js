@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import insta_icon from '../img/instagram_icon.svg'
 import facebook_icon from '../img/facebook_icon.svg'
 import twitter_icon from '../img/twitter_icon.svg'
@@ -12,12 +13,19 @@ const HomeFooter = () => {
                     <h3 data-target="#collapse_1">Quick Links</h3>
                     <div className="collapse dont-collapse-sm links" id="collapse_1">
                         <ul>
-                            <li><a href="about.html">About us</a></li>
-                            <li><a href="submit-restaurant.html">Add your restaurant</a></li>
-                            <li><a href="help.html">Help</a></li>
-                            <li><a href="register.html">My account</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
+                            <li>
+                                <Link to="/profile">Profile</Link>
+                            </li>
+                            <li>
+                                <Link to="/cart">Cart</Link>
+                            </li>
+                            <li>
+                                <Link to="/orders">Orders</Link>
+
+                            </li>
+                            <li>
+                                <Link to="/contact">Contact</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -25,10 +33,12 @@ const HomeFooter = () => {
                     <h3 data-target="#collapse_2">Categories</h3>
                     <div className="collapse dont-collapse-sm links" id="collapse_2">
                         <ul>
-                            <li><a href="grid-listing-filterscol.html">Top Categories</a></li>
-                            <li><a href="grid-listing-filterscol-full-masonry.html">Best Rated</a></li>
-                            <li><a href="grid-listing-filterscol-full-width.html">Best Price</a></li>
-                            <li><a href="grid-listing-filterscol-full-masonry.html">Latest Submissions</a></li>
+                            <li>
+                                <Link to="/home">Top rated</Link>
+                            </li>
+                            {/* <li><a href="grid-listing-filterscol-full-masonry.html">Best Rated</a></li>
+                            <li><a href="grid-listing-filterscol-full-width.html">Best Price</a></li> */}
+                            {/* <li><a href="grid-listing-filterscol-full-masonry.html">Latest Submissions</a></li> */}
                         </ul>
                     </div>
                 </div>
@@ -45,7 +55,7 @@ const HomeFooter = () => {
                 <div className="col-lg-3 col-md-6">
                     <h3 data-target="#collapse_4">Keep in touch</h3>
                     <div className="collapse dont-collapse-sm" id="collapse_4">
-                        <div id="newsletter">
+                        {/* <div id="newsletter">
                             <div id="message-newsletter"></div>
                             <form method="post" action="assets/newsletter.php" name="newsletter_form" id="newsletter_form">
                                 <div className="form-group">
@@ -53,7 +63,7 @@ const HomeFooter = () => {
                                     <button type="submit" id="submit-newsletter"><i className="arrow_carrot-right"></i></button>
                                 </div>
                             </form>
-                        </div>
+                        </div> */}
                         <div className="follow_us">
                             <h5>Follow Us</h5>
                             <ul>
@@ -67,9 +77,9 @@ const HomeFooter = () => {
                 </div>
             </div>
 
-            <hr>
-            </hr>
-            <div className="row add_bottom_25">
+            {/* <hr>
+            </hr> */}
+            {/* <div className="row add_bottom_25">
                 <div className="col-lg-6">
                     <ul className="footer-selector clearfix">
                         <li>
@@ -100,7 +110,7 @@ const HomeFooter = () => {
                         <li><span>© FooYes</span></li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
 
         </div>
     </footer>);

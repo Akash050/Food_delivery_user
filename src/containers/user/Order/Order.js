@@ -19,6 +19,15 @@ const Order = () => {
     const [validated, setValidated] = useState(false);
     const [orderConfirmation, setOrderConfirmation] = useState(false)
     const [cartDetails, setCartDetails] = useState({
+        customer: {
+            first_name: '',
+            last_name: '',
+            email: '',
+            phoneNumber: ''
+        },
+        address:'',
+        city: '',
+        zipCode:''
     })
     const { cart } = useSelector((state) => ({
         cart: state.cart,
@@ -201,7 +210,7 @@ const Order = () => {
             }
         }
     }
-    console.log("phone_number", cartDetails.city)
+
     return (
         <>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
@@ -212,7 +221,7 @@ const Order = () => {
                         <div className="col-lg-4">
                             <div class="box_order_form">
                                 <div class="head text-center">
-                                    <h3>Pizzeria da Alfredo</h3>
+                                    <h3>Ekato's Kitchen</h3>
                     27 Old Gloucester St, 4530 - <a href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361" target="blank">Get directions</a>
                                 </div>
 
@@ -280,7 +289,7 @@ const Order = () => {
                                                                 <label>Email Address *</label>
                                                                 <input value={cartDetails.customer.email} onChange={(e) => handleOnChange(e, 'email')} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.email == '' || cartDetails.customer.email == undefined ?
+                                                            {validated && cartDetails.customer.email == ''?
                                                                 <div className="validation-error">
                                                                     Please enter Email Address.
                                                             </div>
@@ -292,7 +301,7 @@ const Order = () => {
                                                                 <label>Phone *</label>
                                                                 <input value={cartDetails.customer.phoneNumber} onChange={(e) => handleOnChange(e, 'number')} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.phoneNumber == '' || cartDetails.customer.phoneNumber == undefined ?
+                                                            {validated && cartDetails.customer.phoneNumber == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Phone Number.
                                                             </div>
@@ -304,7 +313,7 @@ const Order = () => {
                                                         <label>Full Address *</label>
                                                         <input value={cartDetails.address} onChange={(e) => handleOnChange(e, 'address')} className="form-control" required />
                                                     </div>
-                                                    {validated && cartDetails.address == '' || cartDetails.address == undefined ?
+                                                    {validated && cartDetails.address == ''?
                                                         <div className="validation-error">
                                                             Please enter Full Address.
                                                             </div>
@@ -346,7 +355,7 @@ const Order = () => {
                                                                         </div>
                                                                     )}
                                                                 />
-                                                                {validated && cartDetails.city == '' || cartDetails.city == undefined ?
+                                                                {validated && cartDetails.city == '' ?
                                                                     <div className="validation-error">
                                                                         Please enter City.
                                                                     </div>
@@ -359,7 +368,7 @@ const Order = () => {
                                                                 <label>Zip Code *</label>
                                                                 <input className="form-control" onChange={(e) => handleOnChange(e, 'zipcode')} required />
                                                             </div>
-                                                            {validated && cartDetails.zipCode == '' || cartDetails.zipCode == undefined ?
+                                                            {validated && cartDetails.zipCode == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Zipcode.
                                                             </div>
