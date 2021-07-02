@@ -4204,6 +4204,7 @@ header.black_nav .dropdown.user a:hover {
 a.btn_1,
 .btn_1 {
   border: none;
+  margin-bottom: 10px;
   background-color: #e54750;
   outline: none;
   cursor: pointer;
