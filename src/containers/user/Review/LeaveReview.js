@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactStars from "react-rating-stars-component";
+import { useHistory } from 'react-router';
 const LeaveReview = () => {
+    let history = useHistory();
+    let [rating, setRating] = useState("")
+    const ratingChanged = (newRating) => {
+        setRating(newRating)
+        console.log(newRating);
+    };
     return (<main className="bg_gray">
         <div className="container margin_60_20">
             <div className="row justify-content-center">
@@ -7,7 +15,7 @@ const LeaveReview = () => {
                     <div className="box_general write_review">
                         <h1 className="add_bottom_15">Write a review for "Pizzeria Da Alfredo"</h1>
                         <label className="d-block add_bottom_15">Overall rating</label>
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-md-3 add_bottom_25">
                                 <div className="add_bottom_15">Food Quality <strong className="food_quality_val"></strong></div>
                                 <input type="range" min="0" max="10" step="1" value="0" data-orientation="horizontal" id="food_quality" className="food_quality_rng" name="food_quality" />
@@ -48,7 +56,7 @@ const LeaveReview = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="form-group">
                             <label>Title of your review</label>
                             <input className="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?" />
@@ -57,7 +65,7 @@ const LeaveReview = () => {
                             <label>Your review</label>
                             <textarea className="form-control" style={{ height: "180px" }} placeholder="Write your review to help others learn about this online business"></textarea>
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label>Add your photo (optional)</label>
                             <div className="fileupload"><input type="file" name="fileupload" accept="image/*" /></div>
                         </div>
@@ -68,8 +76,15 @@ const LeaveReview = () => {
                                     <span className="checkmark"></span>
                                 </label>
                             </div>
-                        </div>
-                        <a href="confirm.html" className="btn_1">Submit review</a>
+                        </div> */}
+                        <ReactStars
+                            classNames="review-rating"
+                            count={5}
+                            onChange={ratingChanged}
+                            size={24}
+                            activeColor="#ffd700"
+                        />
+                        <a onClick={() => history.push('/')} className="btn_1">Submit review</a>
                     </div>
                 </div>
             </div>
