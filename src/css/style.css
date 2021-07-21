@@ -4072,6 +4072,7 @@ header.black_nav .dropdown.user a:hover {
 }
 
 .bg_gray {
+  margin-top: 60px;
   background-color: #f9fafb;
 }
 .bg_gray.pattern {
@@ -4143,7 +4144,7 @@ header.black_nav .dropdown.user a:hover {
 }
 
 .margin_60_20 {
-  padding-top: 60px;
+  padding-top: 60px !important;
   padding-bottom: 20px;
 }
 
@@ -4203,6 +4204,7 @@ header.black_nav .dropdown.user a:hover {
 a.btn_1,
 .btn_1 {
   border: none;
+  margin-bottom: 10px;
   background-color: #e54750;
   outline: none;
   cursor: pointer;
@@ -5710,6 +5712,8 @@ a.social_bt {
 a.social_bt:hover {
   -webkit-filter: brightness(110%);
   filter: brightness(110%);
+  text-decoration: none !important;
+  color: none !important;
 }
 
 a.social_bt.facebook {
@@ -5965,4 +5969,23 @@ a.box_topic.submit h3,
   border-radius: 0;
   border: 0;
   margin-bottom: 5px;
+}
+.mapContact--loc {
+  width: 100%;
+  height: 310px;
+  border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.cartbox--view {
+  margin-top: 18px !important;
+}
+.main-menu ul li.dropdowncart ul:before {
+  left: auto;
+  right: 5px;
+  border-width: 7px;
+  margin-left: -7px;
 }

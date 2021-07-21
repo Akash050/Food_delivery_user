@@ -6,12 +6,19 @@ import '../src/css/style.css';
 import '../src/css/home.css';
 import '../src/css/listing.css'
 import '../src/css/detail-page.css'
+import '../src/css/review.css'
 import '../src/sass/home.scss'
 import '../src/sass/style.scss'
 import '../src/css/bootstrap.css'
-import '../src/css/bootstrap_customized.css'
+import '../src/css/order-sign_up.css';
 import '../src/css/bootstrap_customized.min.css'
-
+import '../src/css/custom.css'
+import '../src/sass/detail-page.scss'
+import '../src/css/style.css';
+import '../src/css/icons.css'
+import '../src/css/error.css'
+import '../src/css/bootstrap_customized.css'
+import '../src/revolution-slider/css/settings-source.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

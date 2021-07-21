@@ -1,14 +1,103 @@
-import React, { useState } from 'react';
-import popular_cat1 from '../../img/home_cat_placeholder.jpg'
-import imagePath from '../../img/banner_bg_desktop.jpg'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import quick_del_img from '../../img/how_2.svg'
 import enjoy_food_img from '../../img/how_3.svg'
 import easly_ord_img from '../../img/how_1.svg'
 import { useHistory } from 'react-router-dom';
+import image from '../../img/home_cat_pizza.jpg'
+import { allProductCategory } from '../../redux/actions/prodCategoryAction';
+import { useRef } from "react";
+import Loading from "react-fullscreen-loading";
+import { allUser } from "../../redux/actions/vendorAction";
 const HomeBody = () => {
+    let ref = useRef();
     let history = useHistory();
+    const dispatch = useDispatch();
+    const [isLoding, setIsLoading] = useState(false);
+    const [categoryList, setCategoryList] = useState("");
+    const [search, setSearch] = useState("");
+    const [vendorList, setVendorList] = useState("");
+    const [copiedData, setCopiedData] = useState([]);
+    const [halfArr, setHalfArr] = useState([]);
+    const [secHalf, setSecHalf] = useState([]);
+    const [half, setHalf] = useState(0);
+    const [vendorListLeft, setVendorListLeft] = useState("");
+    const [vendorListRight, setVendorListRight] = useState("");
+    const { allProdCategory } = useSelector((state) => ({
+        allProdCategory: state.productCategory,
+    }));
+    const { vendor } = useSelector((state) => ({
+        vendor: state.vendor.users
+    }));
+    useEffect(() => {
+        async function getProductCategory() {
+            setIsLoading(true)
+            await dispatch(allProductCategory());
+            setIsLoading(false)
+        }
+        getProductCategory()
+    }, []);
+
+    useEffect(() => {
+        async function getUser() {
+            setIsLoading(true)
+            await dispatch(allUser());
+            setVendorList(vendor)
+            setCopiedData([...vendorList]);
+            // let half = vendor.length >>> 1;
+            // setHalfArr([...copiedData.slice(0, half)]);
+            // setSecHalf([...copiedData.slice(half, copiedData.length)]);
+            // console.log('half', halfArr)
+            // console.log('secHalf', secHalf)
+            setIsLoading(false)
+        }
+        getUser()
+    }, []);
+
+    const splitArr = () => {
+
+    }
+
+    useEffect(() => {
+        setCategoryList(allProdCategory)
+        setVendorList(vendor)
+    }, [allProdCategory, vendor]);
+
+    function slide(direction) {
+        var container = document.getElementById('containerd');
+        let scrollCompleted = 0;
+        var slideVar = setInterval(function () {
+            if (direction == 'left') {
+                container.scrollLeft -= 10;
+            } else {
+                container.scrollLeft += 10;
+            }
+            scrollCompleted += 10;
+            if (scrollCompleted >= 100) {
+                window.clearInterval(slideVar);
+            }
+        }, 50);
+    }
+    const onRestaurantSelect = (val) => {
+        history.push({
+            pathname: `/user/RestaurantDetails`,
+            state: { data: val },
+        })
+
+    }
+    let onSearchChange = (e) =>{
+        console.log("val", e.target.value)
+        setSearch(e.target.value)
+    }
+    let onSearch = () => {
+        history.push({
+            pathname: `/subcategory/60e28867b0160b0004502c93`,
+            state: { id: '60e28867b0160b0004502c93' , type: 1, search : search},
+        })
+    }
     return (
         <main>
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div className="hero_single version_1">
                 <div className="opacity-mask">
                     <div className="container">
@@ -20,11 +109,11 @@ const HomeBody = () => {
                                     <div className="row no-gutters custom-search-input">
                                         <div className="col-lg-10">
                                             <div className="form-group">
-                                                <input className="form-control no_border_r" type="text" id="autocomplete" placeholder="Address, neighborhood..." />
+                                                <input onChange = {onSearchChange} className="form-control no_border_r" type="text" id="autocomplete" value = {search} placeholder="Dish, restaurant , city..." />
                                             </div>
                                         </div>
                                         <div className="col-lg-2">
-                                            <button className="btn_1 gradient" type="submit">Search</button>
+                                            <button onClick={onSearch} className="btn_1 gradient" type="submit">Search</button>
                                         </div>
                                     </div>
 
@@ -51,226 +140,135 @@ const HomeBody = () => {
                 <div className="main_title center">
                     <span><em></em></span>
                     <h2>Popular Categories</h2>
-                    <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+                    <p>Eat what makes you happy</p>
                 </div>
 
+                <div class="owl-carousel owl-theme categories_carousel owl-loaded owl-drag">
+                    <div class="owl-stage-outer" id="containerd">
+                        <div class="owl-stage"
+                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: "1800px", paddingLeft: "50px", paddingRight: "50px", display: 'flex', alignItems: 'center' }}
+                        // style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 1794px; padding-left: 50px; padding-right: 50px;"
+                        >
+                            {
+                                allProdCategory.map((val) => {
+                                    return (
+                                        <div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}>
+                                            <div class="item_version_2">
+                                                <a href="javascript:void(0)"
+                                                    onClick={() => history.push({
+                                                        pathname: `/subcategory/${val._id}`,
+                                                        state: { id: val._id , type : 0, search: ''},
+                                                    })}>
+                                                    <figure>
+                                                        {/* <span>98</span> */}
+                                                        <img src={val.image ? val.image : image} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
+                                                        <div class="info">
+                                                            <h3>{val.category}</h3>
+                                                            <small>{val.description}</small>
+                                                        </div>
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
 
-                <div className="owl-carousel owl-theme categories_carousel">
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>98</span>
-                                <img src={popular_cat1} alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Pizza</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
+                        </div></div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev" onClick={() => slide('left')}>
+                            <i class="arrow_left"></i>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next" onClick={() => slide('right')}>
+                            <i class="arrow_right"></i>
+                        </button>
                     </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>87</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_sushi.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Japanese</h3>
-                                    <small>Avg price $50</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>55</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_hamburgher.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Burghers</h3>
-                                    <small>Avg price $55</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>55</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_vegetarian.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Vegetarian</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>65</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_bakery.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Bakery</h3>
-                                    <small>Avg price $60</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>25</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_chinesse.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Chinese</h3>
-                                    <small>Avg price $40</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                    <div className="item_version_2">
-                        <a href="grid-listing-filterscol.html">
-                            <figure>
-                                <span>35</span>
-                                <img src="img/home_cat_placeholder.jpg" data-src="img/home_cat_mexican.jpg" alt="" className="owl-lazy" width="350" height="450" />
-                                <div className="info">
-                                    <h3>Mexican</h3>
-                                    <small>Avg price $35</small>
-                                </div>
-                            </figure>
-                        </a>
-                    </div>
-                </div>
+                    <div class="owl-dots disabled"></div></div>
 
             </div>
-
-
             <div className="bg_gray">
                 <div className="container margin_60_40">
                     <div className="main_title">
                         <span><em></em></span>
                         <h2>Top Rated Restaurants</h2>
-                        <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
-                        <a href="#0">View All &rarr;</a>
-                    </div>
-                    <div className="row add_bottom_25">
-                        <div className="col-lg-6">
-                            <div className="list_home">
-                                <ul>
-                                    <li onClick={() => history.push('/user/RestaurantDetails')}>
-                                        <a>
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.5</strong></div>
-                                            <em>Italian</em>
-                                            <h3>La Monnalisa</h3>
-                                            <small>8 Patriot Square E2 9NF</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-30%</span></li>
-                                                <li>Average price $35</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_2.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.0</strong></div>
-                                            <em>Mexican</em>
-                                            <h3>Alliance</h3>
-                                            <small>27 Old Gloucester St, 4563</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-40%</span></li>
-                                                <li>Average price $30</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a >
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_3.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.0</strong></div>
-                                            <em>Sushi - Japanese</em>
-                                            <h3>Sushi Gold</h3>
-                                            <small>Old Shire Ln EN9 3RX</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-25%</span></li>
-                                                <li>Average price $20</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="list_home">
-                                <ul>
-                                    <li>
-                                        <a href="detail-restaurant.html">
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_4.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>9.5</strong></div>
-                                            <em>Vegetarian</em>
-                                            <h3>Mr. Pepper</h3>
-                                            <small>27 Old Gloucester St, 4563</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-30%</span></li>
-                                                <li>Average price $20</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="detail-restaurant.html">
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_5.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.0</strong></div>
-                                            <em>Chinese</em>
-                                            <h3>Dragon Tower</h3>
-                                            <small>22 Hertsmere Rd E14 4ED</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-50%</span></li>
-                                                <li>Average price $35</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="detail-restaurant.html">
-                                            <figure>
-                                                <img src="img/location_list_placeholder.png" data-src="img/location_list_6.jpg" alt="" className="lazy" width="350" height="233" />
-                                            </figure>
-                                            <div className="score"><strong>8.5</strong></div>
-                                            <em>Pizza - Italian</em>
-                                            <h3>Bella Napoli</h3>
-                                            <small>135 Newtownards Road BT4</small>
-                                            <ul>
-                                                <li><span className="ribbon off">-45%</span></li>
-                                                <li>Average price $25</li>
-                                            </ul>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <p>Eat what makes you happy.</p>
+                        {/* <a href="#0">View All &rarr;</a> */}
                     </div>
 
-                    <div className="banner lazy"
+                    <div className="row add_bottom_25">
+                        <div className="col-12">
+                            <div className="list_home" >
+                                <ul className="row mx-0">
+                                    {
+                                        vendor && vendor.map((val) => {
+                                            return (
+                                                <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
+                                                    <a href="javascript:void(0)" >
+                                                        {/* {val.image?
+                                                        
+                                                        : null } */}
+                                                        <figure>
+                                                            <img src={val.image ? val.image : image} data-src={val.image ? val.image : image} alt="" className="lazy" width="350" height="233" />
+                                                        </figure>
+                                                        <div className="score"><strong>9.5</strong></div>
+
+                                                        <h3>{val.first_name}</h3>
+                                                        <small>{val.city}</small> <br></br>
+                                                        <small>{val.area}</small>
+                                                        <ul>
+                                                            {/* <li><span className="ribbon off">-30%</span></li>
+                                                            <li>Average price $35</li> */}
+                                                        </ul>
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        {/* <div className="col-lg-6">
+                            <div className="list_home">
+                                <ul>
+                                    {
+                                        vendor && halfArr.map((val) => {
+                                            return (
+                                                <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
+                                                    <a>
+                                                        <figure>
+                                                            <img src="img/location_list_placeholder.png" data-src="img/location_list_1.jpg" alt="" className="lazy" width="350" height="233" />
+                                                        </figure>
+                                                        <div className="score"><strong>9.5</strong></div>
+                                                        <em>Italian</em>
+                                                        <h3>{val.first_name}</h3>
+                                                        <small>8 Patriot Square E2 9NF</small>
+                                                        <ul>
+                                                            <li><span className="ribbon off">-30%</span></li>
+                                                            <li>Average price $35</li>
+                                                        </ul>
+                                                    </a>
+                                                </li>
+                                            );
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                        </div> */}
+                    </div>
+
+                    {/* <div className="banner lazy"
                         style={{ backgroundImage: `url('${imagePath}')` }}
                     >
-                        <div className="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.3)">
+                        <div className="wrapper d-flex align-items-center opacity-mask" style={{ backgroundColor: `rgba(0, 0, 0, 0.5)` }}>
                             <div>
                                 <small>FooYes Delivery</small>
                                 <h3>We Deliver to your Office</h3>
                                 <p>Enjoy a tasty food in minutes!</p>
-                                <a href="grid-listing-filterscol.html" className="btn_1 gradient">Start Now!</a>
+                                <div className="btn_1 gradient" onClick={() => history.push('/subcategory')}>Start Now!</div>
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
@@ -311,7 +309,7 @@ const HomeBody = () => {
                                 </div>
                                 <p className="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur deserunt.</p>
                                 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                <p><a href="#0" className="btn_1 medium gradient pulse_bt mt-2">Register</a></p>
+                                {/* <p><a href="#0" className="btn_1 medium gradient pulse_bt mt-2">Register</a></p> */}
                             </div>
                         </div>
                     </div>

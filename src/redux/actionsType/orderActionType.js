@@ -1,0 +1,8 @@
+export const ALL_ORDERS = "ALL_ORDERS";
+export const ORDERS_BY_VENDOR_ID = "ORDERS_BY_VENDOR_ID";
+export const USER_ORDERS = "USER_ORDERS";
+export const CREATE_ORDER = 'CREATE_ORDER'
+export const UPDATE_ORDER = "UPDATE_ORDER"
+export const DELETE_ORDER = "DELETE_ORDER"
+export const UPDATE_ORDER_STATUS = "UPDATE_ORDER_STATUS"
+export const ORDER_BY_ID = "ORDER_BY_ID"

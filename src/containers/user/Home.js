@@ -8,9 +8,7 @@ import TheContent from './TheContent';
 const Home = () => {
     return (
         <>
-
             <HomeBody />
-
         </>);
 }
 
