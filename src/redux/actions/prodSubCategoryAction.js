@@ -12,7 +12,7 @@ export const newProductSubCategory = (params) => async (dispatch) => {
     return response.data;
 };
 export const allProductSubCategory = (params) => async (dispatch) => {
-    const response = await prodSubCategoryApi.allProductSubCategory(params);
+    const response = await prodSubCategoryApi.getMenus(params);
     if (response.data.success) {
         dispatch({
             type: prodSubCategoryActionType.ALL_PRODUCT_SUB_CATEGORY,
@@ -45,7 +45,6 @@ export const productSubCatByCategoryId = (params) => async (dispatch) => {
 
 
 export const deleteProductSubCategory = (param) => async (dispatch) => {
-    console.log('action param', param)
     const response = await prodSubCategoryApi.deleteProductSubCategory(param);
     if (response) {
         dispatch({

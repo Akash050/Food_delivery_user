@@ -1,6 +1,6 @@
 import { client } from "./index";
 
-export const allMenuItem = (params) => client.get("api/menu", params);
+export const allMenuItem = (params) => client.post("api/menu/list", params);
 export const addMenuItem = (params) => client.post("api/menu", params);
 export const deleteMenuItem = (id) => client.delete(`api/menu?id=${id}`);
 export const updateMenuItem = (params) => client.put(`api/menu`, params);

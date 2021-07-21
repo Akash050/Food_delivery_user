@@ -1,95 +1,125 @@
 import React, { useState } from 'react';
 import ReactStars from "react-rating-stars-component";
+import { addReview } from '../../../redux/actions/review';
 import { useHistory } from 'react-router';
-const LeaveReview = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from "react-fullscreen-loading";
+import swal from "sweetalert";
+const LeaveReview = (props) => {
+    let data = props.location.state.data
     let history = useHistory();
-    let [rating, setRating] = useState("")
+    const [isLoding, setIsLoading] = useState(false);
+    let dispatch = useDispatch();
+    let [flag, setFlag] = useState(false)
+    let [formData, setFormData] = useState({
+        rating: '',
+        title: '',
+        review: ''
+    })
     const ratingChanged = (newRating) => {
-        setRating(newRating)
-        console.log(newRating);
+        setFormData({
+            ...formData,
+            rating: newRating
+        })
     };
-    return (<main className="bg_gray">
-        <div className="container margin_60_20">
-            <div className="row justify-content-center">
-                <div className="col-lg-8">
-                    <div className="box_general write_review">
-                        <h1 className="add_bottom_15">Write a review for "Pizzeria Da Alfredo"</h1>
-                        <label className="d-block add_bottom_15">Overall rating</label>
-                        {/* <div className="row">
-                            <div className="col-md-3 add_bottom_25">
-                                <div className="add_bottom_15">Food Quality <strong className="food_quality_val"></strong></div>
-                                <input type="range" min="0" max="10" step="1" value="0" data-orientation="horizontal" id="food_quality" className="food_quality_rng" name="food_quality" />
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0">
-                                    <div class="rangeslider__fill" style={{ width: "10px" }}>
-                                    </div>
-                                    <div class="rangeslider__handle" style={{ left: "0px" }}>
-                                    </div>
+    let resetfield = () =>{
+        setFormData({
+            ...setFormData,
+            title: '',
+            review: '',
+            rating:''
+        })
+    }
+    const handleChange = (e) => {
+        let { name, value } = e.target
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+    const handleSubmit = async () => {
+        setIsLoading(true)
+        let payload = {
+            title: formData.title,
+            review: formData.review,
+            rating: formData.rating,
+            vendorId: props.location.state.data._id,
+            userId: localStorage.id
+        }
+        let data = await dispatch(addReview(payload))
+        if (data.success) {
+            setFlag(true)
+            setIsLoading(false)
+            resetfield()
+        } else {
+            swal({
+                title: "Error",
+                text: data.message,
+                icon: "error",
+                button: 'ok'
+            });
+            setIsLoading(false)
+        }
+    }
+
+    return (
+        <main className="bg_gray">
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
+            {!flag ?
+                <div className="container margin_60_20">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-8">
+                            <div className="box_general write_review">
+                                <h1 className="add_bottom_15">Write a review for {data.first_name}{data.last_name}</h1>
+                                {/* <label className="d-block add_bottom_15">Overall rating</label> */}
+                                <div className="form-group">
+                                    <label>Title of your review</label>
+                                    <input className="form-control" type="text" name="title" value={formData.title} onChange={(e) => handleChange(e)} />
                                 </div>
-                            </div>
-                            <div className="col-md-3 add_bottom_25">
-                                <div className="add_bottom_15">Service <strong className="service_val"></strong></div>
-                                <input type="range" min="0" max="10" step="1" value="0" data-orientation="horizontal" id="service" className="food_quality_rng" name="service" />
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0">
-                                    <div class="rangeslider__fill" style={{ width: "10px" }}>
-                                    </div>
-                                    <div class="rangeslider__handle" style={{ left: "0px" }}>
-                                    </div>
+                                <div className="form-group">
+                                    <label>Your review</label>
+                                    <textarea className="form-control" name="review" style={{ height: "180px" }} value={formData.review} onChange={(e) => handleChange(e)} ></textarea>
                                 </div>
+                                <ReactStars
+                                    classNames="review-rating"
+                                    count={5}
+                                    onChange={ratingChanged}
+                                    size={24}
+                                    activeColor="#ffd700"
+                                />
+                                <div onClick={handleSubmit} className="btn_1">Submit review</div>
                             </div>
-                            <div className="col-md-3 add_bottom_25">
-                                <div className="add_bottom_15">Punctuality <strong className="location_val"></strong></div>
-                                <input type="range" min="0" max="10" step="1" value="0" data-orientation="horizontal" id="location" className="food_quality_rng" name="location" />
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0">
-                                    <div class="rangeslider__fill" style={{ width: "10px" }}>
-                                    </div>
-                                    <div class="rangeslider__handle" style={{ left: "0px" }}>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 add_bottom_25">
-                                <div className="add_bottom_15">Price <strong className="price_val"></strong></div>
-                                <input type="range" min="0" max="10" step="1" value="0" data-orientation="horizontal" id="price" className="food_quality_rng" name="price" />
-                                <div class="rangeslider rangeslider--horizontal" id="js-rangeslider-0">
-                                    <div class="rangeslider__fill" style={{ width: "10px" }}>
-                                    </div>
-                                    <div class="rangeslider__handle" style={{ left: "0px" }}>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-                        <div className="form-group">
-                            <label>Title of your review</label>
-                            <input className="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?" />
                         </div>
-                        <div className="form-group">
-                            <label>Your review</label>
-                            <textarea className="form-control" style={{ height: "180px" }} placeholder="Write your review to help others learn about this online business"></textarea>
-                        </div>
-                        {/* <div className="form-group">
-                            <label>Add your photo (optional)</label>
-                            <div className="fileupload"><input type="file" name="fileupload" accept="image/*" /></div>
-                        </div>
-                        <div className="form-group">
-                            <div className="checkboxes float-left add_bottom_15 add_top_15">
-                                <label className="container_check">Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.
-                                <input type="checkbox" />
-                                    <span className="checkmark"></span>
-                                </label>
-                            </div>
-                        </div> */}
-                        <ReactStars
-                            classNames="review-rating"
-                            count={5}
-                            onChange={ratingChanged}
-                            size={24}
-                            activeColor="#ffd700"
-                        />
-                        <a onClick={() => history.push('/')} className="btn_1">Submit review</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </main>);
+                :
+                <div className="row justify-content-center">
+                    <div className="col-lg-4">
+                        <div class="box_order_form">
+                            <div class="head text-center">
+                                <h3>{data.first_name}'s Kitchen</h3>
+                                {data.area}, {data.city}
+                            </div>
+                            <div class="main">
+                                <div id="confirm">
+                                    <div class="icon icon--order-success svg add_bottom_15">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+                                            <g fill="none" stroke="#8EC343" stroke-width="2">
+                                                <circle cx="36" cy="36" r="35" style={{ strokeDasharray: "240px 240px", strokeDashoffset: "480px" }}></circle>
+                                                <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style={{ strokeDasharray: "50px 50px", strokeDashoffset: "0px" }}></path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <h3>Review Sumbitted!</h3>
+                                    {/* <p>Sit an meis aliquam, cetero inermis.</p> */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </main>
+    );
 }
 
 export default LeaveReview;

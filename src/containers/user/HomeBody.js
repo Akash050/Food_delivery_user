@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import imagePath from '../../img/banner_bg_desktop.jpg'
 import quick_del_img from '../../img/how_2.svg'
 import enjoy_food_img from '../../img/how_3.svg'
 import easly_ord_img from '../../img/how_1.svg'
@@ -16,6 +15,7 @@ const HomeBody = () => {
     const dispatch = useDispatch();
     const [isLoding, setIsLoading] = useState(false);
     const [categoryList, setCategoryList] = useState("");
+    const [search, setSearch] = useState("");
     const [vendorList, setVendorList] = useState("");
     const [copiedData, setCopiedData] = useState([]);
     const [halfArr, setHalfArr] = useState([]);
@@ -26,8 +26,8 @@ const HomeBody = () => {
     const { allProdCategory } = useSelector((state) => ({
         allProdCategory: state.productCategory,
     }));
-    const { allVendors } = useSelector((state) => ({
-        allVendors: state.allVendors.users
+    const { vendor } = useSelector((state) => ({
+        vendor: state.vendor.users
     }));
     useEffect(() => {
         async function getProductCategory() {
@@ -42,9 +42,9 @@ const HomeBody = () => {
         async function getUser() {
             setIsLoading(true)
             await dispatch(allUser());
-            setVendorList(allVendors)
+            setVendorList(vendor)
             setCopiedData([...vendorList]);
-            // let half = allVendors.length >>> 1;
+            // let half = vendor.length >>> 1;
             // setHalfArr([...copiedData.slice(0, half)]);
             // setSecHalf([...copiedData.slice(half, copiedData.length)]);
             // console.log('half', halfArr)
@@ -60,8 +60,8 @@ const HomeBody = () => {
 
     useEffect(() => {
         setCategoryList(allProdCategory)
-        setVendorList(allVendors)
-    }, [allProdCategory, allVendors]);
+        setVendorList(vendor)
+    }, [allProdCategory, vendor]);
 
     function slide(direction) {
         var container = document.getElementById('containerd');
@@ -85,6 +85,16 @@ const HomeBody = () => {
         })
 
     }
+    let onSearchChange = (e) =>{
+        console.log("val", e.target.value)
+        setSearch(e.target.value)
+    }
+    let onSearch = () => {
+        history.push({
+            pathname: `/subcategory/60e28867b0160b0004502c93`,
+            state: { id: '60e28867b0160b0004502c93' , type: 1, search : search},
+        })
+    }
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
@@ -99,11 +109,11 @@ const HomeBody = () => {
                                     <div className="row no-gutters custom-search-input">
                                         <div className="col-lg-10">
                                             <div className="form-group">
-                                                <input className="form-control no_border_r" type="text" id="autocomplete" placeholder="Address, neighborhood..." />
+                                                <input onChange = {onSearchChange} className="form-control no_border_r" type="text" id="autocomplete" value = {search} placeholder="Dish, restaurant , city..." />
                                             </div>
                                         </div>
                                         <div className="col-lg-2">
-                                            <button className="btn_1 gradient" type="submit">Search</button>
+                                            <button onClick={onSearch} className="btn_1 gradient" type="submit">Search</button>
                                         </div>
                                     </div>
 
@@ -144,11 +154,11 @@ const HomeBody = () => {
                                     return (
                                         <div class="owl-item active" style={{ width: "222px", marginRight: "20px" }}>
                                             <div class="item_version_2">
-                                                <a href="javascript:void(0)" 
-                                                 onClick={() => history.push({
-                                                    pathname: `/subcategory/${val._id}`,
-                                                    state: { id: val._id },
-                                                })}>
+                                                <a href="javascript:void(0)"
+                                                    onClick={() => history.push({
+                                                        pathname: `/subcategory/${val._id}`,
+                                                        state: { id: val._id , type : 0, search: ''},
+                                                    })}>
                                                     <figure>
                                                         {/* <span>98</span> */}
                                                         <img src={val.image ? val.image : image} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
@@ -190,7 +200,7 @@ const HomeBody = () => {
                             <div className="list_home" >
                                 <ul className="row mx-0">
                                     {
-                                        allVendors && allVendors.map((val) => {
+                                        vendor && vendor.map((val) => {
                                             return (
                                                 <li className="col-12 col-lg-6" style={{ cursor: "pointer" }} onClick={() => onRestaurantSelect(val)}>
                                                     <a href="javascript:void(0)" >
@@ -198,10 +208,10 @@ const HomeBody = () => {
                                                         
                                                         : null } */}
                                                         <figure>
-                                                            <img src={val.image?val.image:image} data-src={val.image?val.image:image} alt="" className="lazy" width="350" height="233" />
+                                                            <img src={val.image ? val.image : image} data-src={val.image ? val.image : image} alt="" className="lazy" width="350" height="233" />
                                                         </figure>
                                                         <div className="score"><strong>9.5</strong></div>
-                                                        
+
                                                         <h3>{val.first_name}</h3>
                                                         <small>{val.city}</small> <br></br>
                                                         <small>{val.area}</small>
@@ -221,7 +231,7 @@ const HomeBody = () => {
                             <div className="list_home">
                                 <ul>
                                     {
-                                        allVendors && halfArr.map((val) => {
+                                        vendor && halfArr.map((val) => {
                                             return (
                                                 <li style={{ cursor: "pointer" }} onClick={() => history.push('/user/RestaurantDetails')}>
                                                     <a>

@@ -12,7 +12,6 @@ function App(props) {
       <Provider store={store}>
         <BrowserRouter>
           <TheLayout />
-
         </BrowserRouter>
       </Provider>
     </div>

@@ -24,10 +24,11 @@ export const allMenuItem = (params) => async (dispatch) => {
 
 export const MenuItemByCat = (params) => async (dispatch) => {
     const response = await menuItemApi.MenuItemByCat(params);
+    console.log("er", response)
     if (response.data.success) {
         dispatch({
             type: menuItemActionType.MENU_ITEM_BY_CAT,
-            payload: response.data.data,
+            payload: response.data.data.menu,
         });
     }
     return response.data;

@@ -11,7 +11,9 @@ const GridListingFilterscol = (props) => {
     const dispatch = useDispatch();
     const [id, setId] = useState(props.location.state.id);
     const [isLoding, setIsLoading] = useState(false);
-    const [count, setCount] = useState(1);
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(9);
+    const [search, setSearch] = useState(props.location.state.search);
     const [subCategoryList, setSubCategoryList] = useState("");
     const [itemCount, setItemCount] = useState(0)
     const [cartDetails, setCartDetails] = useState({
@@ -20,56 +22,41 @@ const GridListingFilterscol = (props) => {
     const { cart } = useSelector((state) => ({
         cart: state.cart,
     }));
-    const { allProdSubCategory } = useSelector((state) => ({
-        allProdSubCategory: state.productSubCategory,
+    const { allProdSubCategory, count } = useSelector((state) => ({
+        allProdSubCategory: state.productSubCategory.menu,
+        count: state.productSubCategory.count,
     }));
     useEffect(() => {
+       // console.log("props", props.location.state.type)
+        getMenu(props.location.state.type)
+    }, [page, search])
+    useEffect(async () => {
+        setSubCategoryList(allProdSubCategory)
+    }, [allProdSubCategory]);
+
+    let getMenu = async (val) => {
         async function getProductSubCategory() {
             setIsLoading(true)
             let params = {
-                categoryId: id
+                categoryId: id,
+                page: page,
+                size: size,
+                search: search
             }
-            await dispatch(productSubCatByCategoryId(params));
-            setIsLoading(false)
+            if(val){
+                await dispatch(allProductSubCategory(params));
+                setIsLoading(false)
+            }else{
+                await dispatch(productSubCatByCategoryId(params));
+                setIsLoading(false)
+            }
         }
         getProductSubCategory()
-    }, []);
-    useEffect(async () => {
-        setSubCategoryList(allProdSubCategory)
-
-    }, [allProdSubCategory]);
-
-
-
-    useEffect(() => {
-        getCart()
-    }, [])
-
-    let getCart = async () => {
-        // setIsLoading(true)
-        // let payload = {
-        //     customerId: localStorage.id
-        // }
-        // let data = await dispatch(cartByUser(payload, false));
-        // if (data.success) {
-        //     setIsLoading(false)
-        //     if (data.data) {
-        //         const sum = data.data.items.map(element => element.quantity).reduce((a, b) => a + b, 0);
-        //         setItemCount(sum)
-        //         setCartDetails(data.data)
-        //     } else {
-        //         console.log("data else", data)
-        //         setCartDetails({})
-        //         setItemCount(0)
-        //     }
-        // } else {
-        //     setIsLoading(false)
-        // }
     }
     let onAddItem = async (value) => {
-        if( localStorage.isLoggedIn == undefined){
-             props.history.push('/login')
-             return
+        if (localStorage.isLoggedIn == undefined) {
+            props.history.push('/login')
+            return
         }
         let payload = {
             customerId: localStorage.id
@@ -148,7 +135,7 @@ const GridListingFilterscol = (props) => {
             setIsLoading(true)
             let payload = {
                 customerId: localStorage.id,
-                vendorId: value.vendorId,
+                vendorId: value.vendor,
                 items: [
                     {
                         itemId: value._id,
@@ -164,7 +151,33 @@ const GridListingFilterscol = (props) => {
             setIsLoading(false)
         }
     }
-    console.log("allProdSubCategory", allProdSubCategory)
+    let paginationClick = (e, val) => {
+        e.preventDefault()
+        setPage(val)
+    }
+    let nextClick = (e) => {
+        e.preventDefault()
+        if (page >= Math.ceil(count / size)) {
+            return
+        }
+        setPage(page + 1)
+    }
+
+    let prevClick = (e) => {
+        e.preventDefault()
+        if (page <= 1) {
+            return
+        }
+        setPage(page - 1)
+    }
+    let findAvg = (arr, key) => {
+        if(!arr.length){
+            return 'n/a'
+        }
+        let avg = arr.reduce((r, c) => r + parseFloat(c[key]), 0) / arr.length;
+        return avg.toFixed(1)
+    }
+  //  console.log("proo allProdSubCategory", allProdSubCategory)
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
@@ -177,7 +190,7 @@ const GridListingFilterscol = (props) => {
                         </div>
                         <div className="col-xl-4 col-lg-5 col-md-5">
                             <div className="search_bar_list">
-                                <input type="text" className="form-control" placeholder="Dishes, restaurants or cuisines" />
+                                <input onChange={(e) => setSearch(e.target.value)} value={search} type="text" className="form-control" placeholder="Dish , City , Resaturant" />
                                 <button type="submit"><i className="icon_search"></i></button>
                             </div>
                         </div>
@@ -207,7 +220,7 @@ const GridListingFilterscol = (props) => {
                                 </li>
                             </ul>
                         </div> */}
-{/* 
+                        {/* 
                         <a href="#0" className="open_filters btn_filters"><i className="icon_adjust-vert"></i><span>Filters</span></a> */}
 
                         <div className="filter_col">
@@ -218,37 +231,37 @@ const GridListingFilterscol = (props) => {
                                     <ul>
                                         <li>
                                             <label className="container_radio">Top Rated
-                                            <input type="radio" name="filter_sort" checked="" />
+                                                <input type="radio" name="filter_sort" checked="" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label className="container_radio">Reccomended
-                                            <input type="radio" name="filter_sort" />
+                                                <input type="radio" name="filter_sort" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label className="container_radio">Price: low to high
-                                            <input type="radio" name="filter_sort" />
+                                                <input type="radio" name="filter_sort" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label className="container_radio">Up to 15% off
-                                            <input type="radio" name="filter_sort" />
+                                                <input type="radio" name="filter_sort" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label className="container_radio">All Offers
-                                            <input type="radio" name="filter_sort" />
+                                                <input type="radio" name="filter_sort" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label className="container_radio">Distance
-                                            <input type="radio" name="filter_sort" />
+                                                <input type="radio" name="filter_sort" />
                                                 <span className="checkmark"></span>
                                             </label>
                                         </li>
@@ -257,7 +270,7 @@ const GridListingFilterscol = (props) => {
                             </div>
 
                             <div className="filter_type">
-                                <h4><a  data-toggle="collapse" className="closed">Categories</a></h4>
+                                <h4><a data-toggle="collapse" className="closed">Categories</a></h4>
                                 <div className="collapse" id="filter_2">
                                     <ul>
                                         <li>
@@ -307,7 +320,7 @@ const GridListingFilterscol = (props) => {
                             </div>
 
                             <div className="filter_type">
-                                <h4><a  data-toggle="collapse" className="closed">Distance</a></h4>
+                                <h4><a data-toggle="collapse" className="closed">Distance</a></h4>
                                 <div className="collapse" id="filter_3">
                                     <div className="distance">Radius around selected destination <span></span> km</div>
                                     <div className="add_bottom_25"><input type="range" min="10" max="50" step="5" value="20" data-orientation="horizontal" /></div>
@@ -317,7 +330,7 @@ const GridListingFilterscol = (props) => {
 
 
                             <div className="filter_type last">
-                                <h4><a  data-toggle="collapse" className="closed">Rating</a></h4>
+                                <h4><a data-toggle="collapse" className="closed">Rating</a></h4>
                                 <div className="collapse" id="filter_4">
                                     <ul>
                                         <li>
@@ -420,12 +433,12 @@ const GridListingFilterscol = (props) => {
                         <div className="row">
                             {/* <div className="col-12"><h2 className="title_small">Menu Items</h2></div> */}
                             {
-                                allProdSubCategory.map((val) => {
+                                allProdSubCategory && allProdSubCategory.map((val) => {
                                     return (
                                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                             <div className="strip">
                                                 <figure>
-                                                <img src={val.image ? val.image : null} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
+                                                    <img src={val.image ? val.image : null} alt="" class="owl-lazy fit-image" style={{ opacity: "1", minHeight: '285px' }} />
                                                     <a className="strip_info">
                                                         <div className="item_title" style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                             <div>
@@ -439,9 +452,10 @@ const GridListingFilterscol = (props) => {
                                                 </figure>
 
                                                 <ul>
-                                                    <li><span className="deliv yes">Delivery</span></li>
+                                                    <li><span className="deliv yes">{val.vendor.first_name}</span></li>
+                                                    {/* <li><span className=" yes">{val.vendor.city}</span></li> */}
                                                     <li>
-                                                        <div className="score"><strong>8.9</strong></div>
+                                                        <div className="score"><strong> { val.vendor? findAvg(val.vendor.reviews, 'rating'): ''}</strong></div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -453,13 +467,14 @@ const GridListingFilterscol = (props) => {
                         </div>
 
                         <div className="pagination_fg">
-                            <a >&laquo;</a>
-                            <a className="active">1</a>
-                            <a >2</a>
-                            <a >3</a>
-                            <a >4</a>
-                            <a >5</a>
-                            <a >&raquo;</a>
+                            <a onClick={(e) => prevClick(e)} >&laquo;</a>
+                            {count && Array.from({ length: Math.ceil(parseInt(count) / size) }, (_, index) => {
+                                return (
+                                    <a onClick={(e) => paginationClick(e, index + 1)} className={`${index + 1 == page ? 'active' : ''}`}>{index + 1}</a>
+                                )
+                            })}
+                            {/* <a className="active">1</a> */}
+                            <a onClick={(e) => nextClick(e)} >&raquo;</a>
                         </div>
                     </div>
 

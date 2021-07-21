@@ -12,7 +12,7 @@ export default combineReducers({
     auth: authReducer,
     productCategory: prodCategoryReducer,
     productSubCategory: prodSubCategoryReducer,
-    allVendors: vendorReducer,
+    vendor: vendorReducer,
     cart: cartReducer,
     menuItems: menuItemReducer,
     orders: orderReducer,

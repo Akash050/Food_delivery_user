@@ -19,15 +19,22 @@ const Order = () => {
     const [validated, setValidated] = useState(false);
     const [orderConfirmation, setOrderConfirmation] = useState(false)
     const [cartDetails, setCartDetails] = useState({
-        customer: {
-            first_name: '',
-            last_name: '',
-            email: '',
-            phoneNumber: ''
-        },
-        address:'',
+        customer: "",
+        vendor: "",
+        address: '',
+        first_name:'',
+        last_name:'',
         city: '',
-        zipCode:''
+        zipCode: '',
+        email:"",
+        phoneNumber: "",
+        vendorName: "",
+        items:[],
+        grandTotal: '',
+        totalPrice:'',
+        discountValue:'',
+        _id:'',
+        touched: false
     })
     const { cart } = useSelector((state) => ({
         cart: state.cart,
@@ -39,7 +46,6 @@ const Order = () => {
             customerId: localStorage.id
         }
         let data = await dispatch(cartByUser(payload, false));
-        console.log("data", data)
         if (data.success) {
             setIsLoading(false)
         } else {
@@ -63,8 +69,26 @@ const Order = () => {
 
     useEffect(async () => {
         if (cart.cart) {
-            console.log("cardt chanhe", cart.cart)
-            setCartDetails(cart.cart)
+            console.log("cart", cart.cart)
+            setCartDetails({
+                ...cartDetails,
+                items:cart.cart.items,
+                vendorName: cart.cart.vendor.first_name,
+                vendor: cart.cart.vendor._id,
+                grandTotal:cart.cart.grandTotal,
+                discountValue:cart.cart.discountValue,
+                totalPrice:cart.cart.totalPrice,
+                _id:cart.cart._id,
+                customer: "",
+                address: '',
+                first_name:'',
+                last_name:'',
+                city: '',
+                zipCode: '',
+                email:"",
+                phoneNumber: "",
+                touched: false
+            })
         } else {
             setCartDetails({})
         }
@@ -130,73 +154,38 @@ const Order = () => {
         if (value != null) {
             setCartDetails({
                 ...cartDetails,
-                city: value.city
+                city: value.city,
+                touched: true
             })
         }
     }
-    let handleOnChange = (e, typ) => {
-        if (typ == 'address') {
-            setCartDetails({
-                ...cartDetails,
-                address: e.target.value
-
-            });
-        }
-        if (typ == 'number') {
-            setCartDetails({
-                ...cartDetails, customer: {
-                    ...cartDetails.customer,
-                    phoneNumber: e.target.value
-                }
-            });
-        }
-        if (typ == 'email') {
-            setCartDetails({
-                ...cartDetails, customer: {
-                    ...cartDetails.customer,
-                    email: e.target.value
-                }
-            });
-        }
-        if (typ == 'firstname') {
-            setCartDetails({
-                ...cartDetails, customer: {
-                    ...cartDetails.customer,
-                    first_name: e.target.value
-                }
-            });
-        }
-        if (typ == 'lastname') {
-            setCartDetails({
-                ...cartDetails, customer: {
-                    ...cartDetails.customer,
-                    last_name: e.target.value
-                }
-            });
-        }
-        if (typ == 'zipcode') {
-            setCartDetails({
-                ...cartDetails, zipCode: e.target.value
-            });
-        }
+    let handleOnChange = (e) => {
+        
+      let {name, value} = e.target
+      setCartDetails({
+          ...cartDetails,
+          [name]: value,
+          touched: true
+      })
     }
 
     let onSubmit = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
-        console.log("form.checkValidity()", form.checkValidity())
         if (form.checkValidity() == false) {
             event.preventDefault();
             event.stopPropagation();
             setValidated(true);
-
         } else {
             setIsLoading(true)
             let payload = {
                 ...cartDetails,
-                status: "Pending"
+                customer:localStorage.id
             }
             let data = await dispatch(createOrder(payload));
+            setCartDetails({
+                touched: false
+            })
             if (data.success) {
                 setIsLoading(false)
                 setOrderConfirmation(true)
@@ -210,7 +199,7 @@ const Order = () => {
             }
         }
     }
-
+   console.log("cartDetails", cartDetails)
     return (
         <>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
@@ -222,7 +211,7 @@ const Order = () => {
                             <div class="box_order_form">
                                 <div class="head text-center">
                                     <h3>Ekato's Kitchen</h3>
-                    27 Old Gloucester St, 4530 - <a href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361" target="blank">Get directions</a>
+                                    27 Old Gloucester St, 4530 - <a href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361" target="blank">Get directions</a>
                                 </div>
 
                                 <div class="main">
@@ -261,24 +250,24 @@ const Order = () => {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <label>First Name *</label>
-                                                                <input value={cartDetails.customer.first_name} onChange={(e) => handleOnChange(e, 'firstname')} className="form-control" required />
+                                                                <input value={cartDetails.first_name} name='first_name' onChange={(e) => handleOnChange(e)} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.first_name == '' ?
+                                                            {validated && cartDetails.first_name == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter First Name.
-                                                            </div>
+                                                                </div>
                                                                 : null
                                                             }
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
-                                                                <label>Last Name *</label>
-                                                                <input value={cartDetails.customer.last_name} onChange={(e) => handleOnChange(e, 'lastname')} className="form-control" required />
+                                                                <label>Last Name </label>
+                                                                <input value={cartDetails.last_name} name='last_name' onChange={(e) => handleOnChange(e)} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.last_name == '' ?
+                                                            {validated && cartDetails.last_name == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Last Name.
-                                                            </div>
+                                                                </div>
                                                                 : null
                                                             }
                                                         </div>
@@ -287,36 +276,36 @@ const Order = () => {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <label>Email Address *</label>
-                                                                <input value={cartDetails.customer.email} onChange={(e) => handleOnChange(e, 'email')} className="form-control" required />
+                                                                <input value={cartDetails.email} name= 'email' onChange={(e) => handleOnChange(e)} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.email == ''?
+                                                            {validated && cartDetails.email == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Email Address.
-                                                            </div>
+                                                                </div>
                                                                 : null
                                                             }
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <label>Phone *</label>
-                                                                <input value={cartDetails.customer.phoneNumber} onChange={(e) => handleOnChange(e, 'number')} className="form-control" required />
+                                                                <input value={cartDetails.phoneNumber} name= 'phoneNumber' onChange={(e) => handleOnChange(e)} className="form-control" required />
                                                             </div>
-                                                            {validated && cartDetails.customer.phoneNumber == '' ?
+                                                            {validated && cartDetails.phoneNumber == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Phone Number.
-                                                            </div>
+                                                                </div>
                                                                 : null
                                                             }
                                                         </div>
                                                     </div>
                                                     <div className="form-group">
                                                         <label>Full Address *</label>
-                                                        <input value={cartDetails.address} onChange={(e) => handleOnChange(e, 'address')} className="form-control" required />
+                                                        <input value={cartDetails.address}  name = 'address' onChange={(e) => handleOnChange(e)} className="form-control" required />
                                                     </div>
-                                                    {validated && cartDetails.address == ''?
+                                                    {validated && cartDetails.address == '' ?
                                                         <div className="validation-error">
                                                             Please enter Full Address.
-                                                            </div>
+                                                        </div>
                                                         : null
                                                     }
                                                     <div className="row">
@@ -366,12 +355,12 @@ const Order = () => {
                                                         <div className="col-12 col-md-6">
                                                             <div className="form-group">
                                                                 <label>Zip Code *</label>
-                                                                <input className="form-control" onChange={(e) => handleOnChange(e, 'zipcode')} required />
+                                                                <input className="form-control" value={cartDetails.zipCode} name='zipCode' onChange={(e) => handleOnChange(e)} required />
                                                             </div>
                                                             {validated && cartDetails.zipCode == '' ?
                                                                 <div className="validation-error">
                                                                     Please enter Zipcode.
-                                                            </div>
+                                                                </div>
                                                                 : null
                                                             }
                                                         </div>
@@ -383,7 +372,7 @@ const Order = () => {
                                             <div className="box_order mobile_fixed">
                                                 <div className="head">
                                                     <h3>Order Summary</h3>
-                                                    <div>{cartDetails.vendor.first_name}'s Kitchen</div>
+                                                    <div>{cartDetails.vendorName}'s Kitchen</div>
                                                     <a href="#0" className="close_panel_mobile"><i className="icon_close"></i></a>
                                                 </div>
                                                 <div className="main-cart-box">

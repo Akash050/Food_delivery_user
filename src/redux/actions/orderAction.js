@@ -27,6 +27,20 @@ export const orderByVendorId = () => async (dispatch) => {
     }
     return response.data;
 };
+export const getUserOrders = () => async (dispatch) => {
+    let vId = localStorage.getItem('id')
+    let param = {
+        customerId: vId
+    }
+    const response = await orderApi.orderByUser(param);
+    if (response.data.success) {
+        dispatch({
+            type: orderActionType.USER_ORDERS,
+            payload: response.data.data,
+        });
+    }
+    return response.data;
+};
 export const orderById = (param) => async (dispatch) => {
     const response = await orderApi.orderById(param);
     if (response.data.success) {

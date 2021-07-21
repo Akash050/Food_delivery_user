@@ -50,7 +50,7 @@ const routes = [
         component: GridListingFilterscol,
     },
     {
-        path: "/LeaveReview",
+        path: "/review/:id",
         name: "LeaveReview",
         component: LeaveReview,
     },

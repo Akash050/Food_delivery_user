@@ -1,15 +1,70 @@
 import React, { useState, useEffect } from "react";
 import img from "../../img/png/gmail.png"
 import contactBanner from "../../img/contact-banner.jpg"
+import { useDispatch, useSelector } from "react-redux";
+import { contact } from "../../redux/actions/userAction";
+import Loading from "react-fullscreen-loading";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios'
 import swal from "sweetalert";
 const Contact = (props) => {
-
+    let dispatch = useDispatch();
+    const [isLoding, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        name: '',
+        message: '',
+        touched: false
+    });
+    let handleChange = (e) => {
+        let { name, value } = e.target
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+    let reset = () => {
+        setFormData({
+            email: '',
+            name: '',
+            message: '',
+            touched: false
+        })
+    }
+    let onSend = async(e) => {
+        e.preventDefault()
+        if (!formData.name || !formData.email || !formData.message) {
+            setFormData({
+                ...formData,
+                touched: true
+            })
+            return
+        }
+        setIsLoading(true)
+        let data = await dispatch(contact(formData));
+        if(data.success){
+            swal({
+                title: "Success",
+                text: 'Email sent successfully',
+                icon: "success",
+                button: "ok",
+            });
+        }else{
+            swal({
+                title: "Error",
+                text: data.message,
+                icon: "error",
+                button: "ok",
+            });
+        }
+        reset()
+        setIsLoading(false)
+    }
 
     return (
 
         <main>
+            {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
             <div className="hero_single inner_pages background-image" style={{ backgroundImage: `url(${contactBanner})` }}>
                 <div className="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
                     <div className="container">
@@ -63,20 +118,41 @@ const Contact = (props) => {
                 <div className="row">
                     <div className="col-lg-4 col-md-6 add_bottom_25">
                         <div id="message-contact" />
-                        <form method="post" action="assets/contact.php" id="contactform" autoComplete="off">
+                        <form id="contactform" autoComplete="off">
                             <div className="form-group">
-                                <input className="form-control" type="text" placeholder="Name" id="name_contact" name="name_contact" />
+                                <input onChange={(e) => handleChange(e)} className="form-control" type="text" placeholder="Name" value={formData.name} name="name" />
+                                {
+                                    formData.touched && !formData.name ?
+                                        <div className="validation-error">
+                                            Please enter first name.
+                                        </div> :
+                                        null
+                                }
                             </div>
                             <div className="form-group">
-                                <input className="form-control" type="email" placeholder="Email" id="email_contact" name="email_contact" />
+                                <input onChange={(e) => handleChange(e)} className="form-control" type="email" placeholder="Email" value={formData.email} name="email" />
+                                {
+                                    formData.touched && !formData.email ?
+                                        <div className="validation-error">
+                                            Please enter first email.
+                                        </div> :
+                                        null
+                                }
                             </div>
                             <div className="form-group">
-                                <textarea className="form-control" style={{ height: '150px' }} placeholder="Message" id="message_contact" name="message_contact" defaultValue={""} />
+                                <textarea onChange={(e) => handleChange(e)} className="form-control" style={{ height: '150px' }} placeholder="Message" value={formData.message} name="message" />
+                                {
+                                    formData.touched && !formData.message ?
+                                        <div className="validation-error">
+                                            Please enter first message.
+                                        </div> :
+                                        null
+                                }
                             </div>
                             {/* <div className="form-group">
                                 <input className="form-control" type="text" id="verify_contact" name="verify_contact" placeholder="Are you human? 3 + 1 =" />
                             </div> */}
-                            <div className="form-group">
+                            <div onClick={(e) => onSend(e)} className="form-group">
                                 <input className="btn_1 gradient full-width" type="submit" defaultValue="Submit" id="submit-contact" />
                             </div>
                         </form>

@@ -1,6 +1,6 @@
 import { client } from "./index";
 
-export const allProductSubCategory = (params) => client.get("api/subCategory", params);
+export const getMenus = (params) => client.post("api/menu/list", params);
 export const addProductSubCategory = (params) => client.post("api/subCategory", params);
 export const deleteProductSubCategory = (id) => client.delete(`api/subCategory?id=${id}`);
 export const updateProductSubCategory = (params) => client.put(`api/subCategory`, params);

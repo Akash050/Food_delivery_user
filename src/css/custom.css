@@ -369,8 +369,29 @@ span.remove--item-cart {
     margin-bottom: 10px;
 }
 
-
-
+.order-status-rejected{
+    color: red;
+}
+.order-status-delivered{
+    color: #4caf50;
+}
+.order-status{
+    color: #e6e60b;
+}
+.profile-update{
+    display: flex;
+    justify-content: flex-end;
+}
+.list-group-item-hide{
+    display: none;
+}
+.cat-selected{
+        background: #e54750 !important;
+        color: white !important;
+}
+.swal-button--confirm{
+    background: #e54750 !important;
+}
 
 
 

@@ -14,3 +14,23 @@ export const getUser = (params) => async (dispatch) => {
 };
 
 
+export const updateUser = (params) => async (dispatch) => {
+    const response = await userApi.updateUser(params);
+    return response.data;
+};
+
+export const updatePassword = (params) => async (dispatch) => {
+    const response = await userApi.updatePass(params);
+    return response.data;
+};
+
+
+export const updateEmail = (params) => async (dispatch) => {
+    const response = await userApi.updateEmail(params);
+    return response.data;
+};
+
+export const contact = (params) => async (dispatch) => {
+    const response = await userApi.contact(params);
+    return response.data;
+};

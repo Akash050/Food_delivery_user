@@ -1,8 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pizza from '../../../img/pizza.jpg'
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from "react-fullscreen-loading";
+import swal from "sweetalert";
+import moment from 'moment';
+import { getUserOrders } from '../../../redux/actions/orderAction';
 const Orders = () => {
+    let dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const [orderList, setOrderList] = useState([]);
+    const { dataSet } = useSelector((state) => ({
+        dataSet: state.orders.userOrders
+    }));
+    useEffect(() => {
+        getOrders()
+    }, []);
+    useEffect(() => {
+        if (!dataSet) {
+            return
+        }
+        setOrderList(dataSet)
+    }, [dataSet]);
+    async function getOrders() {
+        setIsLoading(true)
+        dispatch(getUserOrders());
+        setIsLoading(false)
+    }
+    // console.log("daradataSet", dataSet)
     return (
         <>
+            {isLoading ? <Loading loading loaderColor="#3498db" /> : null}
             <main className="bg_gray mt-0 py-5">
                 <div className="container">
                     <div className="row">
@@ -13,280 +40,66 @@ const Orders = () => {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Ekato's Kitchen</h4>
-                                                    <p className="shrt--disc"> 27 Old Gloucester St, 4530</p>
+                        {orderList && orderList.map(val => {
+                            console.log("val orderList", val)
+                            return (
+                                <div class="col-12 col-lg-4">
+                                    <div class="box_order_form">
+                                        <div class="order-header">
+                                            <div className="mainHeader--order">
+                                                <div className="order-flex--product">
+                                                    <div className="orderImg-box-view">
+                                                        <img className="order_img--tt" src={Pizza} alt="" />
+                                                    </div>
+                                                    <div className="order--rigt--flex">
+                                                        <div className="order_product_name">
+                                                            <h4 className="head--product--name">{val.vendor.first_name}'s Kitchen</h4>
+                                                            <p className="shrt--disc"> {val.address}, {val.city}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="status--bar-flex">
+                                                    {/* <span className={`${val.status == 'Delivered'? 'product--status-view  order-status-delivered': `${val.status == 'Cancel'? 'product--status-view  order-status-rejected':'product--status-view order-status-delivered'}``}>{val.status}</span> */}
+                                                    <span className={`product--status-view  ${val.status == 'Delivered' ? 'order-status-delivered' : val.status == 'Cancel' ? 'order-status-rejected' : 'order-status'}`}>{val.status}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view">Active</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">June 08, 2021 at 09:00 AM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Domino's Pizza</h4>
-                                                    <p className="shrt--disc">Phase 5, Mohali</p>
+                                        <div class="main orderItem--inform-grid">
+                                            <div className="listItem--order-below">
+                                                <div className="txt-order--inf">
+                                                    <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
+                                                    <p className="infoTxt--view-card">{val._id}</p>
+                                                </div>
+                                                <div className="txt-order--inf">
+                                                    <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
+                                                    <p className="infoTxt--view-card">{val.grandTotal}</p>
+                                                </div>
+                                                <div className="txt-order--inf">
+                                                    <h6 className="order_Txt_head-card">ITEMS</h6>
+                                                    <p className="infoTxt--view-card">
+                                                        {val.items.map((item , i) => {
+                                                            if(i > 1){
+                                                                return
+                                                            }
+                                                            return (
+                                                                `${item.quantity} x ${item.itemName  } `
+                                                            )
+                                                        })}
+                                                    </p>
+                                                </div>
+                                                <div className="txt-order--inf">
+                                                    <h6 className="order_Txt_head-card">ORDERED ON</h6>
+                                                    <p className="infoTxt--view-card">{moment(val.createdAt).format('LLL')}</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view cancel-order-color">Rejected</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">April 03, 2020 at 06:40 PM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Domino's Pizza</h4>
-                                                    <p className="shrt--disc">Phase 5, Mohali</p>
-                                                </div>
+                                            <div className="order-view-item-btn text-center">
+                                                <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
                                             </div>
                                         </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view">Delivered</span>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">April 03, 2020 at 06:40 PM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Domino's Pizza</h4>
-                                                    <p className="shrt--disc">Phase 5, Mohali</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view">Delivered</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">April 03, 2020 at 06:40 PM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Domino's Pizza</h4>
-                                                    <p className="shrt--disc">Phase 5, Mohali</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view">Delivered</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">April 03, 2020 at 06:40 PM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="box_order_form">
-                                <div class="order-header">
-                                    <div className="mainHeader--order">
-                                        <div className="order-flex--product">
-                                            <div className="orderImg-box-view">
-                                                <img className="order_img--tt" src={Pizza} alt="" />
-                                            </div>
-                                            <div className="order--rigt--flex">
-                                                <div className="order_product_name">
-                                                    <h4 className="head--product--name">Domino's Pizza</h4>
-                                                    <p className="shrt--disc">Phase 5, Mohali</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="status--bar-flex">
-                                            <span className="product--status-view">Delivered</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main orderItem--inform-grid">
-                                    <div className="listItem--order-below">
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDER NUMBER</h6>
-                                            <p className="infoTxt--view-card">2052443836</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">TOTAL AMOUNT</h6>
-                                            <p className="infoTxt--view-card">$356</p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ITEMS</h6>
-                                            <p className="infoTxt--view-card">1 X Cheese n Corn, 1 x Choco Lava Cake  </p>
-                                        </div>
-                                        <div className="txt-order--inf">
-                                            <h6 className="order_Txt_head-card">ORDERED ON</h6>
-                                            <p className="infoTxt--view-card">April 03, 2020 at 06:40 PM</p>
-                                        </div>
-                                    </div>
-                                    <div className="order-view-item-btn text-center">
-                                        <a href="javascript:void(0)" className="btn_1 medium btnview--orderdtl">View Details</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
+                            )
+                        })}
                     </div>
                 </div>
             </main>
