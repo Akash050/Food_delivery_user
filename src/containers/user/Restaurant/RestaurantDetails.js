@@ -228,7 +228,7 @@ const RestaurantDetails = (props) => {
             } else {
                 swal({
                     title: "Replace Cart Item?",
-                    text: `Your cart contain dishes from  ${cartData.vendor.first_name}. Do you want to discard and add dishes from That?`,
+                    text: `Your cart contain dishes from ${cartData.vendor.first_name}. Do you want to discard and add new ?`,
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

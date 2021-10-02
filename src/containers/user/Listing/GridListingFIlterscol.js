@@ -64,7 +64,7 @@ const GridListingFilterscol = (props) => {
         let data = await dispatch(cartByUser(payload, false));
         if (data.data) {
             let cartData = data.data
-            if (cartData.vendor._id == value.vendorId) {
+            if (cartData.vendor._id == value.vendor._id) {
                 setIsLoading(true)
                 let cartData = data.data
                 const findItemIndex = cartData.items.findIndex(ele => ele.itemId == value._id);
@@ -92,7 +92,7 @@ const GridListingFilterscol = (props) => {
             } else {
                 swal({
                     title: "Replace Cart Item?",
-                    text: `Your cart contain dishes from  ${cartData.vendor.first_name}. Do you want to discard and add dishes from That?`,
+                    text: `Your cart contain dishes from  ${cartData.vendor.first_name}. Do you want to discard and add dishes from ${value.vendor.first_name}?`,
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -104,7 +104,7 @@ const GridListingFilterscol = (props) => {
                                 setIsLoading(true)
                                 let payload = {
                                     customerId: localStorage.id,
-                                    vendorId: value.vendorId,
+                                    vendorId: value.vendor._id,
                                     items: [
                                         {
                                             itemId: value._id,
@@ -135,7 +135,7 @@ const GridListingFilterscol = (props) => {
             setIsLoading(true)
             let payload = {
                 customerId: localStorage.id,
-                vendorId: value.vendor,
+                vendorId: value.vendor._id,
                 items: [
                     {
                         itemId: value._id,
@@ -177,7 +177,7 @@ const GridListingFilterscol = (props) => {
         let avg = arr.reduce((r, c) => r + parseFloat(c[key]), 0) / arr.length;
         return avg.toFixed(1)
     }
-  //  console.log("proo allProdSubCategory", allProdSubCategory)
+    console.log("")
     return (
         <main>
             {isLoding ? <Loading loading loaderColor="#f3723b" /> : null}
