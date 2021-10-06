@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, updateUser, updatePassword, updateEmail } from '../../../redux/actions/userAction';
 import swal from "sweetalert";
 import { updatePass } from '../../../services/user';
-const Profile = () => {
+import { useHistory } from 'react-router';
+
+const Profile = (props) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
     const [cityOptions, setCityOptions] = useState(cities);
     const [isLoding, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -51,6 +54,10 @@ const Profile = () => {
     }, [user]);
 
     useEffect(() => {
+        const isLoggedInUser = localStorage.getItem('isLoggedIn')
+        if(!isLoggedInUser){
+            history.push('/login');
+        }
         getUserProfile()
     }, []);
 

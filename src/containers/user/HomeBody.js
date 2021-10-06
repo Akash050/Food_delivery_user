@@ -210,7 +210,7 @@ const HomeBody = () => {
                                                         <figure>
                                                             <img src={val.image ? val.image : image} data-src={val.image ? val.image : image} alt="" className="lazy" width="350" height="233" />
                                                         </figure>
-                                                        <div className="score"><strong>9.5</strong></div>
+                                                        <div className="score"><strong>4.5</strong></div>
 
                                                         <h3>{val.first_name}</h3>
                                                         <small>{val.city}</small> <br></br>

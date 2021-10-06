@@ -154,10 +154,11 @@ const HomeHeader = () => {
         }
     }
 
-    let onCartClose = async (e) => {
-        e.preventDefault()
-        setShowCart(false)
+    let onCartClose = async () => {
+        // e.preventDefault()
+        
         await dispatch(handleCart(true));
+        setShowCart(false)
         getCart()
     }
     let onLogin = (e) =>{
@@ -251,7 +252,7 @@ const HomeHeader = () => {
                                                     </div>
                                                 </ul>
                                                 :
-                                                <ul className={`cartbox--view dropdown-menu ${showCart ? 'showCart' : null} `} id="myDropdown">
+                                                <ul className={`cartbox--view dropdown-menu  `} id="myDropdown">
                                                     <div className="box_order mobile_fixed">
                                                         <div className="head">
                                                             <h3>Your Cart</h3>
@@ -273,7 +274,7 @@ const HomeHeader = () => {
                                                     <div className="total--item-cart total--amount"><span className="tt-name-left">Grand Total</span><span className="tt-amt-right">${cartDetails.grandTotal}</span></div>
                                                 </div> */}
                                                             <div className="btn_1_mobile mt-4">
-                                                                <a onClick={(e) => onCartClose(e)} href="" className="btn_1 text-white gradient full-width mb_5">Close</a>
+                                                                <a onClick={() => onCartClose()} href="" className="btn_1 text-white gradient full-width mb_5">Close</a>
                                                             </div>
                                                         </div>
                                                     </div>

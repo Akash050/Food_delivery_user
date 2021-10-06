@@ -5,6 +5,7 @@ import facebook_icon from '../img/facebook_icon.svg'
 import twitter_icon from '../img/twitter_icon.svg'
 import youtube_icon from '../img/youtube_icon.svg'
 const HomeFooter = () => {
+    const isLoggedInUser = localStorage.getItem('isLoggedIn')
     return (<footer>
         <div className="wave footer"></div>
         <div className="container margin_60_40 fix_mobile">
@@ -13,9 +14,11 @@ const HomeFooter = () => {
                     <h3 data-target="#collapse_1">Quick Links</h3>
                     <div className="collapse dont-collapse-sm links" id="collapse_1">
                         <ul>
-                            <li>
-                                <Link to="/profile">Profile</Link>
-                            </li>
+                            {isLoggedInUser ?
+                                <li>
+                                    <Link to="/profile">Profile</Link>
+                                </li>
+                            : ""}
                             <li>
                                 <Link to="/cart">Cart</Link>
                             </li>
