@@ -51,7 +51,7 @@ const HomeFooter = () => {
                         <ul>
                             <li><i className="icon_house_alt"></i>97845 Baker st. 567<br></br>Los Angeles - US</li>
                             <li><i className="icon_mobile"></i>+94 423-23-221</li>
-                            <li><i className="icon_mail_alt"></i><a href="#0">info@domain.com</a></li>
+                            <li><i className="icon_mail_alt"></i><a href="mailto:info@domain.com">info@domain.com</a></li>
                         </ul>
                     </div>
                 </div>
