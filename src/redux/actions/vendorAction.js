@@ -22,13 +22,13 @@ import * as usersActionType from "../actionsType/vendorActionType";
 
 export const allUser = (params) => async (dispatch) => {
   const response = await usersApi.allUsers(params);
-  if (response.data.success) {
+  if (response && response.data.success) {
     dispatch({
       type: usersActionType.ALL_VENDOR,
       payload: response.data.data,
     });
   }
-  return response.data;
+  return response && response.data;
 };
 
 export const userById = (params) => async (dispatch) => {

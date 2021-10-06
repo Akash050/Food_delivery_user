@@ -32,7 +32,7 @@ const HomeHeader = () => {
             customerId: localStorage.id
         }
         let data = await dispatch(cartByUser(payload, flag));
-        if (data.success) {
+        if (data && data.success) {
             setIsLoading(false)
         } else {
             setIsLoading(false)

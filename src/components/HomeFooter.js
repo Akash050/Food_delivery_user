@@ -53,7 +53,7 @@ const HomeFooter = () => {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-6">
-                    <h3 data-target="#collapse_4">Keep in touch</h3>
+                    {/* <h3 data-target="#collapse_4">Keep in touch</h3> */}
                     <div className="collapse dont-collapse-sm" id="collapse_4">
                         {/* <div id="newsletter">
                             <div id="message-newsletter"></div>

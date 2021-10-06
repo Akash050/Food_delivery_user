@@ -15,8 +15,8 @@ import {
 } from "../../../redux/actions/cartAction";
 import { allProductCategory } from "../../../redux/actions/prodCategoryAction";
 const RestaurantDetails = (props) => {
-    let data = props.location.state.data;
-    const [vendorId, setVendorId] = useState(data._id);
+    let stateData = props.location.state && props.location.state.data;
+    const [vendorId, setVendorId] = useState(stateData && stateData._id);
     const [isLoding, setIsLoading] = useState(false);
     const [showCart, setShowCart] = useState(false);
     const [itemCount, setItemCount] = useState(0);
@@ -313,8 +313,8 @@ const RestaurantDetails = (props) => {
                                             <strong>{averageRating ? parseFloat(averageRating).toFixed(1) : 'n/a'}</strong>
                                         </div>
                                     </div>
-                                    <h1>{data.first_name}</h1>
-                                    {data.street} {data.area} {data.city}
+                                    <h1>{stateData && stateData.first_name}</h1>
+                                    {stateData && stateData.street} {stateData && stateData.area} {stateData && stateData.city}
                                 </div>
                                 <div className="col-xl-8 col-lg-7 col-md-6">
                                     {/* <div className="buttons clearfix">

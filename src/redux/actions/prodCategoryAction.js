@@ -3,28 +3,28 @@ import * as prodCategoryActionType from "../actionsType/prodCategoryActionType";
 
 export const newProductCategory = (params) => async (dispatch) => {
     const response = await prodCategoryApi.addProductCategory(params);
-    if (response.data.success) {
+    if (response && response.data.success) {
         dispatch({
             type: prodCategoryActionType.NEW_PRODUCT_CATEGORY,
             payload: response.data.data,
         });
     }
-    return response.data;
+    return response && response.data;
 };
 export const allProductCategory = (params) => async (dispatch) => {
     const response = await prodCategoryApi.allProductCategory(params);
-    if (response.data.success) {
+    if (response && response.data.success) {
         dispatch({
             type: prodCategoryActionType.ALL_PRODUCT_CATEGORY,
             payload: response.data.data,
         });
     }
-    return response.data;
+    return response && response.data;
 };
 
 export const productCategoryById = (params) => async (dispatch) => {
     const response = await prodCategoryApi.productCategoryById(params);
-    if (response.data.success) {
+    if (response && response.data.success) {
         dispatch({
             type: prodCategoryActionType.PRODUCT_CATEGORY_BY_ID,
             payload: response.data.data,

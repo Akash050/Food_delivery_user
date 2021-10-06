@@ -5,14 +5,14 @@ import * as cartActionType from "../actionsType/cartActionType";
 
 export const cartByUser = (params, flag) => async (dispatch) => {
     const response = await cartApi.cartByUser(params);
-    if (response.data.success) {
+    if (response && response.data.success) {
         dispatch({
             type: cartActionType.GET_CART,
             payload: response.data.data,
             flag: flag
         });
     }
-    return response.data;
+    return response && response.data;
 };
 
 
