@@ -396,7 +396,8 @@ const RestaurantDetails = (props) => {
                                                     <figure>
                                                         <div
                                                             onClick={() => onAddCartItem(val)}
-                                                            style={{ color: "white", fontWeight: "bold" }}
+                                                            style={{ color: "white", fontWeight: "bold"}}
+                                                            className="menu-item-card"
                                                         >
                                                             <span className="addcart-item">
                                                                 <i className="icon_plus"></i>
@@ -408,7 +409,7 @@ const RestaurantDetails = (props) => {
                                                     <h3>${val.price}</h3>
                                                 </a>
                                             </div>
-                                        );
+                                        )
                                     })}
                                 </div>
                             </section>
