@@ -107,7 +107,7 @@ const Profile = (props) => {
             return
         }
         setIsLoading(true)
-        let payload = { ...formData }
+        let payload = { ...formData, id: localStorage.id }
         payload.token = localStorage.token
         let data = await dispatch(updateUser(payload));
         setIsLoading(false)

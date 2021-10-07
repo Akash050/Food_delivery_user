@@ -146,7 +146,7 @@ const HomeBody = () => {
                 <div class="owl-carousel owl-theme categories_carousel owl-loaded owl-drag">
                     <div class="owl-stage-outer" id="containerd">
                         <div class="owl-stage"
-                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: "1800px", paddingLeft: "50px", paddingRight: "50px", display: 'flex', alignItems: 'center' }}
+                            style={{ transform: "translate3d(0px,0px,0px)", transition: "all 0.25s ease 0s", width: `${(242 * allProdCategory.length) - 20}px`, paddingLeft: "50px", display: 'flex', alignItems: 'center' }}
                         // style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 1794px; padding-left: 50px; padding-right: 50px;"
                         >
                             {

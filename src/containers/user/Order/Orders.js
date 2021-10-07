@@ -40,7 +40,7 @@ const Orders = () => {
                         </div>
                     </div>
                     <div class="row">
-                        {orderList && orderList.map(val => {
+                        {orderList.length ? orderList.map(val => {
                             console.log("val orderList", val)
                             return (
                                 <div class="col-12 col-lg-4">
@@ -77,12 +77,12 @@ const Orders = () => {
                                                 <div className="txt-order--inf">
                                                     <h6 className="order_Txt_head-card">ITEMS</h6>
                                                     <p className="infoTxt--view-card">
-                                                        {val.items.map((item , i) => {
-                                                            if(i > 1){
+                                                        {val.items.map((item, i) => {
+                                                            if (i > 1) {
                                                                 return
                                                             }
                                                             return (
-                                                                `${item.quantity} x ${item.itemName  } `
+                                                                `${item.quantity} x ${item.itemName} `
                                                             )
                                                         })}
                                                     </p>
@@ -99,7 +99,16 @@ const Orders = () => {
                                     </div>
                                 </div>
                             )
-                        })}
+                        })
+                            :
+                            <div className="px-3 w-100">
+                                <div class="card w-100">
+                                <div class="card-body text-center">
+                                        <h5 class="card-title m-0 py-3">Order Not Found!</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </main>

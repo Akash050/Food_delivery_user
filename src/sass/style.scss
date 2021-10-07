@@ -2738,6 +2738,10 @@ ul#top_menu.drop_user {
   z-index: 1;
 }
 
+.owl-stage .owl-item:last-child {
+    margin-right: 0 !important;
+}
+
 .owl-carousel .owl-stage {
   position: relative;
   -ms-touch-action: pan-Y;
