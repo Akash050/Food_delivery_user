@@ -35,7 +35,7 @@ export const registerUser = (params) => async (dispatch) => {
 
 export const forgetPassword = (params) => async (dispatch) => {
   const response = await authApis.forgetPassword(params);
-  if (response.success) {
+  if (response && response.success) {
     console.log('forget pass', params)
     dispatch({
       type: authActionType.FORGET_PASSWORD,

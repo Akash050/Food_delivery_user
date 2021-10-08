@@ -87,7 +87,7 @@ const Contact = (props) => {
                             <div className="box_contacts">
                                 <i className="icon_lifesaver" />
                                 <h2>Help Center</h2>
-                                <a href="#0">+94 423-23-221</a> - <a href="#0">help@fooyes.com</a>
+                                <a href="tel:+9442323221">+94 423-23-221</a> - <a href="mailto:help@fooyes.com">help@fooyes.com</a><br />
                                 <small>MON to FRI 9am-6pm SAT 9am-2pm</small>
                             </div>
                         </div>
@@ -103,8 +103,8 @@ const Contact = (props) => {
                             <div className="box_contacts">
                                 <i className="icon_cloud-upload_alt" />
                                 <h2>Submissions</h2>
-                                <a href="#0">+94 423-23-221</a> - <a href="#0">order@fooyes.com</a>
-                                <small>MON to FRI 9am-6pm SAT 9am-2pm</small>
+                                <a href="tel:+9442323221">+94 423-23-221</a> - <a href="mailto:order@fooyes.com">order@fooyes.com</a><br/>
+                                <small>MON to FRI9am-6pmSAT 9am-2pm</small>
                             </div>
                         </div>
                     </div>
